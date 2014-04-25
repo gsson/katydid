@@ -1,9 +1,6 @@
 package se.fnord.katydid;
 
-import se.fnord.katydid.internal.Bytes;
-import se.fnord.katydid.internal.Int;
-import se.fnord.katydid.internal.Skip;
-import se.fnord.katydid.internal.Struct;
+import se.fnord.katydid.internal.*;
 
 import java.nio.charset.Charset;
 
@@ -162,6 +159,6 @@ public class DataTesters {
 	}
 
 	public static DataTester defer(DataTester tester) {
-		return tester;
+		return new Defer(tester);
 	}
 }

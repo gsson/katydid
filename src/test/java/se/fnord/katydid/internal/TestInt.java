@@ -7,6 +7,24 @@ import java.nio.ByteBuffer;
 import static junit.framework.Assert.assertEquals;
 
 public class TestInt {
+	public static ByteBuffer bytes(Number... vv) {
+		ByteBuffer bb = ByteBuffer.allocate(vv.length);
+		for (Number v : vv) {
+			bb.put(v.byteValue());
+		}
+		bb.flip();
+		return bb;
+	}
+
+	public static ByteBuffer shorts(Number... vv) {
+		ByteBuffer bb = ByteBuffer.allocate(vv.length * Short.SIZE / Byte.SIZE);
+		for (Number v : vv) {
+			bb.putShort(v.shortValue());
+		}
+		bb.flip();
+		return bb;
+	}
+
 	@Test
 	public void testFormatU8() {
 		final Int.IntFormatter formatter = Int.formatterFor(1, Int.IntFormat.UNSIGNED);
@@ -70,35 +88,25 @@ public class TestInt {
 		assertEquals("8000000000000000", formatter.format(Long.MIN_VALUE));
 	}
 
-	private static ByteBuffer bytes(Number... vv) {
-		ByteBuffer bb = ByteBuffer.allocate(vv.length);
-		for (Number v : vv) {
-			bb.put(v.byteValue());
-		}
-		bb.flip();
-		return bb;
-	}
-
-	private static ByteBuffer shorts(Number... vv) {
-		ByteBuffer bb = ByteBuffer.allocate(vv.length * Short.SIZE / Byte.SIZE);
-		for (Number v : vv) {
-			bb.putShort(v.shortValue());
-		}
-		bb.flip();
-		return bb;
-	}
-
 	@Test
 	public void testInt8Succeeds() {
 		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());
-		s8.compareTo(new TestingContext(bytes(1, 2, 3, 4)));
+		s8.compareTo(0, new TestingContext(bytes(1, 2, 3, 4)));
+	}
+
+	@Test
+	public void testInt8SucceedsOnOtherPasses() {
+		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
+		assertEquals(4, s8.length());
+		s8.compareTo(-1, new TestingContext(bytes(1, 2, 3, 5)));
+		s8.compareTo(1, new TestingContext(bytes(1, 2, 3, 5)));
 	}
 
 	@Test(expected = AssertionError.class)
 	public void testInt8Fails() {
 		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());
-		s8.compareTo(new TestingContext(bytes(1, 2, 3, 5)));
+		s8.compareTo(0, new TestingContext(bytes(1, 2, 3, 5)));
 	}
 }

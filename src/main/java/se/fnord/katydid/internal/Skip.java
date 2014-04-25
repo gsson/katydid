@@ -3,11 +3,10 @@ package se.fnord.katydid.internal;
 import java.nio.ByteBuffer;
 
 public class Skip extends AbstractDataTester {
-	private final String name;
 	private final int size;
 
 	public Skip(String name, int size) {
-		this.name = name;
+		super(name);
 		this.size = size;
 	}
 
@@ -22,17 +21,8 @@ public class Skip extends AbstractDataTester {
 	}
 
 	@Override
-	public void compareTo(TestingContext context) {
-		context.down(name);
-		try {
-			ByteBuffer bb = context.buffer();
-			assertHasRemaining(context, size);
-			for (int i = 0; i < size; i++)
-				bb.get();
-		}
-		finally {
-			context.up();
-		}
+	public void compareToLevel0(TestingContext context) {
+		skip(context);
 	}
 
 	@Override

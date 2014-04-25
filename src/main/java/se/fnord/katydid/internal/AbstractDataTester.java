@@ -2,15 +2,61 @@ package se.fnord.katydid.internal;
 
 import se.fnord.katydid.DataTester;
 
+import java.nio.ByteBuffer;
 import java.util.Objects;
 
 public abstract class AbstractDataTester implements DataTester {
+	private final String name;
+	public AbstractDataTester(String name) {
+		this.name = name;
+	}
 
 	protected abstract String formatValue(Object o);
 
 	protected abstract int sizeOf(int itemIndex);
 
 	protected abstract int itemCount();
+
+	public String formatName(TestingContext context, int index) {
+		return context.name();
+	}
+
+	protected void compareToLevel0(TestingContext context) {
+		throw new UnsupportedOperationException();
+	}
+
+	protected void doCompareTo(int pass, TestingContext context) {
+		if (pass == 0)
+			compareToLevel0(context);
+		else
+			skip(context);
+
+	}
+
+	@Override
+	public final void compareTo(int pass, TestingContext context) {
+		context.down(name);
+		try {
+			doCompareTo(pass, context);
+		}
+		finally {
+			context.up();
+		}
+	}
+
+
+	@Override
+	public int maxPass() {
+		return 0;
+	}
+
+	protected void skip(TestingContext context) {
+		ByteBuffer bb = context.buffer();
+		for (int i = 0; i < itemCount(); i++) {
+			assertHasRemaining(context, i);
+			bb.position(bb.position() + sizeOf(i));
+		}
+	}
 
 	public int length() {
 		return localPosition(itemCount());

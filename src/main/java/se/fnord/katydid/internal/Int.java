@@ -5,13 +5,12 @@ import java.nio.ByteBuffer;
 public class Int extends AbstractDataTester {
 	public enum IntFormat {HEX, SIGNED, UNSIGNED};
 
-	private final String name;
 	private final int elementWidth;
 	private final Number[] values;
 	private final IntFormatter formatter;
 
 	public Int(String name, IntFormat format, int elementWidth, Number... values) {
-		this.name = name;
+		super(name);
 		this.elementWidth = elementWidth;
 		this.values = values;
 		this.formatter = formatterFor(elementWidth, format);
@@ -36,17 +35,11 @@ public class Int extends AbstractDataTester {
 	}
 
 	@Override
-	public void compareTo(TestingContext context) {
-		context.down(name);
-		try {
-			ByteBuffer bb = context.buffer();
-			for (int i = 0; i < values.length; i++) {
-				assertHasRemaining(context, i);
-				assertEquals(context, i, values[i].longValue(), read(bb));
-			}
-		}
-		finally {
-			context.up();
+	public void compareToLevel0(TestingContext context) {
+		ByteBuffer bb = context.buffer();
+		for (int i = 0; i < values.length; i++) {
+			assertHasRemaining(context, i);
+			assertEquals(context, i, values[i].longValue(), read(bb));
 		}
 	}
 

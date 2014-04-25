@@ -5,30 +5,26 @@ import se.fnord.katydid.DataTester;
 import java.nio.ByteBuffer;
 
 public class Struct extends AbstractDataTester {
-	private final String name;
 	private final DataTester[] values;
 
 	public Struct(String name, DataTester... values) {
-		this.name = name;
+		super(name);
 		this.values = values;
 	}
 
 	@Override
-	public void compareTo(TestingContext context) {
-		context.down(name);
-		try {
-			for (DataTester c : values) {
-				c.compareTo(context);
-			}
-		}
-		finally {
-			context.up();
+	public void doCompareTo(int pass, TestingContext context) {
+		for (DataTester c : values) {
+			c.compareTo(pass, context);
 		}
 	}
 
 	@Override
-	public String formatName(TestingContext context, int index) {
-		return context.name();
+	public int maxPass() {
+		int mp = 0;
+		for (DataTester c : values)
+			mp = Math.max(mp, c.maxPass());
+		return mp;
 	}
 
 	@Override

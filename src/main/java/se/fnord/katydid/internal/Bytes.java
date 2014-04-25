@@ -3,11 +3,10 @@ package se.fnord.katydid.internal;
 import java.nio.ByteBuffer;
 
 public class Bytes extends AbstractDataTester {
-	private final String name;
 	private final byte[] values;
 
 	public Bytes(String name, byte... values) {
-		this.name = name;
+		super(name);
 		this.values = values;
 	}
 
@@ -22,17 +21,11 @@ public class Bytes extends AbstractDataTester {
 	}
 
 	@Override
-	public void compareTo(TestingContext context) {
-		context.down(name);
-		try {
-			ByteBuffer bb = context.buffer();
-			assertHasRemaining(context, values.length);
-			for (int i = 0; i < values.length; i++) {
-				assertEquals(context, i, values[i], bb.get());
-			}
-		}
-		finally {
-			context.up();
+	public void compareToLevel0(TestingContext context) {
+		ByteBuffer bb = context.buffer();
+		assertHasRemaining(context, values.length);
+		for (int i = 0; i < values.length; i++) {
+			assertEquals(context, i, values[i], bb.get());
 		}
 	}
 

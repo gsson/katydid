@@ -5,7 +5,9 @@ import se.fnord.katydid.internal.TestingContext;
 import java.nio.ByteBuffer;
 
 public interface DataTester {
-	void compareTo(TestingContext context);
+	int maxPass();
+
+	void compareTo(int pass, TestingContext context);
 
 	int length();
 

@@ -7,7 +7,10 @@ import java.nio.ByteBuffer;
 public class DataAsserts {
 
 	public static void assertStartsWith(DataTester dataTester, ByteBuffer bb) {
-		dataTester.compareTo(new TestingContext(bb));
+		int m = dataTester.maxPass();
+		TestingContext tc = new TestingContext(bb);
+		for (int i = 0; i < m; i++)
+			dataTester.compareTo(i, tc);
 	}
 
 	public static void assertEquals(DataTester dataTester, ByteBuffer bb) {
