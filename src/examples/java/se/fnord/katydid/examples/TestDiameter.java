@@ -65,7 +65,7 @@ public class TestDiameter {
 	}
 
 
-	@Test
+	@Test(expected = AssertionError.class)
 	public void failingCCRTest() {
 		DataTester correctClassCode = command("Credit-Control", PXY | REQ, 4, 272,
 				avp("Session-Id", 0, 263, M, utf8(SESSION_ID)),
