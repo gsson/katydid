@@ -82,4 +82,4 @@ If there are several blocks that need to be tested, the values can be extracted 
         DataAsserts.assertEquals(expected, actual);
     }
 
-
+An executable version can be found in the `src/examples` folder as `se.fnord.katydid.examples.SimpleTests`
