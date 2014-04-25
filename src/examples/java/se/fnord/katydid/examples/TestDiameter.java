@@ -95,6 +95,6 @@ public class TestDiameter {
 		incorrectClassCode.toBuffer(buffer);
 		buffer.flip();
 
-		DataAsserts.assertEquals(correctClassCode, buffer);
+		DataAsserts.assertExact(correctClassCode, buffer);
 	}
 }

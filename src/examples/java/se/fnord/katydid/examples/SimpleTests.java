@@ -34,7 +34,7 @@ public class SimpleTests {
 
 		final ByteBuffer actual = createTestData();
 
-		DataAsserts.assertEquals(expected, actual);
+		DataAsserts.assertExact(expected, actual);
 	}
 
 	@Test
@@ -46,7 +46,7 @@ public class SimpleTests {
 
 		final ByteBuffer actual = createTestData();
 
-		DataAsserts.assertEquals(expected, actual);
+		DataAsserts.assertExact(expected, actual);
 	}
 
 	public DataTester blockHeader(DataTester ... testers) {
@@ -70,7 +70,7 @@ public class SimpleTests {
 
 		final ByteBuffer actual = createTestData();
 
-		DataAsserts.assertEquals(expected, actual);
+		DataAsserts.assertExact(expected, actual);
 	}
 
 

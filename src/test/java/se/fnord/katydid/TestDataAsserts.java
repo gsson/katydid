@@ -19,13 +19,13 @@ public class TestDataAsserts {
 
 	@Test
 	public void testH8() {
-		DataAsserts.assertEquals(h8("ap", 1, 2, 3, 4), bytes(1, 2, 3, 4));
+		DataAsserts.assertExact(h8("ap", 1, 2, 3, 4), bytes(1, 2, 3, 4));
 	}
 
 
 	@Test
 	public void testStruct() {
-		DataAsserts.assertEquals(
+		DataAsserts.assertExact(
 				struct("struct",
 						h8("ap", 1, 2, 3, 4)),
 				bytes(1, 2, 3, 4));

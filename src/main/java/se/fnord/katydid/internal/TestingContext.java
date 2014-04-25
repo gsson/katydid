@@ -9,7 +9,7 @@ public class TestingContext {
 	private final Deque<String> names;
 
 	public TestingContext(ByteBuffer buffer) {
-		this.buffer = buffer.slice();
+		this.buffer = buffer;
 		this.startPosition = buffer.position();
 		this.names = new ArrayDeque<>();
 	}

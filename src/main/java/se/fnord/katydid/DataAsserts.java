@@ -6,22 +6,24 @@ import java.nio.ByteBuffer;
 
 public class DataAsserts {
 
-	public static void assertStartsWith(DataTester dataTester, ByteBuffer bb) {
+	public static void assertNext(DataTester dataTester, ByteBuffer bb) {
 		int m = dataTester.maxPass();
 		TestingContext tc = new TestingContext(bb);
-		for (int i = 0; i < m; i++)
+		int pos = bb.position();
+		for (int i = 0; i < m; i++) {
+			bb.position(pos);
 			dataTester.compareTo(i, tc);
+		}
 	}
 
-	public static void assertEquals(DataTester dataTester, ByteBuffer bb) {
-		assertStartsWith(dataTester, bb);
-		if (dataTester.length() != bb.remaining())
+	public static void assertExact(DataTester dataTester, ByteBuffer bb) {
+		ByteBuffer bb2 = bb.slice();
+		assertNext(dataTester, bb2);
+		if (bb.hasRemaining())
 			throw new AssertionError(String.format("Expected %d bytes, was %d bytes", dataTester.length(), bb.remaining()));
 	}
 
-	public static void assertStartsWith(DataTester dataTester, byte[] bytes) {
-		assertStartsWith(dataTester, bytes);
-		if (dataTester.length() != bytes.length)
-			throw new AssertionError(String.format("Expected %d bytes, was %d bytes", dataTester.length(), bytes.length));
+	public static void assertExact(DataTester dataTester, byte[] bytes) {
+		assertExact(dataTester, ByteBuffer.wrap(bytes));
 	}
 }
