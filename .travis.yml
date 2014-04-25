@@ -1,1 +1,2 @@
+env: TERM=dumb
 language: java
