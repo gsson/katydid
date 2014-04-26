@@ -19,7 +19,7 @@ public class DataAsserts {
 	public static void assertExact(DataTester dataTester, ByteBuffer bb) {
 		ByteBuffer bb2 = bb.slice();
 		assertNext(dataTester, bb2);
-		if (bb.hasRemaining())
+		if (bb2.hasRemaining())
 			throw new AssertionError(String.format("Expected %d bytes, was %d bytes", dataTester.length(), bb.remaining()));
 	}
 
