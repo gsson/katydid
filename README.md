@@ -3,6 +3,8 @@ KATYDID
 
 (KATYDID Asserts That Your Data Is Deluxe)
 
+[![Build Status](https://travis-ci.org/gsson/katydid.svg?branch=master)](https://travis-ci.org/gsson/katydid)
+
 KATYDID is a tool for testing serialization and deserialization of messages. [wanders](https://github.com/wanders) came up with the most excellent name (thanks!)
 
 It's main features are readable message definitions and decent error messages. It's designed for easy composability and reuse.
