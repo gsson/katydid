@@ -6,6 +6,8 @@ import se.fnord.katydid.DataTester;
 import java.nio.ByteBuffer;
 import java.util.*;
 
+import static se.fnord.katydid.internal.HexFormat.formatOffset;
+
 public class TestingContext {
 	private final ByteBuffer buffer;
 	private final int startPosition;
@@ -23,7 +25,13 @@ public class TestingContext {
 
 	public void addFailure(DataTester tester, int itemIndex, String message, Object ... formatArgs) {
 		final Formatter formatter = new Formatter();
-		formatter.format("%s at %s: ", tester.formatName(this, itemIndex), HexFormat.formatOffset(HexFormat.hexLength(buffer.limit()), buffer.position()));
+		int n = HexFormat.hexLength(buffer.limit());
+		int startOffset = buffer.position() - tester.lengthOfItem(itemIndex);
+		int endOffset = buffer.position() - 1;
+		if (startOffset == endOffset)
+			formatter.format("%s at %s: ", tester.formatName(this, itemIndex), formatOffset(n, startOffset));
+		else
+			formatter.format("%s at %s-%s: ", tester.formatName(this, itemIndex), formatOffset(n, startOffset), formatOffset(n, endOffset));
 		formatter.format(message, formatArgs);
 		messages.add(formatter.toString());
 	}
