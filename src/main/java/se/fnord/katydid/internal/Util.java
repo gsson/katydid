@@ -2,8 +2,10 @@ package se.fnord.katydid.internal;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 
 public class Util {
+	private static final Charset UTF8 = Charset.forName("utf-8");
 	private Util() {
 		throw new IllegalAccessError();
 	}
@@ -44,6 +46,10 @@ public class Util {
 			value >>>= 8;
 		}
 		bb.position(p + elementWidth);
+	}
+
+	public static ByteBuffer utf8(String string) {
+		return UTF8.encode(string);
 	}
 
 	public static ByteBuffer bytes(Number... vv) {
