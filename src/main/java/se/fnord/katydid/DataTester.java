@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 public interface DataTester {
 	int passCount();
 
-	void compareTo(int pass, TestingContext context);
+	ComparisonStatus compareTo(int pass, TestingContext context);
 
 	int length();
 

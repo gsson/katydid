@@ -1,5 +1,6 @@
 package se.fnord.katydid.internal;
 
+import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataTester;
 
 import java.nio.ByteBuffer;
@@ -13,10 +14,14 @@ public class Struct extends AbstractDataTester {
 	}
 
 	@Override
-	public void doCompareTo(int pass, TestingContext context) {
+	public ComparisonStatus doCompareTo(int pass, TestingContext context) {
+		ComparisonStatus status = ComparisonStatus.EQUAL;
 		for (DataTester c : values) {
-			c.compareTo(pass, context);
+			status = ComparisonStatus.worst(c.compareTo(pass, context), status);
+			if (status == ComparisonStatus.ERROR)
+				break;
 		}
+		return status;
 	}
 
 	@Override

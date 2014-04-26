@@ -1,5 +1,7 @@
 package se.fnord.katydid.internal;
 
+import se.fnord.katydid.ComparisonStatus;
+
 import java.nio.ByteBuffer;
 
 public class Int extends AbstractDataTester {
@@ -35,12 +37,15 @@ public class Int extends AbstractDataTester {
 	}
 
 	@Override
-	public void compareToLevel0(TestingContext context) {
+	public ComparisonStatus compareToLevel0(TestingContext context) {
 		ByteBuffer bb = context.buffer();
 		for (int i = 0; i < values.length; i++) {
-			assertHasRemaining(context, i);
-			assertEquals(context, i, values[i].longValue(), read(bb));
+			if (!checkHasRemaining(context, i))
+				return ComparisonStatus.ERROR;
+			if (!checkEquals(context, i, values[i].longValue(), read(bb)))
+				return ComparisonStatus.NOT_EQUAL;
 		}
+		return ComparisonStatus.EQUAL;
 	}
 
 	@Override

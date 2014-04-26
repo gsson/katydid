@@ -1,5 +1,6 @@
 package se.fnord.katydid.internal;
 
+import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataTester;
 
 import java.nio.ByteBuffer;
@@ -21,25 +22,27 @@ public abstract class AbstractDataTester implements DataTester {
 		return context.name();
 	}
 
-	protected void compareToLevel0(TestingContext context) {
+	protected ComparisonStatus compareToLevel0(TestingContext context) {
 		throw new UnsupportedOperationException();
 	}
 
-	protected void doCompareTo(int pass, TestingContext context) {
+	protected ComparisonStatus doCompareTo(int pass, TestingContext context) {
 		if (pass == 0)
-			compareToLevel0(context);
+			return compareToLevel0(context);
 		else
-			skip(context);
+			return skip(context);
 
 	}
 
 	@Override
-	public final void compareTo(int pass, TestingContext context) {
+	public final ComparisonStatus compareTo(int pass, TestingContext context) {
 		context.down(name);
+		int start = context.buffer().position();
 		try {
-			doCompareTo(pass, context);
+			return doCompareTo(pass, context);
 		}
 		finally {
+			context.buffer().position(start + length());
 			context.up();
 		}
 	}
@@ -50,12 +53,12 @@ public abstract class AbstractDataTester implements DataTester {
 		return 1;
 	}
 
-	protected void skip(TestingContext context) {
+	protected ComparisonStatus skip(TestingContext context) {
 		ByteBuffer bb = context.buffer();
-		for (int i = 0; i < itemCount(); i++) {
-			assertHasRemaining(context, i);
-			bb.position(bb.position() + sizeOf(i));
-		}
+		if (!checkHasRemaining(context, length()))
+			return ComparisonStatus.ERROR;
+		bb.position(bb.position() + length());
+		return ComparisonStatus.EQUAL;
 	}
 
 	public int length() {
@@ -77,19 +80,24 @@ public abstract class AbstractDataTester implements DataTester {
 		return String.format("<local: %04x, global: %04x>", localPos, globalPos);
 	}
 
-	protected void assertHasRemaining(TestingContext context, int itemIndex) {
+	protected boolean checkHasRemaining(TestingContext context, int itemIndex) {
 		int remaining = context.buffer().remaining();
 		if (remaining < sizeOf(itemIndex)) {
-			throw new AssertionError(String.format("%s: Buffer underflows at %s. Element needs %d additional bytes.",
-					formatName(context, itemIndex), formatLocation(context, itemIndex), length() - localPosition(itemIndex) - remaining));
+			String message = String.format("%s: Buffer underflows at %s. Element needs %d additional bytes.",
+					formatName(context, itemIndex), formatLocation(context, itemIndex), length() - localPosition(itemIndex) - remaining);
+			context.addFailure(message);
+			return false;
 		}
+		return true;
 	}
 
-	protected void assertEquals(TestingContext context, int itemIndex, Object a, Object b) {
+	protected boolean checkEquals(TestingContext context, int itemIndex, Object a, Object b) {
 		if (!Objects.equals(a, b)) {
 			String message = String.format("%s: Value at %s differs: %s != %s",
 					formatName(context, itemIndex), formatLocation(context, itemIndex), formatValue(a), formatValue(b));
-			throw new AssertionError(message);
+			context.addFailure(message);
+			return false;
 		}
+		return true;
 	}
 }

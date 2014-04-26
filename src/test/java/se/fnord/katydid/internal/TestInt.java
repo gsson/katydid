@@ -1,6 +1,7 @@
 package se.fnord.katydid.internal;
 
 import org.junit.Test;
+import se.fnord.katydid.DataTester;
 
 import java.nio.ByteBuffer;
 
@@ -8,6 +9,12 @@ import static org.junit.Assert.assertEquals;
 import static se.fnord.katydid.internal.Util.bytes;
 
 public class TestInt {
+	private static final void assertSuccess(int pass, DataTester tester, ByteBuffer bb) {
+		TestingContext tc = new TestingContext(bb);
+		tester.compareTo(pass, tc);
+		tc.assertSuccess(tester);
+	}
+
 	@Test
 	public void testFormatU8() {
 		final Int.IntFormatter formatter = Int.formatterFor(1, Int.IntFormat.UNSIGNED);
@@ -75,21 +82,21 @@ public class TestInt {
 	public void testInt8Succeeds() {
 		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());
-		s8.compareTo(0, new TestingContext(bytes(1, 2, 3, 4)));
+		assertSuccess(0, s8, bytes(1, 2, 3, 4));
 	}
 
 	@Test
 	public void testInt8SucceedsOnOtherPasses() {
 		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());
-		s8.compareTo(-1, new TestingContext(bytes(1, 2, 3, 5)));
-		s8.compareTo(1, new TestingContext(bytes(1, 2, 3, 5)));
+		assertSuccess(-1, s8, bytes(1, 2, 3, 5));
+		assertSuccess(1, s8, bytes(1, 2, 3, 5));
 	}
 
 	@Test(expected = AssertionError.class)
 	public void testInt8Fails() {
 		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());
-		s8.compareTo(0, new TestingContext(bytes(1, 2, 3, 5)));
+		assertSuccess(0, s8, bytes(1, 2, 3, 5));
 	}
 }

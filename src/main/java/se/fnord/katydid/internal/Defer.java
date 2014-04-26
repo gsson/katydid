@@ -1,5 +1,6 @@
 package se.fnord.katydid.internal;
 
+import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataTester;
 
 import java.nio.ByteBuffer;
@@ -18,8 +19,8 @@ public class Defer implements DataTester {
 	}
 
 	@Override
-	public void compareTo(int pass, TestingContext context) {
-		delegate.compareTo(pass - 1, context);
+	public ComparisonStatus compareTo(int pass, TestingContext context) {
+		return delegate.compareTo(pass - 1, context);
 	}
 
 	@Override

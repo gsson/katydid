@@ -1,5 +1,7 @@
 package se.fnord.katydid.internal;
 
+import se.fnord.katydid.ComparisonStatus;
+
 import java.nio.ByteBuffer;
 
 public class Skip extends AbstractDataTester {
@@ -21,8 +23,8 @@ public class Skip extends AbstractDataTester {
 	}
 
 	@Override
-	public void compareToLevel0(TestingContext context) {
-		skip(context);
+	public ComparisonStatus compareToLevel0(TestingContext context) {
+		return skip(context);
 	}
 
 	@Override
