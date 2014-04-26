@@ -159,10 +159,6 @@ public class DataTesters {
 		return skip("skip", size);
 	}
 
-	public static DataTester defer(DataTester tester) {
-		return new Defer(tester);
-	}
-
 	public static DataTester zero(String name, int count) {
 		byte[] v = new byte[count];
 		Arrays.fill(v, (byte) 0);
@@ -171,5 +167,13 @@ public class DataTesters {
 
 	public static DataTester zero(int count) {
 		return zero("zero", count);
+	}
+
+	public static DataTester defer(DataTester tester) {
+		return new Defer(tester);
+	}
+
+	public static DataTester fatal(DataTester tester) {
+		return new Fatal(tester);
 	}
 }
