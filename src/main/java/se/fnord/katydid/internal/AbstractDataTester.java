@@ -46,8 +46,8 @@ public abstract class AbstractDataTester implements DataTester {
 
 
 	@Override
-	public int maxPass() {
-		return 0;
+	public int passCount() {
+		return 1;
 	}
 
 	protected void skip(TestingContext context) {

@@ -20,10 +20,10 @@ public class Struct extends AbstractDataTester {
 	}
 
 	@Override
-	public int maxPass() {
+	public int passCount() {
 		int mp = 0;
 		for (DataTester c : values)
-			mp = Math.max(mp, c.maxPass());
+			mp = Math.max(mp, c.passCount());
 		return mp;
 	}
 

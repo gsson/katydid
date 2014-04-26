@@ -11,7 +11,7 @@ public class TestDefer {
 		Defer defer = new Defer(s8);
 
 		assertEquals(defer.length(), s8.length());
-		assertEquals(defer.maxPass(), s8.maxPass() + 1);
+		assertEquals(defer.passCount(), s8.passCount() + 1);
 
 		defer.compareTo(0, new TestingContext(TestInt.bytes(1)));
 		defer.compareTo(2, new TestingContext(TestInt.bytes(1)));

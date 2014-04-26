@@ -13,8 +13,8 @@ public class Defer implements DataTester {
 	}
 
 	@Override
-	public int maxPass() {
-		return delegate.maxPass() + 1;
+	public int passCount() {
+		return delegate.passCount() + 1;
 	}
 
 	@Override

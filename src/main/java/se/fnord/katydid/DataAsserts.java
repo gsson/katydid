@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 public class DataAsserts {
 
 	public static void assertNext(DataTester dataTester, ByteBuffer bb) {
-		int m = dataTester.maxPass();
+		int m = dataTester.passCount();
 		TestingContext tc = new TestingContext(bb);
 		int pos = bb.position();
 		for (int i = 0; i < m; i++) {
