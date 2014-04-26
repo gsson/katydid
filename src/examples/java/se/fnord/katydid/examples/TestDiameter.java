@@ -25,13 +25,13 @@ public class TestDiameter {
 	private DataTester padFor(int length) {
 		switch (length & 3) {
 		case 0:
-			return skip("pad", 0);
+			return zero("pad", 0);
 		case 1:
-			return skip("pad", 3);
+			return zero("pad", 3);
 		case 2:
-			return skip("pad", 2);
+			return zero("pad", 2);
 		case 3:
-			return skip("pad", 1);
+			return zero("pad", 1);
 		}
 		throw new IllegalStateException(Integer.toString(length));
 	}
