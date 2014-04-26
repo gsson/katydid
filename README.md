@@ -74,7 +74,7 @@ With that, we can test the data like this:
 
         final ByteBuffer actual = createTestData();
 
-        DataAsserts.assertEquals(expected, actual);
+        DataAsserts.assertExact(expected, actual);
     }
 
 It would be nice to describe the elements somehow though:
@@ -89,7 +89,7 @@ It would be nice to describe the elements somehow though:
 
         final ByteBuffer actual = createTestData();
 
-        DataAsserts.assertEquals(expected, actual);
+        DataAsserts.assertExact(expected, actual);
     }
 
 This will allow for additional readability, and the error messages when the assertion fails will be decorated with the names used.
@@ -122,7 +122,7 @@ If there are several blocks that need to be tested, the values can be extracted 
 
         final ByteBuffer actual = createTestData();
 
-        DataAsserts.assertEquals(expected, actual);
+        DataAsserts.assertExact(expected, actual);
     }
 
 Normally the data is checked in the order it appears in the structure. Sometimes it might be useful to delay a check until after the following parts have been
