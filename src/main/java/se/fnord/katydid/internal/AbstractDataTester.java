@@ -4,6 +4,7 @@ import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataTester;
 
 import java.nio.ByteBuffer;
+import java.util.Formatter;
 import java.util.Objects;
 
 public abstract class AbstractDataTester implements DataTester {
@@ -68,27 +69,19 @@ public abstract class AbstractDataTester implements DataTester {
 		return length;
 	}
 
+
+
 	private int localPosition(int itemIndex) {
-		int localPosition = 0;
-		for (int i = 0; i < itemIndex; i++) {
-			localPosition += sizeOf(i);
-		}
-		return localPosition;
-	}
-
-	private String formatLocation(TestingContext context, int itemIndex) {
-		int localPos = localPosition(itemIndex);
-		int globalPos = context.globalPosition(localPos);
-
-		return String.format("<local: %04x, global: %04x>", localPos, globalPos);
+		int position = 0;
+		for (int i = 0; i < itemIndex; i++)
+			position += sizeOf(i);
+		return position;
 	}
 
 	protected boolean checkHasRemaining(TestingContext context, int itemIndex) {
 		int remaining = context.buffer().remaining();
 		if (remaining < sizeOf(itemIndex)) {
-			String message = String.format("%s: Buffer underflows at %s. Element needs %d additional bytes.",
-					formatName(context, itemIndex), formatLocation(context, itemIndex), length() - localPosition(itemIndex) - remaining);
-			context.addFailure(message);
+			context.addFailure(this, itemIndex, "Buffer underflow. Element needs %d additional bytes", sizeOf(itemIndex) - remaining);
 			return false;
 		}
 		return true;
@@ -96,9 +89,7 @@ public abstract class AbstractDataTester implements DataTester {
 
 	protected boolean checkEquals(TestingContext context, int itemIndex, Object a, Object b) {
 		if (!Objects.equals(a, b)) {
-			String message = String.format("%s: Value at %s differs: %s != %s",
-					formatName(context, itemIndex), formatLocation(context, itemIndex), formatValue(a), formatValue(b));
-			context.addFailure(message);
+			context.addFailure(this, itemIndex, "Value differs: %s != %s", formatValue(a), formatValue(b));
 			return false;
 		}
 		return true;

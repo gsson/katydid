@@ -21,8 +21,15 @@ public class TestingContext {
 		this.messages = new ArrayList<>();
 	}
 
-	public void addFailure(String message) {
-		messages.add(message);
+	public void addFailure(DataTester tester, int itemIndex, String message, Object ... formatArgs) {
+		final Formatter formatter = new Formatter();
+		formatter.format("%s at %s: ", tester.formatName(this, itemIndex), HexFormat.formatOffset(HexFormat.hexLength(buffer.limit()), buffer.position()));
+		formatter.format(message, formatArgs);
+		messages.add(formatter.toString());
+	}
+
+	public void addFailure(String message, Object ... formatArgs) {
+		messages.add(String.format(message, formatArgs));
 	}
 
 	public void assertSuccess(DataTester root) {
@@ -34,17 +41,17 @@ public class TestingContext {
 		for (String message : messages)
 			sb.append("* ").append(message).append(System.lineSeparator());
 
-		sb.append("Expected:").append(System.lineSeparator());
+		sb.append("Expected bytes:").append(System.lineSeparator());
 		HexFormat.format(sb, DataAsserts.asBuffer(root));
 
 		buffer.position(startPosition).limit(startLimit);
-		sb.append("Actual:").append(System.lineSeparator());
+		sb.append("Actual bytes:").append(System.lineSeparator());
 		HexFormat.format(sb, buffer);
 		throw new AssertionError(sb.toString());
 	}
 
-	int globalPosition(int localPosition) {
-		return this.startPosition + localPosition;
+	int globalPosition() {
+		return buffer.position();
 	}
 
 	public ByteBuffer buffer() {

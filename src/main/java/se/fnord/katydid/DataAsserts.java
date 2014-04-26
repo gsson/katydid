@@ -24,9 +24,9 @@ public class DataAsserts {
 	public static void assertExact(DataTester dataTester, ByteBuffer bb) {
 		ByteBuffer bb2 = bb.slice();
 		TestingContext tc = new TestingContext(bb2);
+		if (bb2.remaining() != dataTester.length())
+			tc.addFailure("%d bytes data expected, was %d bytes", dataTester.length(), bb.remaining());
 		assertNext(tc, dataTester, bb2);
-		if (bb2.hasRemaining())
-			tc.addFailure(String.format("Expected %d bytes, was %d bytes", dataTester.length(), bb.remaining()));
 		tc.assertSuccess(dataTester);
 	}
 
