@@ -127,24 +127,4 @@ If there are several blocks that need to be tested, the values can be extracted 
         DataAsserts.assertExact(expected, actual);
     }
 
-Normally the data is checked in the order it appears in the structure. Sometimes it might be useful to delay a check until after the following parts have been
-checked. For example, checking the length field after the actual data has been checked is useful in order to figure out at what point the data is differs rather
-than just finding out that the length is not as expected.
-
-To defer a test to a later pass, wrap it with `defer()`:
-
-	@Test
-	public void testBlockHeader4() {
-		final DataTester expected = blockHeader(
-				defer(length(16)),
-				magic(0x0123456789abcdefL),
-				data(1, 2, 3, 4)
-		);
-
-		final ByteBuffer actual = createTestData();
-
-		DataAsserts.assertExact(expected, actual);
-	}
-
-
 An executable version can be found in the `src/examples` folder as `se.fnord.katydid.examples.SimpleTests`

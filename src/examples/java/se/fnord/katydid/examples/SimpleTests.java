@@ -79,17 +79,4 @@ public class SimpleTests {
 
 		DataAsserts.assertExact(expected, actual);
 	}
-
-	@Test
-	public void testBlockHeader4() {
-		final DataTester expected = blockHeader(
-				defer(length(16)),
-				magic(0x0123456789abcdefL),
-				data(1, 2, 3, 4)
-		);
-
-		final ByteBuffer actual = createTestData();
-
-		DataAsserts.assertExact(expected, actual);
-	}
 }
