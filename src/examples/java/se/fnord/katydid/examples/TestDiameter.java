@@ -39,7 +39,7 @@ public class TestDiameter {
 	private DataTester commandHeader(int flags, int code, int application, int avpLength) {
 		return struct("commandHeader",
 				u8("version", 1),
-				defer(u24("length", avpLength + HEADER_SIZE)), // Check the message length field after all other values have been checked.
+				u24("length", avpLength + HEADER_SIZE), // Check the message length field after all other values have been checked.
 				u8("flags", flags), u24("commandCode", code),
 				u32("application", application),
 				skip("hopByHop", 4), // Skip validation of Hop-By-Hop and End-To-End values
