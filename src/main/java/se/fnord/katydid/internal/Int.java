@@ -39,13 +39,14 @@ public class Int extends AbstractDataTester {
 	@Override
 	public ComparisonStatus compareToLevel0(TestingContext context) {
 		ByteBuffer bb = context.buffer();
+		ComparisonStatus status = ComparisonStatus.EQUAL;
 		for (int i = 0; i < values.length; i++) {
 			if (!checkHasRemaining(context, i))
 				return ComparisonStatus.ERROR;
 			if (!checkEquals(context, i, values[i].longValue(), read(bb)))
-				return ComparisonStatus.NOT_EQUAL;
+				status = ComparisonStatus.NOT_EQUAL;
 		}
-		return ComparisonStatus.EQUAL;
+		return status;
 	}
 
 	@Override
