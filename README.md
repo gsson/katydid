@@ -9,6 +9,9 @@ KATYDID is a tool for testing serialization and deserialization of messages. [wa
 
 It's main features are readable message definitions and decent error messages. It's designed for easy composability and reuse.
 
+Javadocs are [here](http://gsson.github.io/katydid/javadoc/)
+Test coverage is [here](http://gsson.github.io/katydid/jacoco/)
+
 License
 -------
 
@@ -32,7 +35,7 @@ This software is licensed under the [ISC](http://opensource.org/licenses/ISC) li
 Example
 -------
 
-Below is simple test for checking a block header containing a 64 bit magic value, a 32 bit length indicator and a variable-sized block of byte data like so:
+Below is simple test for checking a data block containing a 64 bit magic value, a 32 bit length indicator and a variable-sized block of byte data like so:
 
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
