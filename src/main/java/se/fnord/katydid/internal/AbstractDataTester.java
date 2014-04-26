@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public abstract class AbstractDataTester implements DataTester {
 	private final String name;
+	private int length = -1;
 	public AbstractDataTester(String name) {
 		this.name = name;
 	}
@@ -62,7 +63,9 @@ public abstract class AbstractDataTester implements DataTester {
 	}
 
 	public int length() {
-		return localPosition(itemCount());
+		if (length == -1)
+			length = localPosition(itemCount());
+		return length;
 	}
 
 	private int localPosition(int itemIndex) {
