@@ -16,7 +16,7 @@ public abstract class AbstractDataTester implements DataTester {
 
 	protected abstract String formatValue(Object o);
 
-	protected abstract int sizeOf(int itemIndex);
+	protected abstract int lengthOfItem(int itemIndex);
 
 	protected abstract int itemCount();
 
@@ -74,14 +74,14 @@ public abstract class AbstractDataTester implements DataTester {
 	private int localPosition(int itemIndex) {
 		int position = 0;
 		for (int i = 0; i < itemIndex; i++)
-			position += sizeOf(i);
+			position += lengthOfItem(i);
 		return position;
 	}
 
 	protected boolean checkHasRemaining(TestingContext context, int itemIndex) {
 		int remaining = context.buffer().remaining();
-		if (remaining < sizeOf(itemIndex)) {
-			context.addFailure(this, itemIndex, "Buffer underflow. Element needs %d additional bytes", sizeOf(itemIndex) - remaining);
+		if (remaining < lengthOfItem(itemIndex)) {
+			context.addFailure(this, itemIndex, "Buffer underflow. Element needs %d additional bytes", lengthOfItem(itemIndex) - remaining);
 			return false;
 		}
 		return true;
