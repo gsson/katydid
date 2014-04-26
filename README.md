@@ -9,8 +9,9 @@ KATYDID is a tool for testing serialization and deserialization of messages. [wa
 
 It's main features are readable message definitions and decent error messages. It's designed for easy composability and reuse.
 
-Javadocs are [here](http://gsson.github.io/katydid/javadoc/)
-Test coverage is [here](http://gsson.github.io/katydid/jacoco/)
+* Javadocs are [here](http://gsson.github.io/katydid/javadoc/)
+* Test coverage is [here](http://gsson.github.io/katydid/jacoco/)
+
 
 License
 -------
