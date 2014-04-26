@@ -38,12 +38,12 @@ public class Struct extends AbstractDataTester {
 	}
 
 	@Override
-	protected int sizeOf(int itemIndex) {
+	public int lengthOfItem(int itemIndex) {
 		return values[itemIndex].length();
 	}
 
 	@Override
-	protected int itemCount() {
+	public int itemCount() {
 		return values.length;
 	}
 

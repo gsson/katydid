@@ -27,12 +27,12 @@ public class Int extends AbstractDataTester {
 	}
 
 	@Override
-	protected int sizeOf(int itemIndex) {
+	public int lengthOfItem(int itemIndex) {
 		return elementWidth;
 	}
 
 	@Override
-	protected int itemCount() {
+	public int itemCount() {
 		return values.length;
 	}
 

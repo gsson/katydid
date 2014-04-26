@@ -11,6 +11,10 @@ public interface DataTester {
 
 	int length();
 
+	int lengthOfItem(int itemIndex);
+
+	int itemCount();
+
 	String formatName(TestingContext context, int index);
 
 	void toBuffer(ByteBuffer bb);

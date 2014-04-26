@@ -35,6 +35,16 @@ public class Fatal implements DataTester {
 	}
 
 	@Override
+	public int lengthOfItem(int itemIndex) {
+		return delegate.lengthOfItem(itemIndex);
+	}
+
+	@Override
+	public int itemCount() {
+		return delegate.itemCount();
+	}
+
+	@Override
 	public String formatName(TestingContext context, int index) {
 		return delegate.formatName(context, index);
 	}

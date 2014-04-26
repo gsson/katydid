@@ -13,12 +13,12 @@ public class Skip extends AbstractDataTester {
 	}
 
 	@Override
-	protected int sizeOf(int itemIndex) {
+	public int lengthOfItem(int itemIndex) {
 		return size;
 	}
 
 	@Override
-	protected int itemCount() {
+	public int itemCount() {
 		return 1;
 	}
 

@@ -13,12 +13,12 @@ public class Bytes extends AbstractDataTester {
 	}
 
 	@Override
-	protected int sizeOf(int itemIndex) {
+	public int lengthOfItem(int itemIndex) {
 		return 1;
 	}
 
 	@Override
-	protected int itemCount() {
+	public int itemCount() {
 		return values.length;
 	}
 

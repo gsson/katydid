@@ -4,7 +4,6 @@ import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataTester;
 
 import java.nio.ByteBuffer;
-import java.util.Formatter;
 import java.util.Objects;
 
 public abstract class AbstractDataTester implements DataTester {
@@ -15,10 +14,6 @@ public abstract class AbstractDataTester implements DataTester {
 	}
 
 	protected abstract String formatValue(Object o);
-
-	protected abstract int lengthOfItem(int itemIndex);
-
-	protected abstract int itemCount();
 
 	public String formatName(TestingContext context, int index) {
 		return context.name();
