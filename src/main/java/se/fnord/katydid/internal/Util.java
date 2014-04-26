@@ -45,4 +45,22 @@ public class Util {
 		}
 		bb.position(p + elementWidth);
 	}
+
+	public static ByteBuffer bytes(Number... vv) {
+		ByteBuffer bb = ByteBuffer.allocate(vv.length);
+		for (Number v : vv) {
+			bb.put(v.byteValue());
+		}
+		bb.flip();
+		return bb;
+	}
+
+	public static ByteBuffer shorts(Number... vv) {
+		ByteBuffer bb = ByteBuffer.allocate(vv.length * Short.SIZE / Byte.SIZE);
+		for (Number v : vv) {
+			bb.putShort(v.shortValue());
+		}
+		bb.flip();
+		return bb;
+	}
 }

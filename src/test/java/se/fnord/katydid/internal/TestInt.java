@@ -5,26 +5,9 @@ import org.junit.Test;
 import java.nio.ByteBuffer;
 
 import static org.junit.Assert.assertEquals;
+import static se.fnord.katydid.internal.Util.bytes;
 
 public class TestInt {
-	public static ByteBuffer bytes(Number... vv) {
-		ByteBuffer bb = ByteBuffer.allocate(vv.length);
-		for (Number v : vv) {
-			bb.put(v.byteValue());
-		}
-		bb.flip();
-		return bb;
-	}
-
-	public static ByteBuffer shorts(Number... vv) {
-		ByteBuffer bb = ByteBuffer.allocate(vv.length * Short.SIZE / Byte.SIZE);
-		for (Number v : vv) {
-			bb.putShort(v.shortValue());
-		}
-		bb.flip();
-		return bb;
-	}
-
 	@Test
 	public void testFormatU8() {
 		final Int.IntFormatter formatter = Int.formatterFor(1, Int.IntFormat.UNSIGNED);
