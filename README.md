@@ -30,7 +30,19 @@ This software is licensed under the [ISC](http://opensource.org/licenses/ISC) li
 Example
 -------
 
-Below is simple test for checking a byte buffer containing a long and four bytes.
+Below is simple test for checking a block header containing a 32 bit length indicator, a 64 bit magic value and four bytes of data like so:
+
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |                      Message Length                           |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |                           Magic ...                           |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    |                              ...                              |
+    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    | Data  |
+    +-+-+-+-+
 
 The test assumes these function exists:
 
@@ -42,18 +54,20 @@ The test assumes these function exists:
     }
 
 	public ByteBuffer createTestData() {
-		final ByteBuffer actual = ByteBuffer.allocate(12);
+		final ByteBuffer actual = ByteBuffer.allocate(16);
+		actual.putInt(16);
 		actual.putLong(0x0123456789abcdefL);
 		actual.put(asBytes(1, 2, 3, 4));
 		actual.flip();
 		return actual;
 	}
 
-With that, we can test this:
+With that, we can test the data like this:
 
     @Test
     public void testBlockHeader1() {
         final DataTester expected = struct(
+                u32(16),
                 h64(0x0123456789abcdefL),
                 u8(1, 2, 3, 4)
         );
@@ -68,6 +82,7 @@ It would be nice to describe the elements somehow though:
     @Test
     public void testBlockHeader2() {
         final DataTester expected = struct("blockHeader",
+                u32("length", 16),
                 h64("magic", 0x0123456789abcdefL),
                 u8("data", 1, 2, 3, 4)
         );
@@ -85,6 +100,10 @@ If there are several blocks that need to be tested, the values can be extracted 
         return struct("blockHeader", testers);
     }
 
+	public DataTester length(int length) {
+		return u32("length", length);
+	}
+
     public DataTester magic(long value) {
         return h64("magic", value);
     }
@@ -96,6 +115,7 @@ If there are several blocks that need to be tested, the values can be extracted 
     @Test
     public void testBlockHeader3() {
         final DataTester expected = blockHeader(
+                length(16),
                 magic(0x0123456789abcdefL),
                 data(1, 2, 3, 4)
         );

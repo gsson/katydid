@@ -9,7 +9,6 @@ import java.nio.ByteBuffer;
 import static se.fnord.katydid.DataTesters.*;
 
 public class SimpleTests {
-
 	public static byte[] asBytes(Number ... values) {
 		byte[] bytes = new byte[values.length];
 		for (int i = 0; i < values.length; i++)
@@ -18,7 +17,8 @@ public class SimpleTests {
 	}
 
 	public ByteBuffer createTestData() {
-		final ByteBuffer actual = ByteBuffer.allocate(12);
+		final ByteBuffer actual = ByteBuffer.allocate(16);
+		actual.putInt(16);
 		actual.putLong(0x0123456789abcdefL);
 		actual.put(asBytes(1, 2, 3, 4));
 		actual.flip();
@@ -28,6 +28,7 @@ public class SimpleTests {
 	@Test
 	public void testBlockHeader1() {
 		final DataTester expected = struct(
+				u32(16),
 				h64(0x0123456789abcdefL),
 				u8(1, 2, 3, 4)
 		);
@@ -40,6 +41,7 @@ public class SimpleTests {
 	@Test
 	public void testBlockHeader2() {
 		final DataTester expected = struct("blockHeader",
+				u32("length", 16),
 				h64("magic", 0x0123456789abcdefL),
 				u8("data", 1, 2, 3, 4)
 		);
@@ -47,6 +49,10 @@ public class SimpleTests {
 		final ByteBuffer actual = createTestData();
 
 		DataAsserts.assertExact(expected, actual);
+	}
+
+	public DataTester length(int length) {
+		return u32("length", length);
 	}
 
 	public DataTester blockHeader(DataTester ... testers) {
@@ -64,6 +70,7 @@ public class SimpleTests {
 	@Test
 	public void testBlockHeader3() {
 		final DataTester expected = blockHeader(
+				length(16),
 				magic(0x0123456789abcdefL),
 				data(1, 2, 3, 4)
 		);
