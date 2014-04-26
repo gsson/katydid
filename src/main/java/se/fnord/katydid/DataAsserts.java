@@ -26,4 +26,12 @@ public class DataAsserts {
 	public static void assertExact(DataTester dataTester, byte[] bytes) {
 		assertExact(dataTester, ByteBuffer.wrap(bytes));
 	}
+
+	public static ByteBuffer asBuffer(DataTester dataTester) {
+		int length = dataTester.length();
+		ByteBuffer bb = ByteBuffer.allocate(length);
+		dataTester.toBuffer(bb);
+		bb.flip();
+		return bb;
+	}
 }
