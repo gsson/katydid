@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractDataTester.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">AbstractDataTester.java</span></div><h1>AbstractDataTester.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
+
+import se.fnord.katydid.ComparisonStatus;
+import se.fnord.katydid.DataTester;
+
+import java.nio.ByteBuffer;
+import java.util.Objects;
+
+public abstract class AbstractDataTester implements DataTester {
+	private final String name;
+<span class="fc" id="L11">	private int length = -1;</span>
+<span class="fc" id="L12">	public AbstractDataTester(String name) {</span>
+<span class="fc" id="L13">		this.name = name;</span>
+<span class="fc" id="L14">	}</span>
+
+	protected abstract String formatValue(Object o);
+
+	public String formatName(TestingContext context, int index) {
+<span class="nc" id="L19">		return context.name();</span>
+	}
+
+	protected ComparisonStatus compareToLevel0(TestingContext context) {
+<span class="nc" id="L23">		throw new UnsupportedOperationException();</span>
+	}
+
+	protected ComparisonStatus doCompareTo(int pass, TestingContext context) {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">		if (pass == 0)</span>
+<span class="fc" id="L28">			return compareToLevel0(context);</span>
+		else
+<span class="fc" id="L30">			return skip(context);</span>
+
+	}
+
+	@Override
+	public final ComparisonStatus compareTo(int pass, TestingContext context) {
+<span class="fc" id="L36">		context.down(name);</span>
+<span class="fc" id="L37">		int start = context.buffer().position();</span>
+		try {
+<span class="fc" id="L39">			return doCompareTo(pass, context);</span>
+		}
+		finally {
+<span class="pc" id="L42">			context.buffer().position(start + length());</span>
+<span class="pc" id="L43">			context.up();</span>
+		}
+	}
+
+
+	@Override
+	public int passCount() {
+<span class="fc" id="L50">		return 1;</span>
+	}
+
+	protected ComparisonStatus skip(TestingContext context) {
+<span class="fc" id="L54">		ByteBuffer bb = context.buffer();</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		if (!checkHasRemaining(context, length()))</span>
+<span class="nc" id="L56">			return ComparisonStatus.ERROR;</span>
+<span class="fc" id="L57">		bb.position(bb.position() + length());</span>
+<span class="fc" id="L58">		return ComparisonStatus.EQUAL;</span>
+	}
+
+	public int length() {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (length == -1)</span>
+<span class="fc" id="L63">			length = localPosition(itemCount());</span>
+<span class="fc" id="L64">		return length;</span>
+	}
+
+
+
+	private int localPosition(int itemIndex) {
+<span class="fc" id="L70">		int position = 0;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		for (int i = 0; i &lt; itemIndex; i++)</span>
+<span class="fc" id="L72">			position += lengthOfItem(i);</span>
+<span class="fc" id="L73">		return position;</span>
+	}
+
+	protected boolean checkHasRemaining(TestingContext context, int itemIndex) {
+<span class="fc" id="L77">		int remaining = context.buffer().remaining();</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">		if (remaining &lt; lengthOfItem(itemIndex)) {</span>
+<span class="nc" id="L79">			context.addFailure(this, itemIndex, &quot;Buffer underflow. Element needs %d additional bytes&quot;, lengthOfItem(itemIndex) - remaining);</span>
+<span class="nc" id="L80">			return false;</span>
+		}
+<span class="fc" id="L82">		return true;</span>
+	}
+
+	protected boolean checkEquals(TestingContext context, int itemIndex, Object a, Object b) {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">		if (!Objects.equals(a, b)) {</span>
+<span class="fc" id="L87">			context.addFailure(this, itemIndex, &quot;Value differs: %s != %s&quot;, formatValue(a), formatValue(b));</span>
+<span class="fc" id="L88">			return false;</span>
+		}
+<span class="fc" id="L90">		return true;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

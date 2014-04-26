@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DataAsserts.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid</a> &gt; <span class="el_source">DataAsserts.java</span></div><h1>DataAsserts.java</h1><pre class="source lang-java linenums">package se.fnord.katydid;
+
+import se.fnord.katydid.internal.TestingContext;
+
+import java.nio.ByteBuffer;
+
+<span class="nc" id="L7">public class DataAsserts {</span>
+	private static void assertNext(TestingContext tc, DataTester dataTester, ByteBuffer bb) {
+<span class="fc" id="L9">		int m = dataTester.passCount();</span>
+<span class="fc" id="L10">		int pos = bb.position();</span>
+<span class="fc bfc" id="L11" title="All 2 branches covered.">		for (int i = 0; i &lt; m; i++) {</span>
+<span class="fc" id="L12">			bb.position(pos);</span>
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">			if (dataTester.compareTo(i, tc) == ComparisonStatus.ERROR)</span>
+<span class="nc" id="L14">				break;</span>
+		}
+<span class="fc" id="L16">	}</span>
+
+	public static void assertNext(DataTester dataTester, ByteBuffer bb) {
+<span class="nc" id="L19">		TestingContext tc = new TestingContext(bb);</span>
+<span class="nc" id="L20">		assertNext(tc, dataTester, bb);</span>
+<span class="nc" id="L21">		tc.assertSuccess(dataTester);</span>
+<span class="nc" id="L22">	}</span>
+
+	public static void assertExact(DataTester dataTester, ByteBuffer bb) {
+<span class="fc" id="L25">		ByteBuffer bb2 = bb.slice();</span>
+<span class="fc" id="L26">		TestingContext tc = new TestingContext(bb2);</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">		if (bb2.remaining() != dataTester.length())</span>
+<span class="nc" id="L28">			tc.addFailure(&quot;%d bytes data expected, was %d bytes&quot;, dataTester.length(), bb.remaining());</span>
+<span class="fc" id="L29">		assertNext(tc, dataTester, bb2);</span>
+<span class="fc" id="L30">		tc.assertSuccess(dataTester);</span>
+<span class="fc" id="L31">	}</span>
+
+	public static void assertExact(DataTester dataTester, byte[] bytes) {
+<span class="nc" id="L34">		assertExact(dataTester, ByteBuffer.wrap(bytes));</span>
+<span class="nc" id="L35">	}</span>
+
+	public static ByteBuffer asBuffer(DataTester dataTester) {
+<span class="fc" id="L38">		int length = dataTester.length();</span>
+<span class="fc" id="L39">		ByteBuffer bb = ByteBuffer.allocate(length);</span>
+<span class="fc" id="L40">		dataTester.toBuffer(bb);</span>
+<span class="fc" id="L41">		bb.flip();</span>
+<span class="fc" id="L42">		return bb;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

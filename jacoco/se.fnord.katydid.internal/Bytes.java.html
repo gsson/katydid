@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Bytes.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">Bytes.java</span></div><h1>Bytes.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
+
+import se.fnord.katydid.ComparisonStatus;
+
+import java.nio.ByteBuffer;
+
+public class Bytes extends AbstractDataTester {
+	private final byte[] values;
+
+	public Bytes(String name, byte... values) {
+<span class="nc" id="L11">		super(name);</span>
+<span class="nc" id="L12">		this.values = values;</span>
+<span class="nc" id="L13">	}</span>
+
+	@Override
+	public int lengthOfItem(int itemIndex) {
+<span class="nc" id="L17">		return 1;</span>
+	}
+
+	@Override
+	public int itemCount() {
+<span class="nc" id="L22">		return values.length;</span>
+	}
+
+	@Override
+	public ComparisonStatus compareToLevel0(TestingContext context) {
+<span class="nc" id="L27">		ByteBuffer bb = context.buffer();</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">		if (!checkHasRemaining(context, values.length))</span>
+<span class="nc" id="L29">			return ComparisonStatus.ERROR;</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">		for (int i = 0; i &lt; values.length; i++) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">			if (!checkEquals(context, i, values[i], bb.get()))</span>
+<span class="nc" id="L32">				return ComparisonStatus.NOT_EQUAL;</span>
+		}
+<span class="nc" id="L34">		return ComparisonStatus.EQUAL;</span>
+	}
+
+	@Override
+	public String formatName(TestingContext context, int index) {
+<span class="nc" id="L39">		return String.format(&quot;%s[%d]&quot;, context.name(), index);</span>
+	}
+
+	@Override
+	public String formatValue(Object v) {
+<span class="nc" id="L44">		return String.format(&quot;%02x&quot;, v);</span>
+	}
+
+	@Override
+	public void toBuffer(ByteBuffer bb) {
+<span class="nc" id="L49">		bb.put(values);</span>
+<span class="nc" id="L50">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

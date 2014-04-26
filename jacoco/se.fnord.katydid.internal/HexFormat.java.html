@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>HexFormat.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">HexFormat.java</span></div><h1>HexFormat.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
+
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+
+<span class="nc" id="L6">public class HexFormat {</span>
+<span class="fc" id="L7">	private static final char[] ZEROES = &quot;00000000&quot;.toCharArray();</span>
+<span class="fc" id="L8">	private static final char[] PRINTABLE = generatePrintable();</span>
+
+	private static char[] generatePrintable() {
+<span class="fc" id="L11">		char[] printable = new char[256];</span>
+<span class="fc" id="L12">		Arrays.fill(printable, '.');</span>
+<span class="fc bfc" id="L13" title="All 2 branches covered.">		for (int i = 0x21; i &lt; 0x7f; i++)</span>
+<span class="fc" id="L14">			printable[i] = (char) i;</span>
+<span class="fc" id="L15">		return printable;</span>
+	}
+
+	static int hexLength(int offset) {
+<span class="fc bfc" id="L19" title="All 2 branches covered.">		if (offset == 0)</span>
+<span class="fc" id="L20">			return 1;</span>
+<span class="fc" id="L21">		return 8 - (Integer.numberOfLeadingZeros(offset) &gt;&gt;&gt; 2);</span>
+	}
+
+	static String formatOffset(int width, int offset) {
+<span class="fc" id="L25">		StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L26">		HexFormat.formatOffset(sb, width, offset);</span>
+<span class="fc" id="L27">		return sb.toString();</span>
+	}
+
+	private static int maxOffset(ByteBuffer bb) {
+<span class="fc" id="L31">		return bb.limit() &amp; ~0xf;</span>
+	}
+
+	private static int lineOffset(ByteBuffer bb) {
+<span class="fc" id="L35">		return bb.position() &amp; ~0xf;</span>
+	}
+
+	static void formatHexByte(StringBuilder sb, byte b) {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		if ((b &amp; 0xf0) == 0)</span>
+<span class="fc" id="L40">			sb.append('0');</span>
+<span class="fc" id="L41">		sb.append(Integer.toHexString(b &amp; 0xff));</span>
+<span class="fc" id="L42">	}</span>
+
+	private static char printable(byte b) {
+<span class="fc" id="L45">		return PRINTABLE[b &amp; 0xff];</span>
+
+	}
+
+	private static void formatAsciiLine(StringBuilder sb, ByteBuffer bb) {
+<span class="fc" id="L50">		int lineStart = lineOffset(bb);</span>
+<span class="fc" id="L51">		int lineEnd = lineStart + 0x10;</span>
+<span class="fc" id="L52">		int skipStart = bb.position();</span>
+<span class="fc" id="L53">		int skipEnd = Math.min(lineEnd, bb.limit());</span>
+
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		for (int i = lineStart; i &lt; skipStart; i++) {</span>
+<span class="fc" id="L56">			sb.append(' ');</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">			if ((i &amp; 0xf) == 7)</span>
+<span class="nc" id="L58">				sb.append(' ');</span>
+		}
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		for (int i = skipStart; i &lt; skipEnd; i++) {</span>
+<span class="fc" id="L62">			sb.append(printable(bb.get()));</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">			if ((i &amp; 0xf) == 7)</span>
+<span class="fc" id="L64">				sb.append(' ');</span>
+		}
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		for (int i = skipEnd; i &lt; lineEnd; i++) {</span>
+<span class="fc" id="L68">			sb.append(' ');</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			if ((i &amp; 0xf) == 7)</span>
+<span class="fc" id="L70">				sb.append(' ');</span>
+		}
+<span class="fc" id="L72">	}</span>
+
+	static void formatHexLine(StringBuilder sb, ByteBuffer bb) {
+<span class="fc" id="L75">		int lineStart = lineOffset(bb);</span>
+<span class="fc" id="L76">		int lineEnd = lineStart + 0x10;</span>
+<span class="fc" id="L77">		int skipStart = bb.position();</span>
+<span class="fc" id="L78">		int skipEnd = Math.min(lineEnd, bb.limit());</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		for (int i = lineStart; i &lt; skipStart; i++) {</span>
+<span class="fc" id="L81">			sb.append(&quot;   &quot;);</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">			if ((i &amp; 0xf) == 7)</span>
+<span class="nc" id="L83">				sb.append(' ');</span>
+		}
+
+<span class="fc bfc" id="L86" title="All 2 branches covered.">		for (int i = skipStart; i &lt; skipEnd; i++) {</span>
+<span class="fc" id="L87">			formatHexByte(sb, bb.get());</span>
+<span class="fc" id="L88">			sb.append(' ');</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">			if ((i &amp; 0xf) == 7)</span>
+<span class="fc" id="L90">				sb.append(' ');</span>
+		}
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		for (int i = skipEnd; i &lt; lineEnd; i++) {</span>
+<span class="fc" id="L94">			sb.append(&quot;   &quot;);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">			if ((i &amp; 0xf) == 7)</span>
+<span class="fc" id="L96">				sb.append(' ');</span>
+		}
+<span class="fc" id="L98">	}</span>
+
+	static void formatLine(StringBuilder sb, ByteBuffer bb) {
+<span class="fc" id="L101">		int width = Math.max(2, hexLength(maxOffset(bb)));</span>
+<span class="fc" id="L102">		HexFormat.formatOffset(sb, width, lineOffset(bb));</span>
+<span class="fc" id="L103">		sb.append(&quot;: &quot;);</span>
+<span class="fc" id="L104">		int p = bb.position();</span>
+<span class="fc" id="L105">		formatHexLine(sb, bb);</span>
+<span class="fc" id="L106">		sb.append(&quot;| &quot;);</span>
+<span class="fc" id="L107">		bb.position(p);</span>
+<span class="fc" id="L108">		formatAsciiLine(sb, bb);</span>
+<span class="fc" id="L109">	}</span>
+
+	static void formatOffset(StringBuilder sb, int width, int offset) {
+<span class="fc" id="L112">		int pad = width - hexLength(offset);</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">		if (pad &gt; 0)</span>
+<span class="fc" id="L114">			sb.append(ZEROES, 0, pad);</span>
+<span class="fc" id="L115">		sb.append(Integer.toHexString(offset));</span>
+<span class="fc" id="L116">	}</span>
+
+	public static String format(ByteBuffer bb) {
+<span class="fc" id="L119">		StringBuilder sb = new StringBuilder(bb.remaining() * 4);</span>
+<span class="fc" id="L120">		format(sb, bb);</span>
+<span class="fc" id="L121">		return sb.toString();</span>
+	}
+
+	public static void format(StringBuilder sb, ByteBuffer bb) {
+<span class="fc" id="L125">		ByteBuffer bb2 = bb.asReadOnlyBuffer();</span>
+<span class="fc" id="L126">		int l = bb2.limit();</span>
+
+		do {
+<span class="fc" id="L129">			bb2.limit(Math.min(bb2.position() + 16, l));</span>
+<span class="fc" id="L130">			formatLine(sb, bb2);</span>
+<span class="fc" id="L131">			sb.append(System.lineSeparator());</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">		} while (bb2.limit() &lt; l);</span>
+<span class="fc" id="L133">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

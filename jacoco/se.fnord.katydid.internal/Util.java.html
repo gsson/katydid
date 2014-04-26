@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Util.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">Util.java</span></div><h1>Util.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.Charset;
+
+public class Util {
+<span class="fc" id="L8">	private static final Charset UTF8 = Charset.forName(&quot;utf-8&quot;);</span>
+<span class="nc" id="L9">	private Util() {</span>
+<span class="nc" id="L10">		throw new IllegalAccessError();</span>
+	}
+
+	private static long swap(int elementWidth, long value) {
+<span class="fc" id="L14">		return Long.reverseBytes(value) &gt;&gt;&gt; (8 * (8 - elementWidth));</span>
+	}
+
+	public static long read(ByteBuffer bb, int elementWidth) {
+<span class="fc" id="L18">		final long value = readBE(bb, elementWidth);</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">		if (bb.order() == ByteOrder.BIG_ENDIAN) {</span>
+<span class="fc" id="L20">			return value;</span>
+		}
+<span class="fc" id="L22">		return swap(elementWidth, value);</span>
+	}
+
+	private static long readBE(ByteBuffer bb, int elementWidth) {
+<span class="fc" id="L26">		final int p = bb.position();</span>
+<span class="fc" id="L27">		long value = 0;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">		for (int j = 0; j &lt; elementWidth; j++) {</span>
+<span class="fc" id="L29">			value = (value &lt;&lt; 8) | (bb.get(p + j) &amp; 0xff);</span>
+		}
+<span class="fc" id="L31">		bb.position(p + elementWidth);</span>
+<span class="fc" id="L32">		return value;</span>
+	}
+
+	public static void write(ByteBuffer bb, int elementWidth, long value) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">		if (bb.order() == ByteOrder.BIG_ENDIAN) {</span>
+<span class="fc" id="L37">			value = swap(elementWidth, value);</span>
+		}
+<span class="fc" id="L39">		writeBE(bb, elementWidth, value);</span>
+<span class="fc" id="L40">	}</span>
+
+	private static void writeBE(ByteBuffer bb, int elementWidth, long value) {
+<span class="fc" id="L43">		final int p = bb.position();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		for (int j = 0; j &lt; elementWidth; j++) {</span>
+<span class="fc" id="L45">			bb.put(p + j, (byte) value);</span>
+<span class="fc" id="L46">			value &gt;&gt;&gt;= 8;</span>
+		}
+<span class="fc" id="L48">		bb.position(p + elementWidth);</span>
+<span class="fc" id="L49">	}</span>
+
+	public static ByteBuffer utf8(String string) {
+<span class="fc" id="L52">		return UTF8.encode(string);</span>
+	}
+
+	public static ByteBuffer bytes(Number... vv) {
+<span class="fc" id="L56">		ByteBuffer bb = ByteBuffer.allocate(vv.length);</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		for (Number v : vv) {</span>
+<span class="fc" id="L58">			bb.put(v.byteValue());</span>
+		}
+<span class="fc" id="L60">		bb.flip();</span>
+<span class="fc" id="L61">		return bb;</span>
+	}
+
+	public static ByteBuffer shorts(Number... vv) {
+<span class="nc" id="L65">		ByteBuffer bb = ByteBuffer.allocate(vv.length * Short.SIZE / Byte.SIZE);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">		for (Number v : vv) {</span>
+<span class="nc" id="L67">			bb.putShort(v.shortValue());</span>
+		}
+<span class="nc" id="L69">		bb.flip();</span>
+<span class="nc" id="L70">		return bb;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

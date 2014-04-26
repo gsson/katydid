@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DataTesters.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid</a> &gt; <span class="el_source">DataTesters.java</span></div><h1>DataTesters.java</h1><pre class="source lang-java linenums">package se.fnord.katydid;
+
+import se.fnord.katydid.internal.*;
+
+import java.nio.charset.Charset;
+import java.util.Arrays;
+
+<span class="nc" id="L8">public class DataTesters {</span>
+<span class="fc" id="L9">	private static final Charset UTF8 = Charset.forName(&quot;utf-8&quot;);</span>
+	public static DataTester u8(String name, Number... values) {
+<span class="nc" id="L11">		return new Int(name, Int.IntFormat.UNSIGNED, 1, values);</span>
+	}
+
+	public static DataTester u8(Number... values) {
+<span class="nc" id="L15">		return u8(&quot;u8&quot;, values);</span>
+	}
+
+	public static DataTester s8(String name, Number... values) {
+<span class="nc" id="L19">		return new Int(name, Int.IntFormat.SIGNED, 1, values);</span>
+	}
+
+	public static DataTester s8(Number... values) {
+<span class="nc" id="L23">		return s8(&quot;s8&quot;, values);</span>
+	}
+
+	public static DataTester h8(String name, Number... values) {
+<span class="fc" id="L27">		return new Int(name, Int.IntFormat.HEX, 1, values);</span>
+	}
+
+	public static DataTester h8(Number... values) {
+<span class="nc" id="L31">		return h8(&quot;h8&quot;, values);</span>
+	}
+
+	public static DataTester u16(String name, Number... values) {
+<span class="nc" id="L35">		return new Int(name, Int.IntFormat.UNSIGNED, 2, values);</span>
+	}
+
+	public static DataTester u16(Number... values) {
+<span class="nc" id="L39">		return u16(&quot;u16&quot;, values);</span>
+	}
+
+	public static DataTester s16(String name, Number... values) {
+<span class="nc" id="L43">		return new Int(name, Int.IntFormat.SIGNED, 2, values);</span>
+	}
+
+	public static DataTester s16(Number... values) {
+<span class="nc" id="L47">		return s16(&quot;s16&quot;, values);</span>
+	}
+
+	public static DataTester h16(String name, Number... values) {
+<span class="nc" id="L51">		return new Int(name, Int.IntFormat.HEX, 2, values);</span>
+	}
+
+	public static DataTester h16(Number... values) {
+<span class="nc" id="L55">		return h16(&quot;h16&quot;, values);</span>
+	}
+
+	public static DataTester u24(String name, Number... values) {
+<span class="nc" id="L59">		return new Int(name, Int.IntFormat.UNSIGNED, 3, values);</span>
+	}
+
+	public static DataTester u24(Number... values) {
+<span class="nc" id="L63">		return u24(&quot;u24&quot;, values);</span>
+	}
+
+	public static DataTester s24(String name, Number... values) {
+<span class="nc" id="L67">		return new Int(name, Int.IntFormat.SIGNED, 3, values);</span>
+	}
+
+	public static DataTester s24(Number... values) {
+<span class="nc" id="L71">		return s24(&quot;s24&quot;, values);</span>
+	}
+
+	public static DataTester h24(String name, Number... values) {
+<span class="nc" id="L75">		return new Int(name, Int.IntFormat.HEX, 3, values);</span>
+	}
+
+	public static DataTester h24(Number... values) {
+<span class="nc" id="L79">		return h24(&quot;h24&quot;, values);</span>
+	}
+
+	public static DataTester u32(String name, Number... values) {
+<span class="nc" id="L83">		return new Int(name, Int.IntFormat.UNSIGNED, 4, values);</span>
+	}
+
+	public static DataTester u32(Number... values) {
+<span class="nc" id="L87">		return u32(&quot;u32&quot;, values);</span>
+	}
+
+	public static DataTester s32(String name, Number... values) {
+<span class="nc" id="L91">		return new Int(name, Int.IntFormat.SIGNED, 4, values);</span>
+	}
+
+	public static DataTester s32(Number... values) {
+<span class="nc" id="L95">		return s32(&quot;s32&quot;, values);</span>
+	}
+
+	public static DataTester h32(String name, Number... values) {
+<span class="nc" id="L99">		return new Int(name, Int.IntFormat.HEX, 4, values);</span>
+	}
+
+	public static DataTester h32(Number... values) {
+<span class="nc" id="L103">		return h32(&quot;h32&quot;, values);</span>
+	}
+
+	public static DataTester u64(String name, Number... values) {
+<span class="nc" id="L107">		return new Int(name, Int.IntFormat.UNSIGNED, 8, values);</span>
+	}
+
+	public static DataTester u64(Number... values) {
+<span class="nc" id="L111">		return u64(&quot;u64&quot;, values);</span>
+	}
+
+	public static DataTester s64(String name, Number... values) {
+<span class="nc" id="L115">		return new Int(name, Int.IntFormat.SIGNED, 8, values);</span>
+	}
+
+	public static DataTester s64(Number... values) {
+<span class="nc" id="L119">		return s64(&quot;s64&quot;, values);</span>
+	}
+
+	public static DataTester h64(String name, Number... values) {
+<span class="nc" id="L123">		return new Int(name, Int.IntFormat.HEX, 8, values);</span>
+	}
+
+	public static DataTester h64(Number... values) {
+<span class="nc" id="L127">		return h64(&quot;h64&quot;, values);</span>
+	}
+
+	public static DataTester struct(String name, DataTester... elements) {
+<span class="fc" id="L131">		return new Struct(name, elements);</span>
+	}
+
+	public static DataTester struct(DataTester... elements) {
+<span class="nc" id="L135">		return struct(&quot;struct&quot;, elements);</span>
+	}
+
+	public static DataTester utf8(String name, String value) {
+<span class="nc" id="L139">		return new Bytes(name, value.getBytes(UTF8));</span>
+	}
+
+	public static DataTester utf8(String value) {
+<span class="nc" id="L143">		return utf8(&quot;utf8&quot;, value);</span>
+	}
+
+	public static DataTester bytes(String name, byte... bytes) {
+<span class="nc" id="L147">		return new Bytes(name, bytes);</span>
+	}
+
+	public static DataTester bytes(byte... bytes) {
+<span class="nc" id="L151">		return bytes(&quot;bytes&quot;, bytes);</span>
+	}
+
+	public static DataTester skip(String name, int size) {
+<span class="nc" id="L155">		return new Skip(name, size);</span>
+	}
+
+	public static DataTester skip(int size) {
+<span class="nc" id="L159">		return skip(&quot;skip&quot;, size);</span>
+	}
+
+	public static DataTester zero(String name, int count) {
+<span class="nc" id="L163">		byte[] v = new byte[count];</span>
+<span class="nc" id="L164">		Arrays.fill(v, (byte) 0);</span>
+<span class="nc" id="L165">		return bytes(name, v);</span>
+	}
+
+	public static DataTester zero(int count) {
+<span class="nc" id="L169">		return zero(&quot;zero&quot;, count);</span>
+	}
+
+	public static DataTester defer(DataTester tester) {
+<span class="nc" id="L173">		return new Defer(tester);</span>
+	}
+
+	public static DataTester fatal(DataTester tester) {
+<span class="nc" id="L177">		return new Fatal(tester);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

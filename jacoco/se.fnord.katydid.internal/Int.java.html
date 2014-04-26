@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Int.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">Int.java</span></div><h1>Int.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
+
+import se.fnord.katydid.ComparisonStatus;
+
+import java.nio.ByteBuffer;
+
+public class Int extends AbstractDataTester {
+<span class="pc" id="L8">	public enum IntFormat {HEX, SIGNED, UNSIGNED};</span>
+
+	private final int elementWidth;
+	private final Number[] values;
+	private final IntFormatter formatter;
+
+	public Int(String name, IntFormat format, int elementWidth, Number... values) {
+<span class="fc" id="L15">		super(name);</span>
+<span class="fc" id="L16">		this.elementWidth = elementWidth;</span>
+<span class="fc" id="L17">		this.values = values;</span>
+<span class="fc" id="L18">		this.formatter = formatterFor(elementWidth, format);</span>
+<span class="fc" id="L19">	}</span>
+
+	private long read(ByteBuffer bb) {
+<span class="fc" id="L22">		return Util.read(bb, elementWidth);</span>
+	}
+
+	private void write(ByteBuffer bb, long value) {
+<span class="fc" id="L26">		Util.write(bb, elementWidth, value);</span>
+<span class="fc" id="L27">	}</span>
+
+	@Override
+	public int lengthOfItem(int itemIndex) {
+<span class="fc" id="L31">		return elementWidth;</span>
+	}
+
+	@Override
+	public int itemCount() {
+<span class="fc" id="L36">		return values.length;</span>
+	}
+
+	@Override
+	public ComparisonStatus compareToLevel0(TestingContext context) {
+<span class="fc" id="L41">		ByteBuffer bb = context.buffer();</span>
+<span class="fc" id="L42">		ComparisonStatus status = ComparisonStatus.EQUAL;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">		for (int i = 0; i &lt; values.length; i++) {</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">			if (!checkHasRemaining(context, i))</span>
+<span class="nc" id="L45">				return ComparisonStatus.ERROR;</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">			if (!checkEquals(context, i, values[i].longValue(), read(bb)))</span>
+<span class="fc" id="L47">				status = ComparisonStatus.NOT_EQUAL;</span>
+		}
+<span class="fc" id="L49">		return status;</span>
+	}
+
+	@Override
+	public String formatName(TestingContext context, int index) {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (values.length == 1) {</span>
+<span class="fc" id="L55">			return context.name();</span>
+		}
+<span class="fc" id="L57">		return String.format(&quot;%s[%d]&quot;, context.name(), index);</span>
+	}
+
+	@Override
+	public String formatValue(Object v) {
+<span class="fc" id="L62">		return formatter.format(((Number) v).longValue());</span>
+	}
+
+	@Override
+	public void toBuffer(ByteBuffer bb) {
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		for (int i = 0; i &lt; values.length; i++) {</span>
+<span class="fc" id="L68">			write(bb, values[i].longValue());</span>
+		}
+<span class="fc" id="L70">	}</span>
+
+	static interface IntFormatter {
+		String format(long value);
+	}
+
+	static long mask(int width) {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">		if (width == 8) {</span>
+<span class="fc" id="L78">			return -1L;</span>
+		}
+<span class="fc" id="L80">		return (1L &lt;&lt; (width * 8)) - 1;</span>
+
+	}
+
+	static long signBit(int width) {
+<span class="fc" id="L85">		return 1L &lt;&lt; (width * 8 - 1);</span>
+	}
+
+	static Int.IntFormatter formatterFor(int width, IntFormat format) {
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">		if (width == 0) {</span>
+<span class="nc" id="L90">			throw new IllegalArgumentException();</span>
+		}
+
+<span class="pc bpc" id="L93" title="1 of 4 branches missed.">		switch (format) {</span>
+		case HEX:
+<span class="fc" id="L95">			return hexFormatterFor(width);</span>
+		case SIGNED:
+<span class="fc" id="L97">			return signedFormatterFor(width);</span>
+		case UNSIGNED:
+<span class="fc" id="L99">			return unsignedFormatterFor(width);</span>
+		}
+<span class="nc" id="L101">		throw new IllegalArgumentException();</span>
+	}
+
+	private static Int.IntFormatter hexFormatterFor(int width) {
+<span class="fc" id="L105">		final long mask = mask(width);</span>
+<span class="fc" id="L106">		final String format = String.format(&quot;%%0%dx&quot;, width * 2);</span>
+<span class="fc" id="L107">		return new Int.IntFormatter() {</span>
+			@Override
+			public String format(long value) {
+<span class="fc" id="L110">				return String.format(format, value &amp; mask);</span>
+			}
+		};
+	}
+
+	private static Int.IntFormatter signedFormatterFor(final int width) {
+<span class="fc" id="L116">		final long mask = mask(width);</span>
+<span class="fc" id="L117">		final long signBit = signBit(width);</span>
+<span class="fc" id="L118">		return new Int.IntFormatter() {</span>
+			@Override
+			public String format(long value) {
+<span class="fc bfc" id="L121" title="All 2 branches covered.">				if (width &lt; 8) {</span>
+<span class="fc" id="L122">					value &amp;= mask;</span>
+
+					// Most hackish sign-extension for negative values
+<span class="fc bfc" id="L125" title="All 2 branches covered.">					if ((value &amp; signBit) != 0L) {</span>
+<span class="fc" id="L126">						value = -(~(value - 1L) &amp; mask);</span>
+					}
+				}
+<span class="fc" id="L129">				return Long.toString(value);</span>
+			}
+		};
+	}
+
+	private static Int.IntFormatter unsignedFormatterFor(int width) {
+<span class="fc" id="L135">		final long mask = mask(width);</span>
+<span class="fc" id="L136">		return new Int.IntFormatter() {</span>
+			@Override
+			public String format(long value) {
+<span class="fc" id="L139">				value &amp;= mask;</span>
+				// The value is already unsigned, no magic needed.
+<span class="fc bfc" id="L141" title="All 2 branches covered.">				if (value &gt;= 0)</span>
+<span class="fc" id="L142">					return Long.toString(value);</span>
+
+				// Unsigned divide by 10
+<span class="fc" id="L145">				final long quotient = (value &gt;&gt;&gt; 1) / 5;</span>
+<span class="fc" id="L146">				final long remainder = value - quotient * 10;</span>
+<span class="fc" id="L147">				return Long.toString(quotient) + remainder;</span>
+			}
+		};
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>
