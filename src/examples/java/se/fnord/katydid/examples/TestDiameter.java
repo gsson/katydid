@@ -67,7 +67,7 @@ public class TestDiameter {
 
 	@Test(expected = AssertionError.class)
 	public void failingCCRTest() {
-		DataTester correctClassCode = command("Credit-Control", PXY | REQ, 4, 272,
+		DataTester correctClass = command("Credit-Control", PXY | REQ, 4, 272,
 				avp("Session-Id", 0, 263, M, utf8(SESSION_ID)),
 				avp("Origin-Host", 0, 264, M, utf8(ORIGIN_HOST)),
 				avp("Origin-Realm", 0, 296, M, utf8(REALM)),
@@ -79,7 +79,7 @@ public class TestDiameter {
 				avp("Class", 0, 25, M, utf8("class"))
 		);
 
-		DataTester incorrectClassCode = command("Credit-Control", PXY | REQ, 4, 272,
+		DataTester incorrectClass = command("Credit-Control", PXY | REQ, 4, 272,
 				avp("Session-Id", 0, 263, M, utf8(SESSION_ID)),
 				avp("Origin-Host", 0, 264, M, utf8(ORIGIN_HOST)),
 				avp("Origin-Realm", 0, 296, M, utf8(REALM)),
@@ -88,13 +88,10 @@ public class TestDiameter {
 				avp("Service-Context-Id", 0, 461, M, utf8("6.32260@3gpp.org")),
 				avp("CC-Request-Type", 0, 416, M, u32(1)),
 				avp("CC-Request-Number", 0, 415, M, u32(0)),
-				avp("Class", 0, 26, M, utf8("class"))
+				avp("Class", 0, 25, M, utf8("class-class-class"))
 		);
 
-		ByteBuffer buffer = ByteBuffer.allocate(incorrectClassCode.length());
-		incorrectClassCode.toBuffer(buffer);
-		buffer.flip();
-
-		DataAsserts.assertExact(correctClassCode, buffer);
+		ByteBuffer buffer = DataAsserts.asBuffer(incorrectClass);
+		DataAsserts.assertExact(correctClass, buffer);
 	}
 }
