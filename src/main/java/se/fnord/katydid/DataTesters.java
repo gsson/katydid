@@ -3,6 +3,7 @@ package se.fnord.katydid;
 import se.fnord.katydid.internal.*;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 public class DataTesters {
 	private static final Charset UTF8 = Charset.forName("utf-8");
@@ -160,5 +161,15 @@ public class DataTesters {
 
 	public static DataTester defer(DataTester tester) {
 		return new Defer(tester);
+	}
+
+	public static DataTester zero(String name, int count) {
+		byte[] v = new byte[count];
+		Arrays.fill(v, (byte) 0);
+		return bytes(name, v);
+	}
+
+	public static DataTester zero(int count) {
+		return zero("zero", count);
 	}
 }
