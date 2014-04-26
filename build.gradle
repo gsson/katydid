@@ -1,7 +1,19 @@
 apply plugin: 'java'
 
+apply plugin: 'github-pages'
+apply plugin: 'jacoco'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+       classpath 'org.ajoberstar:gradle-git:0.8.0'
+    }
+}
+
 sourceCompatibility = 1.7
-version = '1.0'
+version = '0.1'
 
 repositories {
     mavenCentral()
@@ -11,6 +23,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+
 test {
     testLogging {
         events "failed"
@@ -18,5 +31,30 @@ test {
         exceptionFormat "full"
         showCauses true
         showStandardStreams true
+    }
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+publishGhPages {
+    dependsOn jacocoTestReport
+    dependsOn javadoc
+}
+
+githubPages {
+    repoUri = 'https://github.com/gsson/katydid.git'
+    credentials {
+        username = 'gsson'
+        password = System.getenv('GH_TOKEN')
+    }
+    pages {
+        from("$jacoco.reportsDir/test/html") {
+            into('jacoco/')
+        }
+        from(javadoc.outputs.files) {
+            into('javadoc/')
+        }
     }
 }
