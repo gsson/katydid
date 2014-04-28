@@ -14,6 +14,28 @@ buildscript {
 
 sourceCompatibility = 1.7
 version = '0.2.0-SNAPSHOT'
+group = 'se.fnord'
+
+
+// Skip any version qualifier in the bundle version since maven and
+// OSGi versions are not friends.
+// Alternatively I guess we could use the date (as common in OSGI) for
+// the bundle version when -SNAPSHOT is present, otherwise use 999999999999 since that will
+// match higher than the generated date.
+// See eg. http://www.infoq.com/news/2012/04/osgi-snapshot
+ext.bundleVersion = version.replaceAll(~/-.*$/, "")
+ext.bundleName = "${group}.${name}"
+ext.bundleSymbolicName = 'KATYDID Asserts That Your Data Is Deluxe'
+
+ext.sharedManifest = manifest {
+    attributes(
+        "Bundle-ManifestVersion": 2,
+        "Bundle-Version": bundleVersion,
+        "Bundle-Vendor": "Henrik Gustafsson <henrik.gustafsson@fnord.se>",
+        "Bundle-SymbolicName": bundleSymbolicName,
+        "Bundle-Name": bundleName,
+    )
+}
 
 repositories {
     mavenCentral()
@@ -23,15 +45,49 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+jar {
+    manifest = project.manifest {
+        from sharedManifest
+        from project.manifest {
+            attributes(
+                "Export-Package": "se.fnord.katydid",
+                "Require-Capability": "osgi.ee;filter:=\"(&(osgi.ee=JavaSE)(version>=1.7))\""
+            )
+        }
+    }
+    archiveName = "${bundleName}-${bundleVersion}.${extension}"
+}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
+
+    manifest {
+        from sharedManifest
+        from project.manifest {
+            attributes(
+                "Eclipse-SourceBundle": "${bundleName};version=\"${bundleVersion}\";roots:=\".\"",
+                "Bundle-SymbolicName": "${bundleSymbolicName} (Sources)",
+                "Bundle-Name": "${bundleName}.sources",
+            )
+        }
+    }
+    archiveName = "${bundleName}-${version}-sources.${extension}"
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+    manifest {
+        from sharedManifest
+        from project.manifest {
+            attributes(
+                    "Bundle-SymbolicName": "${bundleSymbolicName} (Javadoc)",
+                    "Bundle-Name": "${bundleName}.javadoc",
+            )
+        }
+    }
+    archiveName = "${bundleName}-${version}-javadoc.${extension}"
 }
 
 artifacts {
