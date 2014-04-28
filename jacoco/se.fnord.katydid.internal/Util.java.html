@@ -3,71 +3,72 @@
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class Util {
-<span class="fc" id="L8">	private static final Charset UTF8 = Charset.forName(&quot;utf-8&quot;);</span>
-<span class="nc" id="L9">	private Util() {</span>
-<span class="nc" id="L10">		throw new IllegalAccessError();</span>
+<span class="fc" id="L9">	private static final Charset UTF8 = StandardCharsets.UTF_8;</span>
+<span class="nc" id="L10">	private Util() {</span>
+<span class="nc" id="L11">		throw new IllegalAccessError();</span>
 	}
 
 	private static long swap(int elementWidth, long value) {
-<span class="fc" id="L14">		return Long.reverseBytes(value) &gt;&gt;&gt; (8 * (8 - elementWidth));</span>
+<span class="fc" id="L15">		return Long.reverseBytes(value) &gt;&gt;&gt; (8 * (8 - elementWidth));</span>
 	}
 
 	public static long read(ByteBuffer bb, int elementWidth) {
-<span class="fc" id="L18">		final long value = readBE(bb, elementWidth);</span>
-<span class="fc bfc" id="L19" title="All 2 branches covered.">		if (bb.order() == ByteOrder.BIG_ENDIAN) {</span>
-<span class="fc" id="L20">			return value;</span>
+<span class="fc" id="L19">		final long value = readBE(bb, elementWidth);</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">		if (bb.order() == ByteOrder.BIG_ENDIAN) {</span>
+<span class="fc" id="L21">			return value;</span>
 		}
-<span class="fc" id="L22">		return swap(elementWidth, value);</span>
+<span class="fc" id="L23">		return swap(elementWidth, value);</span>
 	}
 
 	private static long readBE(ByteBuffer bb, int elementWidth) {
-<span class="fc" id="L26">		final int p = bb.position();</span>
-<span class="fc" id="L27">		long value = 0;</span>
-<span class="fc bfc" id="L28" title="All 2 branches covered.">		for (int j = 0; j &lt; elementWidth; j++) {</span>
-<span class="fc" id="L29">			value = (value &lt;&lt; 8) | (bb.get(p + j) &amp; 0xff);</span>
+<span class="fc" id="L27">		final int p = bb.position();</span>
+<span class="fc" id="L28">		long value = 0;</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">		for (int j = 0; j &lt; elementWidth; j++) {</span>
+<span class="fc" id="L30">			value = (value &lt;&lt; 8) | (bb.get(p + j) &amp; 0xff);</span>
 		}
-<span class="fc" id="L31">		bb.position(p + elementWidth);</span>
-<span class="fc" id="L32">		return value;</span>
+<span class="fc" id="L32">		bb.position(p + elementWidth);</span>
+<span class="fc" id="L33">		return value;</span>
 	}
 
 	public static void write(ByteBuffer bb, int elementWidth, long value) {
-<span class="fc bfc" id="L36" title="All 2 branches covered.">		if (bb.order() == ByteOrder.BIG_ENDIAN) {</span>
-<span class="fc" id="L37">			value = swap(elementWidth, value);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">		if (bb.order() == ByteOrder.BIG_ENDIAN) {</span>
+<span class="fc" id="L38">			value = swap(elementWidth, value);</span>
 		}
-<span class="fc" id="L39">		writeBE(bb, elementWidth, value);</span>
-<span class="fc" id="L40">	}</span>
+<span class="fc" id="L40">		writeBE(bb, elementWidth, value);</span>
+<span class="fc" id="L41">	}</span>
 
 	private static void writeBE(ByteBuffer bb, int elementWidth, long value) {
-<span class="fc" id="L43">		final int p = bb.position();</span>
-<span class="fc bfc" id="L44" title="All 2 branches covered.">		for (int j = 0; j &lt; elementWidth; j++) {</span>
-<span class="fc" id="L45">			bb.put(p + j, (byte) value);</span>
-<span class="fc" id="L46">			value &gt;&gt;&gt;= 8;</span>
+<span class="fc" id="L44">		final int p = bb.position();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		for (int j = 0; j &lt; elementWidth; j++) {</span>
+<span class="fc" id="L46">			bb.put(p + j, (byte) value);</span>
+<span class="fc" id="L47">			value &gt;&gt;&gt;= 8;</span>
 		}
-<span class="fc" id="L48">		bb.position(p + elementWidth);</span>
-<span class="fc" id="L49">	}</span>
+<span class="fc" id="L49">		bb.position(p + elementWidth);</span>
+<span class="fc" id="L50">	}</span>
 
 	public static ByteBuffer utf8(String string) {
-<span class="fc" id="L52">		return UTF8.encode(string);</span>
+<span class="fc" id="L53">		return UTF8.encode(string);</span>
 	}
 
 	public static ByteBuffer bytes(Number... vv) {
-<span class="fc" id="L56">		ByteBuffer bb = ByteBuffer.allocate(vv.length);</span>
-<span class="fc bfc" id="L57" title="All 2 branches covered.">		for (Number v : vv) {</span>
-<span class="fc" id="L58">			bb.put(v.byteValue());</span>
+<span class="fc" id="L57">		ByteBuffer bb = ByteBuffer.allocate(vv.length);</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		for (Number v : vv) {</span>
+<span class="fc" id="L59">			bb.put(v.byteValue());</span>
 		}
-<span class="fc" id="L60">		bb.flip();</span>
-<span class="fc" id="L61">		return bb;</span>
+<span class="fc" id="L61">		bb.flip();</span>
+<span class="fc" id="L62">		return bb;</span>
 	}
 
 	public static ByteBuffer shorts(Number... vv) {
-<span class="nc" id="L65">		ByteBuffer bb = ByteBuffer.allocate(vv.length * Short.SIZE / Byte.SIZE);</span>
-<span class="nc bnc" id="L66" title="All 2 branches missed.">		for (Number v : vv) {</span>
-<span class="nc" id="L67">			bb.putShort(v.shortValue());</span>
+<span class="nc" id="L66">		ByteBuffer bb = ByteBuffer.allocate(vv.length * Short.SIZE / Byte.SIZE);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">		for (Number v : vv) {</span>
+<span class="nc" id="L68">			bb.putShort(v.shortValue());</span>
 		}
-<span class="nc" id="L69">		bb.flip();</span>
-<span class="nc" id="L70">		return bb;</span>
+<span class="nc" id="L70">		bb.flip();</span>
+<span class="nc" id="L71">		return bb;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>
