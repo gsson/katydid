@@ -3,9 +3,10 @@ package se.fnord.katydid.internal;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class Util {
-	private static final Charset UTF8 = Charset.forName("utf-8");
+	private static final Charset UTF8 = StandardCharsets.UTF_8;
 	private Util() {
 		throw new IllegalAccessError();
 	}
