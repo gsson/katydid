@@ -3,6 +3,8 @@ apply plugin: 'java'
 apply plugin: 'github-pages'
 apply plugin: 'jacoco'
 
+ext.startTime = new Date()
+
 buildscript {
     repositories {
         mavenCentral()
@@ -16,14 +18,78 @@ sourceCompatibility = 1.7
 version = '0.2.0-SNAPSHOT'
 group = 'se.fnord'
 
+def normalizeVersion(v, extra) {
+    def version = ""
+    def n = 0
+    def hasQualifier = false
+    def segment = 0
+    for (c in v) {
+        if (n < 3) {
+            if (c in '0'..'9') {
+                segment = segment * 10 + (c as int)
+            }
+            else if (c == '.') {
+                version += segment + '.'
+                segment = 0
+                n++
+            }
+            else {
+                while (n < 3) {
+                    version += '0.'
+                    n++;
+                }
+                hasQualifier = true
+                version += segment + c
+            }
+        }
+        else {
+            hasQualifier = true
+            version += c
+        }
+    }
+    if (extra) {
+        while (n < 3) {
+            version += '0.'
+            n++;
+        }
+        if (hasQualifier)
+            version += '-'
+        version += extra
+    }
 
-// Skip any version qualifier in the bundle version since maven and
-// OSGi versions are not friends.
-// Alternatively I guess we could use the date (as common in OSGI) for
-// the bundle version when -SNAPSHOT is present, otherwise use 999999999999 since that will
-// match higher than the generated date.
-// See eg. http://www.infoq.com/news/2012/04/osgi-snapshot
-ext.bundleVersion = version.replaceAll(~/-.*$/, "")
+    return version
+}
+
+def osgiVersion(mavenizedVersion, date) {
+    // Stupid over-engineered attempt att making OSGi version numbers
+    // that compare reasonably to maven version numbers. Uses
+    // <version>.a<timestamp> for snapshot versions and
+    // <version>.z<timestamp> for non-snapshot versions.
+    //
+    // Examples:
+    // 0.1.0 -> 0.1.0.z201401012330
+    // 0.1.0-SNAPSHOT -> 0.1.0.a201401012330
+    // 0.1.0-beta2-SNAPSHOT -> 0.1.0.beta2-a201401012330
+    // 0.1.0-beta2 -> 0.1.0.beta2-z201401012330
+    //
+    // This is because Maven thinks anything ending with -SNAPSHOT
+    // has a lower version than anything else, and osgi uses lexicographic
+    // comparison of the qualifier, which means eg. osgi version
+    // "1.0.0.SNAPSHOT" is a higher version than "1.0.0" or "1.0.0.RELEASE"
+    //
+    // See eg. http://www.infoq.com/news/2012/04/osgi-snapshot
+
+    def isSnapshot = mavenizedVersion.endsWith("-SNAPSHOT")
+
+    def prefix = isSnapshot ? mavenizedVersion[0..-10] : mavenizedVersion;
+
+    def timestamp = date.format("yyyyMMddHHmm", TimeZone.getTimeZone("UTC"))
+    def suffix = isSnapshot ? "a${timestamp}":"z${timestamp}"
+
+    return normalizeVersion(prefix, suffix)
+}
+
+ext.bundleVersion = osgiVersion(version, startTime)
 ext.bundleName = "${group}.${name}"
 ext.bundleSymbolicName = 'KATYDID Asserts That Your Data Is Deluxe'
 
@@ -55,7 +121,7 @@ jar {
             )
         }
     }
-    archiveName = "${bundleName}-${bundleVersion}.${extension}"
+    archiveName = "${bundleName}-${version}.${extension}"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
