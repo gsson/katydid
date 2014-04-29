@@ -19,8 +19,8 @@ public class Defer implements DataTester {
 	}
 
 	@Override
-	public ComparisonStatus compareTo(int pass, TestingContext context) {
-		return delegate.compareTo(pass - 1, context);
+	public ComparisonStatus compareItem(TestingContext context, int pass, int itemIndex) {
+		return delegate.compareItem(context, pass - 1, itemIndex);
 	}
 
 	@Override
@@ -39,12 +39,22 @@ public class Defer implements DataTester {
 	}
 
 	@Override
-	public String formatName(TestingContext context, int index) {
-		return delegate.formatName(context, index);
+	public void toBuffer(ByteBuffer bb) {
+		delegate.toBuffer(bb);
 	}
 
 	@Override
-	public void toBuffer(ByteBuffer bb) {
-		delegate.toBuffer(bb);
+	public String name() {
+		return delegate.name();
+	}
+
+	@Override
+	public String formatChild(int itemIndex, DataTester child) {
+		return delegate.formatChild(itemIndex, child);
+	}
+
+	@Override
+	public String formatItem(String name, int itemIndex) {
+		return delegate.formatItem(name, itemIndex);
 	}
 }

@@ -10,7 +10,7 @@ public class DataAsserts {
 		int pos = bb.position();
 		for (int i = 0; i < m; i++) {
 			bb.position(pos);
-			if (dataTester.compareTo(i, tc) == ComparisonStatus.ERROR)
+			if (tc.compareTo(dataTester, i) == ComparisonStatus.ABORT)
 				break;
 		}
 	}

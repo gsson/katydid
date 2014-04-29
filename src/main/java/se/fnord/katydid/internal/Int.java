@@ -4,6 +4,8 @@ import se.fnord.katydid.ComparisonStatus;
 
 import java.nio.ByteBuffer;
 
+import static se.fnord.katydid.ComparisonStatus.CONTINUE;
+
 public class Int extends AbstractDataTester {
 	public enum IntFormat {HEX, SIGNED, UNSIGNED};
 
@@ -37,29 +39,22 @@ public class Int extends AbstractDataTester {
 	}
 
 	@Override
-	public ComparisonStatus compareToLevel0(TestingContext context) {
-		ByteBuffer bb = context.buffer();
-		ComparisonStatus status = ComparisonStatus.EQUAL;
-		for (int i = 0; i < values.length; i++) {
-			if (!checkHasRemaining(context, i))
-				return ComparisonStatus.ERROR;
-			if (!checkEquals(context, i, values[i].longValue(), read(bb)))
-				status = ComparisonStatus.NOT_EQUAL;
-		}
-		return status;
-	}
-
-	@Override
-	public String formatName(TestingContext context, int index) {
-		if (values.length == 1) {
-			return context.name();
-		}
-		return String.format("%s[%d]", context.name(), index);
+	protected ComparisonStatus compareItem0(TestingContext context, int itemIndex) {
+		checkEquals(context, itemIndex, values[itemIndex].longValue(), context.read(elementWidth));
+		return CONTINUE;
 	}
 
 	@Override
 	public String formatValue(Object v) {
 		return formatter.format(((Number) v).longValue());
+	}
+
+	@Override
+	public String formatItem(String name, int index) {
+		if (values.length == 1)
+			return name;
+
+		return String.format("%s[%d]", name, index);
 	}
 
 	@Override

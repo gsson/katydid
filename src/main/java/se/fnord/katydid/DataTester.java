@@ -4,10 +4,10 @@ import se.fnord.katydid.internal.TestingContext;
 
 import java.nio.ByteBuffer;
 
-public interface DataTester {
+public interface DataTester extends NameFormatter {
 	int passCount();
 
-	ComparisonStatus compareTo(int pass, TestingContext context);
+	ComparisonStatus compareItem(TestingContext context, int pass, int itemIndex);
 
 	int length();
 
@@ -15,7 +15,7 @@ public interface DataTester {
 
 	int itemCount();
 
-	String formatName(TestingContext context, int index);
-
 	void toBuffer(ByteBuffer bb);
+
+	String name();
 }

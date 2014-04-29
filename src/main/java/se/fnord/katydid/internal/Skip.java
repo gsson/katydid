@@ -4,6 +4,8 @@ import se.fnord.katydid.ComparisonStatus;
 
 import java.nio.ByteBuffer;
 
+import static se.fnord.katydid.ComparisonStatus.SKIP;
+
 public class Skip extends AbstractDataTester {
 	private final int size;
 
@@ -23,18 +25,8 @@ public class Skip extends AbstractDataTester {
 	}
 
 	@Override
-	public ComparisonStatus compareToLevel0(TestingContext context) {
-		return skip(context);
-	}
-
-	@Override
-	public String formatName(TestingContext context, int index) {
-		return context.name();
-	}
-
-	@Override
-	public String formatValue(Object v) {
-		throw new UnsupportedOperationException();
+	protected ComparisonStatus compareItem0(TestingContext context, int itemIndex) {
+		return SKIP;
 	}
 
 	@Override

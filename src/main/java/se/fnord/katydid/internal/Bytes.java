@@ -1,8 +1,13 @@
 package se.fnord.katydid.internal;
 
 import se.fnord.katydid.ComparisonStatus;
+import se.fnord.katydid.DataTester;
 
 import java.nio.ByteBuffer;
+
+import static se.fnord.katydid.ComparisonStatus.ABORT;
+import static se.fnord.katydid.ComparisonStatus.CONTINUE;
+import static se.fnord.katydid.ComparisonStatus.SKIP;
 
 public class Bytes extends AbstractDataTester {
 	private final byte[] values;
@@ -23,20 +28,10 @@ public class Bytes extends AbstractDataTester {
 	}
 
 	@Override
-	public ComparisonStatus compareToLevel0(TestingContext context) {
-		ByteBuffer bb = context.buffer();
-		if (!checkHasRemaining(context, values.length))
-			return ComparisonStatus.ERROR;
-		for (int i = 0; i < values.length; i++) {
-			if (!checkEquals(context, i, values[i], bb.get()))
-				return ComparisonStatus.NOT_EQUAL;
-		}
-		return ComparisonStatus.EQUAL;
-	}
-
-	@Override
-	public String formatName(TestingContext context, int index) {
-		return String.format("%s[%d]", context.name(), index);
+	public ComparisonStatus compareItem0(TestingContext context, int itemIndex) {
+		if (!checkEquals(context, itemIndex, values[itemIndex], context.read()))
+			return SKIP;
+		return CONTINUE;
 	}
 
 	@Override
@@ -48,5 +43,4 @@ public class Bytes extends AbstractDataTester {
 	public void toBuffer(ByteBuffer bb) {
 		bb.put(values);
 	}
-
 }

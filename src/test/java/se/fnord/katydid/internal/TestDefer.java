@@ -11,7 +11,7 @@ import static se.fnord.katydid.internal.Util.bytes;
 public class TestDefer {
 	private static final void assertSuccess(int pass, DataTester tester, ByteBuffer bb) {
 		TestingContext tc = new TestingContext(bb);
-		tester.compareTo(pass, tc);
+		tc.compareTo(tester, pass);
 		tc.assertSuccess(tester);
 	}
 
