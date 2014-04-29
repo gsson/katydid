@@ -2,9 +2,7 @@ package se.fnord.katydid.internal;
 
 import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataTester;
-
-import java.nio.ByteBuffer;
-import java.util.Objects;
+import se.fnord.katydid.TestingContext;
 
 import static se.fnord.katydid.ComparisonStatus.SKIP;
 

@@ -1,7 +1,5 @@
 package se.fnord.katydid;
 
-import se.fnord.katydid.internal.TestingContext;
-
 import java.nio.ByteBuffer;
 
 public interface DataTester extends NameFormatter {

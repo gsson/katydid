@@ -1,5 +1,7 @@
 package se.fnord.katydid.internal;
 
+import se.fnord.katydid.TestingContext;
+
 import java.util.Objects;
 
 public abstract class ValueTester extends AbstractTester {

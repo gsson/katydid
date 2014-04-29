@@ -2,6 +2,7 @@ package se.fnord.katydid.internal;
 
 import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataTester;
+import se.fnord.katydid.TestingContext;
 
 import java.nio.ByteBuffer;
 

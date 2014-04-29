@@ -3,7 +3,7 @@ package se.fnord.katydid.internal;
 import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataAsserts;
 import se.fnord.katydid.DataTester;
-import se.fnord.katydid.NameFormatter;
+import se.fnord.katydid.TestingContext;
 
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -12,7 +12,7 @@ import static se.fnord.katydid.ComparisonStatus.ABORT;
 import static se.fnord.katydid.ComparisonStatus.CONTINUE;
 import static se.fnord.katydid.internal.HexFormat.formatOffset;
 
-public class TestingContext {
+public class TestingContextImpl implements TestingContext {
 	private final ByteBuffer buffer;
 	private final int startPosition;
 	private final int startLimit;
@@ -58,14 +58,17 @@ public class TestingContext {
 		return Long.reverseBytes(value) >>> (8 * (8 - elementWidth));
 	}
 
+	@Override
 	public byte read() {
 		return buffer.get();
 	}
 
+	@Override
 	public long read(int elementWidth) {
 		return Util.read(buffer, elementWidth);
 	}
 
+	@Override
 	public void write(int elementWidth, long value) {
 		Util.write(buffer, elementWidth, value);
 	}
@@ -81,6 +84,7 @@ public class TestingContext {
 		return s;
 	}
 
+	@Override
 	public ComparisonStatus compareTo(DataTester dataTester, int pass) {
 		down(dataTester);
 		int testerEnd = buffer.position() + dataTester.length();
@@ -98,7 +102,7 @@ public class TestingContext {
 			up();
 		}
 	}
-	public TestingContext(ByteBuffer buffer) {
+	public TestingContextImpl(ByteBuffer buffer) {
 		this.buffer = buffer;
 		this.startPosition = buffer.position();
 		this.startLimit = buffer.limit();
@@ -121,7 +125,8 @@ public class TestingContext {
 		return formatter.toString();
 	}
 
-	public void addFailure(String message, Object ... formatArgs) {
+	@Override
+	public void addFailure(String message, Object... formatArgs) {
 		SubContext c = currentContext();
 		if (c != null) {
 			messages.add(formatFailure(c, message, formatArgs));
@@ -149,15 +154,11 @@ public class TestingContext {
 		throw new AssertionError(sb.toString());
 	}
 
-	public ByteBuffer buffer() {
-		return buffer;
-	}
-
-	public void down(DataTester tester) {
+	private void down(DataTester tester) {
 		testers.addLast(new SubContext(tester));
 	}
 
-	public void up() {
+	private void up() {
 		testers.removeLast();
 	}
 
@@ -165,7 +166,7 @@ public class TestingContext {
 		return testers.peekLast();
 	}
 
-	public String name() {
+	private String name() {
 		StringBuilder sb = new StringBuilder();
 		Iterator<SubContext> t = testers.iterator();
 		if (t.hasNext()) {
