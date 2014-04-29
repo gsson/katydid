@@ -17,8 +17,8 @@ public class TestDefer {
 
 	@Test
 	public void testDeferPasses() {
-		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 2);
-		Defer defer = new Defer(s8);
+		IntTester s8 = new IntTester("s8", IntTester.IntFormat.SIGNED, 1, 2);
+		DeferringTesterModifier defer = new DeferringTesterModifier(s8);
 
 		assertEquals(defer.length(), s8.length());
 		assertEquals(defer.passCount(), s8.passCount() + 1);
@@ -28,8 +28,8 @@ public class TestDefer {
 
 	@Test(expected=AssertionError.class)
 	public void testDeferFails() {
-		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 2);
-		Defer defer = new Defer(s8);
+		IntTester s8 = new IntTester("s8", IntTester.IntFormat.SIGNED, 1, 2);
+		DeferringTesterModifier defer = new DeferringTesterModifier(s8);
 		assertSuccess(1, defer, bytes(1));
 	}
 

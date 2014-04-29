@@ -6,14 +6,14 @@ import java.nio.ByteBuffer;
 
 import static se.fnord.katydid.ComparisonStatus.CONTINUE;
 
-public class Int extends ValueTester {
+public class IntTester extends ValueTester {
 	public enum IntFormat {HEX, SIGNED, UNSIGNED};
 
 	private final int elementWidth;
 	private final Number[] values;
 	private final IntFormatter formatter;
 
-	public Int(String name, IntFormat format, int elementWidth, Number... values) {
+	public IntTester(String name, IntFormat format, int elementWidth, Number... values) {
 		super(name);
 		this.elementWidth = elementWidth;
 		this.values = values;
@@ -80,7 +80,7 @@ public class Int extends ValueTester {
 		return 1L << (width * 8 - 1);
 	}
 
-	static Int.IntFormatter formatterFor(int width, IntFormat format) {
+	static IntTester.IntFormatter formatterFor(int width, IntFormat format) {
 		if (width == 0) {
 			throw new IllegalArgumentException();
 		}
@@ -96,10 +96,10 @@ public class Int extends ValueTester {
 		throw new IllegalArgumentException();
 	}
 
-	private static Int.IntFormatter hexFormatterFor(int width) {
+	private static IntTester.IntFormatter hexFormatterFor(int width) {
 		final long mask = mask(width);
 		final String format = String.format("%%0%dx", width * 2);
-		return new Int.IntFormatter() {
+		return new IntTester.IntFormatter() {
 			@Override
 			public String format(long value) {
 				return String.format(format, value & mask);
@@ -107,10 +107,10 @@ public class Int extends ValueTester {
 		};
 	}
 
-	private static Int.IntFormatter signedFormatterFor(final int width) {
+	private static IntTester.IntFormatter signedFormatterFor(final int width) {
 		final long mask = mask(width);
 		final long signBit = signBit(width);
-		return new Int.IntFormatter() {
+		return new IntTester.IntFormatter() {
 			@Override
 			public String format(long value) {
 				if (width < 8) {
@@ -126,9 +126,9 @@ public class Int extends ValueTester {
 		};
 	}
 
-	private static Int.IntFormatter unsignedFormatterFor(int width) {
+	private static IntTester.IntFormatter unsignedFormatterFor(int width) {
 		final long mask = mask(width);
-		return new Int.IntFormatter() {
+		return new IntTester.IntFormatter() {
 			@Override
 			public String format(long value) {
 				value &= mask;

@@ -17,7 +17,7 @@ public class TestInt {
 
 	@Test
 	public void testFormatU8() {
-		final Int.IntFormatter formatter = Int.formatterFor(1, Int.IntFormat.UNSIGNED);
+		final IntTester.IntFormatter formatter = IntTester.formatterFor(1, IntTester.IntFormat.UNSIGNED);
 
 		assertEquals("0", formatter.format(0x00));
 		assertEquals("255", formatter.format(0xff));
@@ -26,7 +26,7 @@ public class TestInt {
 
 	@Test
 	public void testFormatS8() {
-		final Int.IntFormatter formatter = Int.formatterFor(1, Int.IntFormat.SIGNED);
+		final IntTester.IntFormatter formatter = IntTester.formatterFor(1, IntTester.IntFormat.SIGNED);
 
 		assertEquals("0", formatter.format(0));
 		assertEquals("127", formatter.format(0x7f));
@@ -38,7 +38,7 @@ public class TestInt {
 
 	@Test
 	public void testFormatH8() {
-		final Int.IntFormatter formatter = Int.formatterFor(1, Int.IntFormat.HEX);
+		final IntTester.IntFormatter formatter = IntTester.formatterFor(1, IntTester.IntFormat.HEX);
 
 		assertEquals("00", formatter.format(0x00));
 		assertEquals("7f", formatter.format(0x7f));
@@ -50,7 +50,7 @@ public class TestInt {
 
 	@Test
 	public void testFormatS64() {
-		final Int.IntFormatter formatter = Int.formatterFor(8, Int.IntFormat.SIGNED);
+		final IntTester.IntFormatter formatter = IntTester.formatterFor(8, IntTester.IntFormat.SIGNED);
 
 		assertEquals("0", formatter.format(0));
 		assertEquals("9223372036854775807", formatter.format(Long.MAX_VALUE));
@@ -60,7 +60,7 @@ public class TestInt {
 
 	@Test
 	public void testFormatU64() {
-		final Int.IntFormatter formatter = Int.formatterFor(8, Int.IntFormat.UNSIGNED);
+		final IntTester.IntFormatter formatter = IntTester.formatterFor(8, IntTester.IntFormat.UNSIGNED);
 
 		assertEquals("0", formatter.format(0));
 		assertEquals("9223372036854775807", formatter.format(Long.MAX_VALUE));
@@ -70,7 +70,7 @@ public class TestInt {
 
 	@Test
 	public void testFormatH64() {
-		final Int.IntFormatter formatter = Int.formatterFor(8, Int.IntFormat.HEX);
+		final IntTester.IntFormatter formatter = IntTester.formatterFor(8, IntTester.IntFormat.HEX);
 
 		assertEquals("0000000000000000", formatter.format(0));
 		assertEquals("7fffffffffffffff", formatter.format(Long.MAX_VALUE));
@@ -80,14 +80,14 @@ public class TestInt {
 
 	@Test
 	public void testInt8Succeeds() {
-		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
+		IntTester s8 = new IntTester("s8", IntTester.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());
 		assertSuccess(0, s8, bytes(1, 2, 3, 4));
 	}
 
 	@Test
 	public void testInt8SucceedsOnOtherPasses() {
-		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
+		IntTester s8 = new IntTester("s8", IntTester.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());
 		assertSuccess(-1, s8, bytes(1, 2, 3, 5));
 		assertSuccess(1, s8, bytes(1, 2, 3, 5));
@@ -95,7 +95,7 @@ public class TestInt {
 
 	@Test(expected = AssertionError.class)
 	public void testInt8Fails() {
-		Int s8 = new Int("s8", Int.IntFormat.SIGNED, 1, 1, 2, 3, 4);
+		IntTester s8 = new IntTester("s8", IntTester.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());
 		assertSuccess(0, s8, bytes(1, 2, 3, 5));
 	}

@@ -6,10 +6,10 @@ import java.nio.ByteBuffer;
 
 import static se.fnord.katydid.ComparisonStatus.SKIP;
 
-public class Skip extends AbstractTester {
+public class SkippingTester extends AbstractTester {
 	private final int size;
 
-	public Skip(String name, int size) {
+	public SkippingTester(String name, int size) {
 		super(name);
 		this.size = size;
 	}

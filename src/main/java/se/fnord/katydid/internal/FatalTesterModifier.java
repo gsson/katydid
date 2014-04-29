@@ -7,11 +7,11 @@ import java.nio.ByteBuffer;
 
 import static se.fnord.katydid.ComparisonStatus.*;
 
-public class Fatal implements DataTester {
+public class FatalTesterModifier implements DataTester {
 
 	private final DataTester delegate;
 
-	public Fatal(DataTester delegate) {
+	public FatalTesterModifier(DataTester delegate) {
 		this.delegate = delegate;
 	}
 

@@ -2,8 +2,8 @@ package se.fnord.katydid.internal;
 
 import se.fnord.katydid.DataTester;
 
-public class Struct extends CompositeTester {
-	public Struct(String name, DataTester... values) {
+public class StructTester extends CompositeTester {
+	public StructTester(String name, DataTester... values) {
 		super(name, values);
 	}
 

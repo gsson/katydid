@@ -5,11 +5,11 @@ import se.fnord.katydid.DataTester;
 
 import java.nio.ByteBuffer;
 
-public class Defer implements DataTester {
+public class DeferringTesterModifier implements DataTester {
 
 	private final DataTester delegate;
 
-	public Defer(DataTester delegate) {
+	public DeferringTesterModifier(DataTester delegate) {
 		this.delegate = delegate;
 	}
 

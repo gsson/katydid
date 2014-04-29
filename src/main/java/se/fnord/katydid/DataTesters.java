@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class DataTesters {
 	private static final Charset UTF8 = Charset.forName("utf-8");
 	public static DataTester u8(String name, Number... values) {
-		return new Int(name, Int.IntFormat.UNSIGNED, 1, values);
+		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 1, values);
 	}
 
 	public static DataTester u8(Number... values) {
@@ -16,7 +16,7 @@ public class DataTesters {
 	}
 
 	public static DataTester s8(String name, Number... values) {
-		return new Int(name, Int.IntFormat.SIGNED, 1, values);
+		return new IntTester(name, IntTester.IntFormat.SIGNED, 1, values);
 	}
 
 	public static DataTester s8(Number... values) {
@@ -24,7 +24,7 @@ public class DataTesters {
 	}
 
 	public static DataTester h8(String name, Number... values) {
-		return new Int(name, Int.IntFormat.HEX, 1, values);
+		return new IntTester(name, IntTester.IntFormat.HEX, 1, values);
 	}
 
 	public static DataTester h8(Number... values) {
@@ -32,7 +32,7 @@ public class DataTesters {
 	}
 
 	public static DataTester u16(String name, Number... values) {
-		return new Int(name, Int.IntFormat.UNSIGNED, 2, values);
+		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 2, values);
 	}
 
 	public static DataTester u16(Number... values) {
@@ -40,7 +40,7 @@ public class DataTesters {
 	}
 
 	public static DataTester s16(String name, Number... values) {
-		return new Int(name, Int.IntFormat.SIGNED, 2, values);
+		return new IntTester(name, IntTester.IntFormat.SIGNED, 2, values);
 	}
 
 	public static DataTester s16(Number... values) {
@@ -48,7 +48,7 @@ public class DataTesters {
 	}
 
 	public static DataTester h16(String name, Number... values) {
-		return new Int(name, Int.IntFormat.HEX, 2, values);
+		return new IntTester(name, IntTester.IntFormat.HEX, 2, values);
 	}
 
 	public static DataTester h16(Number... values) {
@@ -56,7 +56,7 @@ public class DataTesters {
 	}
 
 	public static DataTester u24(String name, Number... values) {
-		return new Int(name, Int.IntFormat.UNSIGNED, 3, values);
+		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 3, values);
 	}
 
 	public static DataTester u24(Number... values) {
@@ -64,7 +64,7 @@ public class DataTesters {
 	}
 
 	public static DataTester s24(String name, Number... values) {
-		return new Int(name, Int.IntFormat.SIGNED, 3, values);
+		return new IntTester(name, IntTester.IntFormat.SIGNED, 3, values);
 	}
 
 	public static DataTester s24(Number... values) {
@@ -72,7 +72,7 @@ public class DataTesters {
 	}
 
 	public static DataTester h24(String name, Number... values) {
-		return new Int(name, Int.IntFormat.HEX, 3, values);
+		return new IntTester(name, IntTester.IntFormat.HEX, 3, values);
 	}
 
 	public static DataTester h24(Number... values) {
@@ -80,7 +80,7 @@ public class DataTesters {
 	}
 
 	public static DataTester u32(String name, Number... values) {
-		return new Int(name, Int.IntFormat.UNSIGNED, 4, values);
+		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 4, values);
 	}
 
 	public static DataTester u32(Number... values) {
@@ -88,7 +88,7 @@ public class DataTesters {
 	}
 
 	public static DataTester s32(String name, Number... values) {
-		return new Int(name, Int.IntFormat.SIGNED, 4, values);
+		return new IntTester(name, IntTester.IntFormat.SIGNED, 4, values);
 	}
 
 	public static DataTester s32(Number... values) {
@@ -96,7 +96,7 @@ public class DataTesters {
 	}
 
 	public static DataTester h32(String name, Number... values) {
-		return new Int(name, Int.IntFormat.HEX, 4, values);
+		return new IntTester(name, IntTester.IntFormat.HEX, 4, values);
 	}
 
 	public static DataTester h32(Number... values) {
@@ -104,7 +104,7 @@ public class DataTesters {
 	}
 
 	public static DataTester u64(String name, Number... values) {
-		return new Int(name, Int.IntFormat.UNSIGNED, 8, values);
+		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 8, values);
 	}
 
 	public static DataTester u64(Number... values) {
@@ -112,7 +112,7 @@ public class DataTesters {
 	}
 
 	public static DataTester s64(String name, Number... values) {
-		return new Int(name, Int.IntFormat.SIGNED, 8, values);
+		return new IntTester(name, IntTester.IntFormat.SIGNED, 8, values);
 	}
 
 	public static DataTester s64(Number... values) {
@@ -120,7 +120,7 @@ public class DataTesters {
 	}
 
 	public static DataTester h64(String name, Number... values) {
-		return new Int(name, Int.IntFormat.HEX, 8, values);
+		return new IntTester(name, IntTester.IntFormat.HEX, 8, values);
 	}
 
 	public static DataTester h64(Number... values) {
@@ -128,7 +128,7 @@ public class DataTesters {
 	}
 
 	public static DataTester struct(String name, DataTester... elements) {
-		return new Struct(name, elements);
+		return new StructTester(name, elements);
 	}
 
 	public static DataTester struct(DataTester... elements) {
@@ -136,7 +136,7 @@ public class DataTesters {
 	}
 
 	public static DataTester utf8(String name, String value) {
-		return new Bytes(name, value.getBytes(UTF8));
+		return new BytesTester(name, value.getBytes(UTF8));
 	}
 
 	public static DataTester utf8(String value) {
@@ -144,7 +144,7 @@ public class DataTesters {
 	}
 
 	public static DataTester bytes(String name, byte... bytes) {
-		return new Bytes(name, bytes);
+		return new BytesTester(name, bytes);
 	}
 
 	public static DataTester bytes(byte... bytes) {
@@ -152,7 +152,7 @@ public class DataTesters {
 	}
 
 	public static DataTester skip(String name, int size) {
-		return new Skip(name, size);
+		return new SkippingTester(name, size);
 	}
 
 	public static DataTester skip(int size) {
@@ -170,10 +170,10 @@ public class DataTesters {
 	}
 
 	public static DataTester defer(DataTester tester) {
-		return new Defer(tester);
+		return new DeferringTesterModifier(tester);
 	}
 
 	public static DataTester fatal(DataTester tester) {
-		return new Fatal(tester);
+		return new FatalTesterModifier(tester);
 	}
 }

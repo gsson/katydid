@@ -9,10 +9,10 @@ import static se.fnord.katydid.ComparisonStatus.ABORT;
 import static se.fnord.katydid.ComparisonStatus.CONTINUE;
 import static se.fnord.katydid.ComparisonStatus.SKIP;
 
-public class Bytes extends ValueTester {
+public class BytesTester extends ValueTester {
 	private final byte[] values;
 
-	public Bytes(String name, byte... values) {
+	public BytesTester(String name, byte... values) {
 		super(name);
 		this.values = values;
 	}
