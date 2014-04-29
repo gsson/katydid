@@ -9,7 +9,7 @@ import static se.fnord.katydid.ComparisonStatus.ABORT;
 import static se.fnord.katydid.ComparisonStatus.CONTINUE;
 import static se.fnord.katydid.ComparisonStatus.SKIP;
 
-public class Bytes extends AbstractDataTester {
+public class Bytes extends ValueTester {
 	private final byte[] values;
 
 	public Bytes(String name, byte... values) {

@@ -15,10 +15,6 @@ public abstract class AbstractDataTester implements DataTester {
 		this.name = name;
 	}
 
-	protected String formatValue(Object v) {
-		throw new UnsupportedOperationException();
-	}
-
 	public String formatChild(int itemIndex, DataTester child) {
 		return String.format("[%d]", itemIndex);
 	}
@@ -55,14 +51,6 @@ public abstract class AbstractDataTester implements DataTester {
 		for (int i = 0; i < itemIndex; i++)
 			position += lengthOfItem(i);
 		return position;
-	}
-
-	protected boolean checkEquals(TestingContext context, int itemIndex, Object a, Object b) {
-		if (!Objects.equals(a, b)) {
-			context.addFailure("Value differs: %s != %s", formatValue(a), formatValue(b));
-			return false;
-		}
-		return true;
 	}
 
 	public String name() {

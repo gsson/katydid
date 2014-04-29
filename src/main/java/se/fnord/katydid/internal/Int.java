@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 
 import static se.fnord.katydid.ComparisonStatus.CONTINUE;
 
-public class Int extends AbstractDataTester {
+public class Int extends ValueTester {
 	public enum IntFormat {HEX, SIGNED, UNSIGNED};
 
 	private final int elementWidth;
@@ -59,8 +59,8 @@ public class Int extends AbstractDataTester {
 
 	@Override
 	public void toBuffer(ByteBuffer bb) {
-		for (int i = 0; i < values.length; i++) {
-			write(bb, values[i].longValue());
+		for (final Number v : values) {
+			write(bb, v.longValue());
 		}
 	}
 
