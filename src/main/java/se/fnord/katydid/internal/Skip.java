@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 
 import static se.fnord.katydid.ComparisonStatus.SKIP;
 
-public class Skip extends AbstractDataTester {
+public class Skip extends AbstractTester {
 	private final int size;
 
 	public Skip(String name, int size) {

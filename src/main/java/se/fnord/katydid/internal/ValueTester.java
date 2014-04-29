@@ -1,13 +1,8 @@
 package se.fnord.katydid.internal;
 
-import se.fnord.katydid.ComparisonStatus;
-import se.fnord.katydid.DataTester;
-
 import java.util.Objects;
 
-import static se.fnord.katydid.ComparisonStatus.SKIP;
-
-public abstract class ValueTester extends AbstractDataTester {
+public abstract class ValueTester extends AbstractTester {
 	public ValueTester(String name) {
 		super(name);
 	}

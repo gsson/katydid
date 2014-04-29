@@ -7,10 +7,10 @@ import java.nio.ByteBuffer;
 
 import static java.lang.Math.max;
 
-public abstract class CompositeDataTester extends AbstractDataTester {
+public abstract class CompositeTester extends AbstractTester {
 	private final DataTester[] values;
 
-	public CompositeDataTester(String name, DataTester... values) {
+	public CompositeTester(String name, DataTester... values) {
 		super(name);
 		this.values = values;
 	}

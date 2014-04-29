@@ -8,10 +8,10 @@ import java.util.Objects;
 
 import static se.fnord.katydid.ComparisonStatus.SKIP;
 
-public abstract class AbstractDataTester implements DataTester {
+public abstract class AbstractTester implements DataTester {
 	private final String name;
 	private int length = -1;
-	public AbstractDataTester(String name) {
+	public AbstractTester(String name) {
 		this.name = name;
 	}
 
