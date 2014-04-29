@@ -16,6 +16,16 @@ public class TestInt {
 	}
 
 	@Test
+	public void testFormatItem() {
+		IntTester s8 = new IntTester("fnord", IntTester.IntFormat.SIGNED, 1, 1, 2, 3, 4);
+		assertEquals("fnord[0]", s8.formatItem("fnord", 0));
+		assertEquals("fnord[3]", s8.formatItem("fnord", 3));
+
+		s8 = new IntTester("fnord", IntTester.IntFormat.SIGNED, 1, 1);
+		assertEquals("fnord", s8.formatItem("fnord", 0));
+	}
+
+	@Test
 	public void testFormatU8() {
 		final IntTester.IntFormatter formatter = IntTester.formatterFor(1, IntTester.IntFormat.UNSIGNED);
 
