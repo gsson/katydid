@@ -135,6 +135,14 @@ public class DataTesters {
 		return struct("struct", elements);
 	}
 
+	public static DataTester list(String name, DataTester... elements) {
+		return new ListTester(name, elements);
+	}
+
+	public static DataTester list(DataTester... elements) {
+		return list("list", elements);
+	}
+
 	public static DataTester utf8(String name, String value) {
 		return new BytesTester(name, value.getBytes(UTF8));
 	}
