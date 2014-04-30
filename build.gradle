@@ -15,7 +15,7 @@ buildscript {
 }
 
 sourceCompatibility = 1.7
-version = '0.3.0-SNAPSHOT'
+version = '0.3.0'
 group = 'se.fnord'
 
 def normalizeVersion(v, extra) {
