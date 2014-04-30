@@ -183,10 +183,9 @@ It will fail in the following way:
     Actual bytes:
     00: fe dc ba 98 76 54 32 10  00 00 00 11 02 03 04 05 | ....vT2. ........
 
-        at se.fnord.katydid.internal.TestingContext.assertSuccess(TestingContext.java:82)
+        at se.fnord.katydid.internal.TestingContextImpl.assertSuccess(TestingContextImpl.java:154)
         at se.fnord.katydid.DataAsserts.assertExact(DataAsserts.java:30)
         at se.fnord.katydid.examples.SimpleTests.testInvalidData(SimpleTests.java:108)
-
 
 Looking at the exception thrown by the `se.fnord.katydid.examples.TestDiameter.failingCCRTest()` the various test failures and their locations become obvious:
 
@@ -222,6 +221,6 @@ Looking at the exception thrown by the `se.fnord.katydid.examples.TestDiameter.f
     a0: 00 00 00 00 00 00 00 19  40 00 00 19 63 6c 61 73 | ........ @...clas
     b0: 73 2d 63 6c 61 73 73 2d  63 6c 61 73 73 00 00 00 | s-class- class...
 
-        at se.fnord.katydid.internal.TestingContext.assertSuccess(TestingContext.java:82)
+        at se.fnord.katydid.internal.TestingContextImpl.assertSuccess(TestingContextImpl.java:154)
         at se.fnord.katydid.DataAsserts.assertExact(DataAsserts.java:30)
         at se.fnord.katydid.examples.TestDiameter.failingCCRTest(TestDiameter.java:95)
