@@ -10,8 +10,8 @@ import java.nio.ByteBuffer;
 <span class="fc" id="L10">		int pos = bb.position();</span>
 <span class="fc bfc" id="L11" title="All 2 branches covered.">		for (int i = 0; i &lt; m; i++) {</span>
 <span class="fc" id="L12">			bb.position(pos);</span>
-<span class="pc bpc" id="L13" title="1 of 2 branches missed.">			if (tc.compareTo(dataTester, i) == ComparisonStatus.ABORT)</span>
-<span class="nc" id="L14">				break;</span>
+<span class="fc bfc" id="L13" title="All 2 branches covered.">			if (tc.compareTo(dataTester, i) == ComparisonStatus.ABORT)</span>
+<span class="fc" id="L14">				break;</span>
 		}
 <span class="fc" id="L16">	}</span>
 
@@ -24,8 +24,8 @@ import java.nio.ByteBuffer;
 	public static void assertExact(DataTester dataTester, ByteBuffer bb) {
 <span class="fc" id="L25">		ByteBuffer bb2 = bb.slice();</span>
 <span class="fc" id="L26">		TestingContextImpl tc = new TestingContextImpl(bb2);</span>
-<span class="pc bpc" id="L27" title="1 of 2 branches missed.">		if (bb2.remaining() != dataTester.length())</span>
-<span class="nc" id="L28">			tc.addFailure(&quot;%d bytes data expected, was %d bytes&quot;, dataTester.length(), bb.remaining());</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">		if (bb2.remaining() != dataTester.length())</span>
+<span class="fc" id="L28">			tc.addFailure(&quot;%d bytes data expected, was %d bytes&quot;, dataTester.length(), bb.remaining());</span>
 <span class="fc" id="L29">		assertNext(tc, dataTester, bb2);</span>
 <span class="fc" id="L30">		tc.assertSuccess(dataTester);</span>
 <span class="fc" id="L31">	}</span>

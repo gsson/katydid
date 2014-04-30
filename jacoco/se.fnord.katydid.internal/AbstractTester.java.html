@@ -14,45 +14,51 @@ public abstract class AbstractTester implements DataTester {
 <span class="fc" id="L14">	}</span>
 
 	public String formatChild(int itemIndex, DataTester child) {
-<span class="nc" id="L17">		return String.format(&quot;[%d]&quot;, itemIndex);</span>
+<span class="nc" id="L17">		checkItemIndex(itemIndex);</span>
+<span class="nc" id="L18">		return String.format(&quot;[%d]&quot;, itemIndex);</span>
 	}
 
 	@Override
 	public String formatItem(String name, int itemIndex) {
-<span class="nc" id="L22">		return String.format(&quot;%s[%d]&quot;, name, itemIndex);</span>
+<span class="nc" id="L23">		return String.format(&quot;%s[%d]&quot;, name, itemIndex);</span>
 	}
 
 	@Override
 	public ComparisonStatus compareItem(TestingContext context, int pass, int itemIndex) {
-<span class="fc bfc" id="L27" title="All 2 branches covered.">		if (pass == 0)</span>
-<span class="fc" id="L28">			return compareItem0(context, itemIndex);</span>
-<span class="fc" id="L29">		return SKIP;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">		if (pass == 0)</span>
+<span class="fc" id="L29">			return compareItem0(context, itemIndex);</span>
+<span class="fc" id="L30">		return SKIP;</span>
 	}
 
 	protected ComparisonStatus compareItem0(TestingContext context, int itemIndex) {
-<span class="nc" id="L33">		throw new UnsupportedOperationException();</span>
+<span class="nc" id="L34">		throw new UnsupportedOperationException();</span>
 	}
+
+	protected void checkItemIndex(int itemIndex) {
+<span class="pc bpc" id="L38" title="1 of 4 branches missed.">		if (itemIndex &lt; 0 || itemIndex &gt;= itemCount())</span>
+<span class="fc" id="L39">			throw new IllegalArgumentException(&quot;Element index out of range&quot;);</span>
+<span class="fc" id="L40">	}</span>
 
 	@Override
 	public int passCount() {
-<span class="fc" id="L38">		return 1;</span>
+<span class="fc" id="L44">		return 1;</span>
 	}
 
 	public int length() {
-<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (length == -1)</span>
-<span class="fc" id="L43">			length = localPosition(itemCount());</span>
-<span class="fc" id="L44">		return length;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		if (length == -1)</span>
+<span class="fc" id="L49">			length = localPosition(itemCount());</span>
+<span class="fc" id="L50">		return length;</span>
 	}
 
 	private int localPosition(int itemIndex) {
-<span class="fc" id="L48">		int position = 0;</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">		for (int i = 0; i &lt; itemIndex; i++)</span>
-<span class="fc" id="L50">			position += lengthOfItem(i);</span>
-<span class="fc" id="L51">		return position;</span>
+<span class="fc" id="L54">		int position = 0;</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		for (int i = 0; i &lt; itemIndex; i++)</span>
+<span class="fc" id="L56">			position += lengthOfItem(i);</span>
+<span class="fc" id="L57">		return position;</span>
 	}
 
 	public String name() {
-<span class="fc" id="L55">		return name;</span>
+<span class="fc" id="L61">		return name;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

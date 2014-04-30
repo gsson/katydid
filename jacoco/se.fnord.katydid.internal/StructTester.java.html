@@ -9,7 +9,8 @@ public class StructTester extends CompositeTester {
 
 	@Override
 	public String formatChild(int itemIndex, DataTester child) {
-<span class="nc" id="L12">			return &quot;.&quot; + child.name();</span>
+<span class="fc" id="L12">		checkItemIndex(itemIndex);</span>
+<span class="fc" id="L13">		return &quot;.&quot; + child.name();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

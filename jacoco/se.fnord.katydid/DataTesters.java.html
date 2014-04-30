@@ -8,11 +8,11 @@ import java.util.Arrays;
 <span class="nc" id="L8">public class DataTesters {</span>
 <span class="fc" id="L9">	private static final Charset UTF8 = Charset.forName(&quot;utf-8&quot;);</span>
 	public static DataTester u8(String name, Number... values) {
-<span class="nc" id="L11">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 1, values);</span>
+<span class="fc" id="L11">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 1, values);</span>
 	}
 
 	public static DataTester u8(Number... values) {
-<span class="nc" id="L15">		return u8(&quot;u8&quot;, values);</span>
+<span class="fc" id="L15">		return u8(&quot;u8&quot;, values);</span>
 	}
 
 	public static DataTester s8(String name, Number... values) {
