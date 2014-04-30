@@ -8,6 +8,7 @@ import se.fnord.katydid.TestingContext;
 import java.nio.ByteBuffer;
 import java.util.*;
 
+import static java.lang.Math.min;
 import static se.fnord.katydid.ComparisonStatus.ABORT;
 import static se.fnord.katydid.ComparisonStatus.CONTINUE;
 import static se.fnord.katydid.internal.HexFormat.formatOffset;
@@ -98,7 +99,7 @@ public class TestingContextImpl implements TestingContext {
 			return CONTINUE;
 		}
 		finally {
-			buffer.position(testerEnd);
+			buffer.position(min(buffer.limit(), testerEnd));
 			up();
 		}
 	}
