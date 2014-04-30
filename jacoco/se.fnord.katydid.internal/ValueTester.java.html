@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ValueTester.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">ValueTester.java</span></div><h1>ValueTester.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
+
+import se.fnord.katydid.TestingContext;
+
+import java.util.Objects;
+
+public abstract class ValueTester extends AbstractTester {
+	public ValueTester(String name) {
+<span class="fc" id="L9">		super(name);</span>
+<span class="fc" id="L10">	}</span>
+
+	protected String formatValue(Object v) {
+<span class="nc" id="L13">		throw new UnsupportedOperationException();</span>
+	}
+
+	protected boolean checkEquals(TestingContext context, int itemIndex, Object a, Object b) {
+<span class="fc bfc" id="L17" title="All 2 branches covered.">		if (!Objects.equals(a, b)) {</span>
+<span class="fc" id="L18">			context.addFailure(&quot;Value differs: %s != %s&quot;, formatValue(a), formatValue(b));</span>
+<span class="fc" id="L19">			return false;</span>
+		}
+<span class="fc" id="L21">		return true;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

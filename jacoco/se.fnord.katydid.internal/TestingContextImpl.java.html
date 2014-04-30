@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TestingContextImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">TestingContextImpl.java</span></div><h1>TestingContextImpl.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
+
+import se.fnord.katydid.ComparisonStatus;
+import se.fnord.katydid.DataAsserts;
+import se.fnord.katydid.DataTester;
+import se.fnord.katydid.TestingContext;
+
+import java.nio.ByteBuffer;
+import java.util.*;
+
+import static se.fnord.katydid.ComparisonStatus.ABORT;
+import static se.fnord.katydid.ComparisonStatus.CONTINUE;
+import static se.fnord.katydid.internal.HexFormat.formatOffset;
+
+public class TestingContextImpl implements TestingContext {
+	private final ByteBuffer buffer;
+	private final int startPosition;
+	private final int startLimit;
+	private final Deque&lt;SubContext&gt; testers;
+	private final List&lt;String&gt; messages;
+
+	private class SubContext {
+		private int itemIndex;
+		private DataTester tester;
+
+<span class="fc" id="L26">		public SubContext(DataTester tester) {</span>
+<span class="fc" id="L27">			this.tester = tester;</span>
+<span class="fc" id="L28">			this.itemIndex = -1;</span>
+<span class="fc" id="L29">		}</span>
+
+		public boolean hasNextIndex() {
+<span class="fc bfc" id="L32" title="All 2 branches covered.">			return itemIndex &lt; (tester.itemCount() - 1);</span>
+		}
+
+		public int currentIndex() {
+<span class="fc" id="L36">			return itemIndex;</span>
+		}
+
+		public int nextIndex() {
+<span class="fc" id="L40">			return ++itemIndex;</span>
+		}
+
+		public DataTester tester() {
+<span class="fc" id="L44">			return tester;</span>
+		}
+	}
+
+	protected boolean checkHasRemaining(int required) {
+<span class="fc" id="L49">		int remaining = buffer.remaining();</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">		if (remaining &lt; required) {</span>
+<span class="nc" id="L51">			addFailure(&quot;Buffer underflow. Element needs %d additional bytes&quot;, required - remaining);</span>
+<span class="nc" id="L52">			return false;</span>
+		}
+<span class="fc" id="L54">		return true;</span>
+	}
+
+	private static long swap(int elementWidth, long value) {
+<span class="nc" id="L58">		return Long.reverseBytes(value) &gt;&gt;&gt; (8 * (8 - elementWidth));</span>
+	}
+
+	@Override
+	public byte read() {
+<span class="nc" id="L63">		return buffer.get();</span>
+	}
+
+	@Override
+	public long read(int elementWidth) {
+<span class="fc" id="L68">		return Util.read(buffer, elementWidth);</span>
+	}
+
+	@Override
+	public void write(int elementWidth, long value) {
+<span class="nc" id="L73">		Util.write(buffer, elementWidth, value);</span>
+<span class="nc" id="L74">	}</span>
+
+	private ComparisonStatus compareItem(DataTester dataTester, int pass, int itemIndex) {
+<span class="fc" id="L77">		int itemLength = dataTester.lengthOfItem(itemIndex);</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">		if (!checkHasRemaining(itemLength))</span>
+<span class="nc" id="L79">			return ABORT;</span>
+
+<span class="fc" id="L81">		int itemEnd = buffer.position() + itemLength;</span>
+<span class="fc" id="L82">		ComparisonStatus s = dataTester.compareItem(this, pass, itemIndex);</span>
+<span class="fc" id="L83">		buffer.position(itemEnd);</span>
+<span class="fc" id="L84">		return s;</span>
+	}
+
+	@Override
+	public ComparisonStatus compareTo(DataTester dataTester, int pass) {
+<span class="fc" id="L89">		down(dataTester);</span>
+<span class="fc" id="L90">		int testerEnd = buffer.position() + dataTester.length();</span>
+		try {
+<span class="fc" id="L92">			SubContext currentContext = currentContext();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">			while (currentContext.hasNextIndex()) {</span>
+<span class="fc" id="L94">				ComparisonStatus s = compareItem(currentContext.tester, pass, currentContext.nextIndex());</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">				if (!s.shouldContinue())</span>
+<span class="fc" id="L96">					return s.propagate();</span>
+<span class="fc" id="L97">			}</span>
+<span class="fc" id="L98">			return CONTINUE;</span>
+		}
+		finally {
+<span class="pc" id="L101">			buffer.position(testerEnd);</span>
+<span class="pc" id="L102">			up();</span>
+		}
+	}
+<span class="fc" id="L105">	public TestingContextImpl(ByteBuffer buffer) {</span>
+<span class="fc" id="L106">		this.buffer = buffer;</span>
+<span class="fc" id="L107">		this.startPosition = buffer.position();</span>
+<span class="fc" id="L108">		this.startLimit = buffer.limit();</span>
+<span class="fc" id="L109">		this.testers = new ArrayDeque&lt;&gt;();</span>
+<span class="fc" id="L110">		this.messages = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L111">	}</span>
+
+	private String formatFailure(SubContext c, String message, Object ... formatArgs) {
+<span class="fc" id="L114">		final int itemIndex = c.currentIndex();</span>
+<span class="fc" id="L115">		final DataTester tester = c.tester();</span>
+<span class="fc" id="L116">		final Formatter formatter = new Formatter();</span>
+<span class="fc" id="L117">		int n = HexFormat.hexLength(buffer.limit());</span>
+<span class="fc" id="L118">		int startOffset = buffer.position() - tester.lengthOfItem(itemIndex);</span>
+<span class="fc" id="L119">		int endOffset = buffer.position() - 1;</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">		if (startOffset == endOffset)</span>
+<span class="fc" id="L121">			formatter.format(&quot;%s at %s: &quot;, tester.formatItem(name(), itemIndex), formatOffset(n, startOffset));</span>
+		else
+<span class="nc" id="L123">			formatter.format(&quot;%s at %s-%s: &quot;, tester.formatItem(name(), itemIndex), formatOffset(n, startOffset), formatOffset(n, endOffset));</span>
+<span class="fc" id="L124">		formatter.format(message, formatArgs);</span>
+<span class="fc" id="L125">		return formatter.toString();</span>
+	}
+
+	@Override
+	public void addFailure(String message, Object... formatArgs) {
+<span class="fc" id="L130">		SubContext c = currentContext();</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">		if (c != null) {</span>
+<span class="fc" id="L132">			messages.add(formatFailure(c, message, formatArgs));</span>
+		}
+		else {
+<span class="nc" id="L135">			messages.add(String.format(message, formatArgs));</span>
+		}
+<span class="fc" id="L137">	}</span>
+
+	public void assertSuccess(DataTester root) {
+<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (messages.isEmpty())</span>
+<span class="fc" id="L141">			return;</span>
+
+<span class="fc" id="L143">		final StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L144">		sb.append(&quot;Test failed:&quot;).append(System.lineSeparator());</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">		for (String message : messages)</span>
+<span class="fc" id="L146">			sb.append(&quot;* &quot;).append(message).append(System.lineSeparator());</span>
+
+<span class="fc" id="L148">		sb.append(&quot;Expected bytes:&quot;).append(System.lineSeparator());</span>
+<span class="fc" id="L149">		HexFormat.format(sb, DataAsserts.asBuffer(root));</span>
+
+<span class="fc" id="L151">		buffer.position(startPosition).limit(startLimit);</span>
+<span class="fc" id="L152">		sb.append(&quot;Actual bytes:&quot;).append(System.lineSeparator());</span>
+<span class="fc" id="L153">		HexFormat.format(sb, buffer);</span>
+<span class="fc" id="L154">		throw new AssertionError(sb.toString());</span>
+	}
+
+	private void down(DataTester tester) {
+<span class="fc" id="L158">		testers.addLast(new SubContext(tester));</span>
+<span class="fc" id="L159">	}</span>
+
+	private void up() {
+<span class="fc" id="L162">		testers.removeLast();</span>
+<span class="fc" id="L163">	}</span>
+
+	private SubContext currentContext() {
+<span class="fc" id="L166">		return testers.peekLast();</span>
+	}
+
+	private String name() {
+<span class="fc" id="L170">		StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L171">		Iterator&lt;SubContext&gt; t = testers.iterator();</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">		if (t.hasNext()) {</span>
+<span class="fc" id="L173">			SubContext parent = t.next();</span>
+<span class="fc" id="L174">			sb.append(parent.tester().name());</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">			while (t.hasNext()) {</span>
+<span class="nc" id="L176">				SubContext child = t.next();</span>
+<span class="nc" id="L177">				sb.append(parent.tester.formatChild(parent.currentIndex(), child.tester()));</span>
+<span class="nc" id="L178">				parent = child;</span>
+<span class="nc" id="L179">			}</span>
+		}
+<span class="fc" id="L181">		return sb.toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>
