@@ -42,6 +42,7 @@ public abstract class CompositeTester extends AbstractTester {
 	@Override
 	public String formatItem(String name, int itemIndex) {
 		return formatChild(itemIndex, values[itemIndex]);
+		checkItemIndex(itemIndex);
 	}
 
 	@Override

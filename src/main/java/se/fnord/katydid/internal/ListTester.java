@@ -9,6 +9,7 @@ public class ListTester extends CompositeTester {
 
 	@Override
 	public String formatChild(int itemIndex, DataTester child) {
-			return "[" + itemIndex + "]";
+		checkItemIndex(itemIndex);
+		return "[" + itemIndex + "]";
 	}
 }

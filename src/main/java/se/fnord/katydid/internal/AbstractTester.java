@@ -14,6 +14,7 @@ public abstract class AbstractTester implements DataTester {
 	}
 
 	public String formatChild(int itemIndex, DataTester child) {
+		checkItemIndex(itemIndex);
 		return String.format("[%d]", itemIndex);
 	}
 
@@ -31,6 +32,11 @@ public abstract class AbstractTester implements DataTester {
 
 	protected ComparisonStatus compareItem0(TestingContext context, int itemIndex) {
 		throw new UnsupportedOperationException();
+	}
+
+	protected void checkItemIndex(int itemIndex) {
+		if (itemIndex < 0 || itemIndex >= itemCount())
+			throw new IllegalArgumentException("Element index out of range");
 	}
 
 	@Override

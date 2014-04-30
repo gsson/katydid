@@ -9,6 +9,7 @@ public class StructTester extends CompositeTester {
 
 	@Override
 	public String formatChild(int itemIndex, DataTester child) {
-			return "." + child.name();
+		checkItemIndex(itemIndex);
+		return "." + child.name();
 	}
 }
