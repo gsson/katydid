@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 import static org.junit.Assert.assertEquals;
 import static se.fnord.katydid.internal.Util.bytes;
 
-public class TestInt {
+public class TestIntTester {
 	private static final void assertSuccess(int pass, DataTester tester, ByteBuffer bb) {
 		TestingContextImpl tc = new TestingContextImpl(bb);
 		tc.compareTo(tester, pass);

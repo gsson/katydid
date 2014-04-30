@@ -11,7 +11,7 @@ import static se.fnord.katydid.DataAsserts.assertExact;
 import static se.fnord.katydid.DataTesters.u8;
 import static se.fnord.katydid.internal.Util.bytes;
 
-public class TestList {
+public class TestListTester {
 	@Test(expected=IllegalArgumentException.class)
 	public void testFormatNonExistingItem() {
 		ListTester l = new ListTester("fnord", u8(1), u8(2));

@@ -10,7 +10,7 @@ import static se.fnord.katydid.DataAsserts.assertExact;
 import static se.fnord.katydid.DataTesters.u8;
 import static se.fnord.katydid.internal.Util.bytes;
 
-public class TestStruct {
+public class TestStructTester {
 	@Test(expected=IllegalArgumentException.class)
 	public void testFormatNonExistingItem() {
 		StructTester l = new StructTester("fnord", u8("a", 1), u8("b", 2));
