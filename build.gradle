@@ -1,9 +1,12 @@
+import org.gradle.plugins.signing.Sign
+
 apply plugin: 'java'
 
 apply plugin: 'github-pages'
 apply plugin: 'jacoco'
 
-ext.startTime = new Date()
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 buildscript {
     repositories {
@@ -15,14 +18,25 @@ buildscript {
 }
 
 sourceCompatibility = 1.7
-version = '0.4.0-SNAPSHOT'
+
 group = 'se.fnord'
 
-ext.isRelease = !version.endsWith("-SNAPSHOT")
 
-ext.bundleVersion = osgiVersion(version, startTime)
+ext.startTime = new Date()
+
+ext.isRelease = System.getenv('RELEASE') ? true : false;
+ext.isTravis = System.getenv('TRAVIS') ? true : false;
+
+ext.plainVersion = '0.4.0'
+ext.versionSuffix = isRelease ? '' : '-SNAPSHOT'
+
+ext.bundleVersion = osgiVersion(plainVersion, isRelease, startTime)
 ext.bundleName = "${group}.${name}"
 ext.bundleSymbolicName = 'KATYDID Asserts That Your Data Is Deluxe'
+
+ext.repositoryUrl = System.getenv('REPO_URI')
+ext.repositoryUsername = System.getenv('REPO_USER')
+ext.repositoryPassword = System.getenv('REPO_PASSWORD')
 
 ext.githubUrl = System.getenv('GH_REPO')
 ext.githubUsername = System.getenv('GH_USER')
@@ -37,6 +51,11 @@ ext.sharedManifest = manifest {
         "Bundle-Name": bundleName,
     )
 }
+
+version = plainVersion + versionSuffix
+
+gradle.taskGraph.whenReady { tg -> getSignInfo(tg) }
+gradle.taskGraph.whenReady { tg -> checkEnvironment(tg) }
 
 repositories {
     mavenCentral()
@@ -92,8 +111,55 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 artifacts {
+    archives jar
     archives sourcesJar
     archives javadocJar
+}
+
+
+signing {
+    required { isRelease && gradle.taskGraph.hasTask(":uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: repositoryUrl) {
+                authentication(userName: repositoryUsername, password: repositoryPassword)
+            }
+
+            pom.project {
+                name project.name
+                packaging 'jar'
+                description 'Test utilities for writing readable tests on binary data'
+                url 'http://gsson.github.io/katydid/'
+
+                scm {
+                    url githubUrl
+                    connection githubUrl
+                    developerConnection githubUrl
+                }
+
+                licenses {
+                    license {
+                        name 'ISC License'
+                        url 'http://opensource.org/licenses/ISC'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'gsson'
+                        name 'Henrik Gustafsson'
+                    }
+                }
+            }
+        }
+    }
 }
 
 test {
@@ -173,7 +239,7 @@ def normalizeVersion(v, extra) {
     return version
 }
 
-def osgiVersion(mavenizedVersion, date) {
+def osgiVersion(version, isRelease, date) {
     // Stupid over-engineered attempt att making OSGi version numbers
     // that compare reasonably to maven version numbers. Uses
     // <version>.a<timestamp> for snapshot versions and
@@ -192,10 +258,44 @@ def osgiVersion(mavenizedVersion, date) {
     //
     // See eg. http://www.infoq.com/news/2012/04/osgi-snapshot
 
-    def prefix = isRelease ? mavenizedVersion : mavenizedVersion[0..-10];
-
     def timestamp = date.format("yyyyMMddHHmm", TimeZone.getTimeZone("UTC"))
     def suffix = isRelease ? "z${timestamp}":"a${timestamp}"
 
-    return normalizeVersion(prefix, suffix)
+    return normalizeVersion(version, suffix)
+}
+
+def getSignInfo(taskGraph) {
+    if (taskGraph.allTasks.any { it instanceof Sign && it.required }) {
+        Console console = System.console()
+        if (isTravis || !console)
+            throw new InvalidUserDataException("Can't sign in this environment")
+
+        if (!hasProperty("signing.keyId")) {
+            def id = console.readLine("PGP Key Id: ")
+            ext."signing.keyId" = id
+        }
+        if (!hasProperty("signing.secretKeyRingFile")) {
+            def file = console.readLine("PGP Secret Key Ring File (absolute path): ")
+            ext."signing.secretKeyRingFile" = file
+        }
+        if (!hasProperty("signing.password")) {
+            def password = console.readPassword("PGP Private Key Passphrase: ")
+            ext."signing.password" = password
+        }
+    }
+}
+
+def checkEnvironment(taskGraph) {
+    if (isRelease && isTravis)
+        throw new InvalidUserDataException("Can't do release builds on a travis instance");
+
+    if ((version.endsWith("-SNAPSHOT") && isRelease) || (!version.endsWith("-SNAPSHOT") && !isRelease))
+        throw new InvalidUserDataException("Invalid version name");
+
+    if (taskGraph.hasTask(":uploadArchives") && !(repositoryUrl && repositoryUsername && repositoryPassword))
+        throw new InvalidUserDataException("Missing repository publishing information");
+
+    if (taskGraph.hasTask(":publishGhPages") && !(githubUrl && githubUsername && githubPassword))
+        throw new InvalidUserDataException("Missing GitHub publishing information");
+
 }
