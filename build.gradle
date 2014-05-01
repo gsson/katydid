@@ -79,15 +79,14 @@ def osgiVersion(mavenizedVersion, date) {
     //
     // See eg. http://www.infoq.com/news/2012/04/osgi-snapshot
 
-    def isSnapshot = mavenizedVersion.endsWith("-SNAPSHOT")
-
-    def prefix = isSnapshot ? mavenizedVersion[0..-10] : mavenizedVersion;
+    def prefix = isRelease ? mavenizedVersion : mavenizedVersion[0..-10];
 
     def timestamp = date.format("yyyyMMddHHmm", TimeZone.getTimeZone("UTC"))
-    def suffix = isSnapshot ? "a${timestamp}":"z${timestamp}"
+    def suffix = isRelease ? "z${timestamp}":"a${timestamp}"
 
     return normalizeVersion(prefix, suffix)
 }
+ext.isRelease = !version.endsWith("-SNAPSHOT")
 
 ext.bundleVersion = osgiVersion(version, startTime)
 ext.bundleName = "${group}.${name}"
