@@ -4,9 +4,14 @@ env:
     - secure: "ZDQTgoiKtNrUzqBTMGQFMji1fgBKJLnqQ1AzfHJbnF3xg2GtZ0gvJtDEVgD+nB7U6f0hdMDn4yc5Y5sPtEhreBFI5vdYqckUJssvjQM9jWbB4wmm1NjJHu7lcmTwGKnvkdrvCRDGLwErOq+7CLbAjjaghweG6F6ZmcSoaW/Slf0="
 
 language: java
+
 script: gradle -Djava.awt.headless=true clean check
 after_success: gradle -Djava.awt.headless=true publishGhPages
+
 branches:
   only:
     - master
 
+cache:
+  directories:
+  - .gradle
