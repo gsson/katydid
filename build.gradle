@@ -24,6 +24,10 @@ ext.bundleVersion = osgiVersion(version, startTime)
 ext.bundleName = "${group}.${name}"
 ext.bundleSymbolicName = 'KATYDID Asserts That Your Data Is Deluxe'
 
+ext.githubUrl = System.getenv('GH_REPO')
+ext.githubUsername = System.getenv('GH_USER')
+ext.githubPassword = System.getenv('GH_TOKEN')
+
 ext.sharedManifest = manifest {
     attributes(
         "Bundle-ManifestVersion": 2,
@@ -112,10 +116,10 @@ publishGhPages {
 }
 
 githubPages {
-    repoUri = 'https://github.com/gsson/katydid.git'
+    repoUri = githubUrl
     credentials {
-        username = 'gsson'
-        password = System.getenv('GH_TOKEN')
+        username = githubUsername
+        password = githubPassword
     }
     pages {
         from("$jacoco.reportsDir/test/html") {
