@@ -13,13 +13,13 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying unsigned 8 bit values.
 	 * Values will be presented in decimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * To test for the sequence
 	 * &lt;pre&gt;
 	 *     01 02 03 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(u8(&quot;data&quot;, 1, 2, 3, 4), byteBuffer);
 	 * &lt;/code&gt;
@@ -35,9 +35,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying unsigned 8 bit values.
 	 * Values will be presented in decimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     u8(&quot;u8&quot;, values)
 	 * &lt;/code&gt;
@@ -53,13 +53,13 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying signed (two's-complement) 8 bit values.
 	 * Values will be presented in decimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * To test for the sequence
 	 * &lt;pre&gt;
 	 *     ff fe fd fc
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(s8(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
 	 * &lt;/code&gt;
@@ -76,9 +76,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying signed (two's-complement) 8 bit values.
 	 * Values will be presented in decimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     s8(&quot;s8&quot;, values)
 	 * &lt;/code&gt;
@@ -94,13 +94,13 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying unsigned 8 bit values.
 	 * Values will be presented in hexadecimal in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * To test for the sequence
 	 * &lt;pre&gt;
 	 *     01 02 03 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(h8(&quot;data&quot;, 0x01, 0x02, 0x03, 0x04), byteBuffer);
 	 * &lt;/code&gt;
@@ -116,9 +116,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying unsigned 8 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     h8(&quot;h8&quot;, values)
 	 * &lt;/code&gt;
@@ -135,13 +135,13 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 16 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     01 01 02 02 03 03 04 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(u16(&quot;data&quot;, 257, 514, 771, 1028), byteBuffer);
 	 * &lt;/code&gt;
@@ -158,9 +158,9 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 16 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     u16(&quot;u16&quot;, values)
 	 * &lt;/code&gt;
@@ -177,13 +177,13 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying signed (two's-complement) 16 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     ff ff ff fe ff fd ff fc
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(s16(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
 	 * &lt;/code&gt;
@@ -199,9 +199,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying signed (two's-complement) 16 bit values.
 	 * Values will be presented in decimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     s16(&quot;s16&quot;, values)
 	 * &lt;/code&gt;
@@ -218,13 +218,13 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 16 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     01 01 02 02 03 03 04 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(h16(&quot;data&quot;, 0x0101, 0x0202, 0x0303, 0x0404), byteBuffer);
 	 * &lt;/code&gt;
@@ -241,9 +241,9 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 16 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     h16(&quot;h16&quot;, values)
 	 * &lt;/code&gt;
@@ -260,13 +260,13 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 24 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     01 01 01 02 02 02 03 03 03 04 04 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(u24(&quot;data&quot;, 65793, 131586, 197379, 263172), byteBuffer);
 	 * &lt;/code&gt;
@@ -283,9 +283,9 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 24 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     u24(&quot;u24&quot;, values)
 	 * &lt;/code&gt;
@@ -302,13 +302,13 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying signed (two's-complement) 24 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     ff ff ff ff ff fe ff ff fd ff ff fc
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(s24(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
 	 * &lt;/code&gt;
@@ -324,9 +324,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying signed (two's-complement) 24 bit values.
 	 * Values will be presented in decimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     s24(&quot;s24&quot;, values)
 	 * &lt;/code&gt;
@@ -343,16 +343,16 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 24 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     01 01 01 02 02 02 03 03 03 04 04 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
-	 *     assertExact(h24(&quot;data&quot;,&lt;br/&gt;
-	 *       0x010101, 0x020202,&lt;br/&gt;
+	 *     assertExact(h24(&quot;data&quot;,&lt;br&gt;
+	 *       0x010101, 0x020202,&lt;br&gt;
 	 *       0x030303, 0x040404), byteBuffer);
 	 * &lt;/code&gt;
 	 *
@@ -368,9 +368,9 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 24 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     h24(&quot;h24&quot;, values)
 	 * &lt;/code&gt;
@@ -387,16 +387,16 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 32 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     01 01 01 01 02 02 02 02 03 03 03 03 04 04 04 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
-	 *     assertExact(u32(&quot;data&quot;,&lt;br/&gt;
-	 *       16843009, 33686018,&lt;br/&gt;
+	 *     assertExact(u32(&quot;data&quot;,&lt;br&gt;
+	 *       16843009, 33686018,&lt;br&gt;
 	 *       50529027, 67372036), byteBuffer);
 	 * &lt;/code&gt;
 	 *
@@ -412,9 +412,9 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 32 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     u32(&quot;u32&quot;, values)
 	 * &lt;/code&gt;
@@ -431,13 +431,13 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying signed (two's-complement) 32 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     ff ff ff ff ff ff ff fe ff ff ff fd ff ff ff fc
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(s32(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
 	 * &lt;/code&gt;
@@ -453,9 +453,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying signed (two's-complement) 32 bit values.
 	 * Values will be presented in decimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     s32(&quot;s32&quot;, values)
 	 * &lt;/code&gt;
@@ -472,16 +472,16 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 32 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     01 01 01 01 02 02 02 02 03 03 03 03 04 04 04 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
-	 *     assertExact(h24(&quot;data&quot;,&lt;br/&gt;
-	 *       0x01010101, 0x02020202,&lt;br/&gt;
+	 *     assertExact(h24(&quot;data&quot;,&lt;br&gt;
+	 *       0x01010101, 0x02020202,&lt;br&gt;
 	 *       0x03030303, 0x04040404), byteBuffer);
 	 * &lt;/code&gt;
 	 *
@@ -497,9 +497,9 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 32 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     h32(&quot;h32&quot;, values)
 	 * &lt;/code&gt;
@@ -516,17 +516,17 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 64 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     01 01 01 01 01 01 01 01 02 02 02 02 02 02 02 02
 	 *     03 03 03 03 03 03 03 03 04 04 04 04 04 04 04 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
-	 *     assertExact(u64(&quot;data&quot;,&lt;br/&gt;
-	 *        72340172838076673L, 144680345676153346L,&lt;br/&gt;
+	 *     assertExact(u64(&quot;data&quot;,&lt;br&gt;
+	 *        72340172838076673L, 144680345676153346L,&lt;br&gt;
 	 *       217020518514230019L, 289360691352306692L), byteBuffer);
 	 * &lt;/code&gt;
 	 *
@@ -542,9 +542,9 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 64 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     u64(&quot;u64&quot;, values)
 	 * &lt;/code&gt;
@@ -561,14 +561,14 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying signed (two's-complement) 64 bit values.
 	 * Values will be presented in decimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff fe
 	 *     ff ff ff ff ff ff ff fd ff ff ff ff ff ff ff fc
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(s32(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
 	 * &lt;/code&gt;
@@ -584,9 +584,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying signed (two's-complement) 64 bit values.
 	 * Values will be presented in decimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     s64(&quot;s64&quot;, values)
 	 * &lt;/code&gt;
@@ -603,17 +603,17 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 64 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Given a buffer in big endian format, to test for the sequence:
 	 * &lt;pre&gt;
 	 *     01 01 01 01 01 01 01 01 02 02 02 02 02 02 02 02
 	 *     03 03 03 03 03 03 03 03 04 04 04 04 04 04 04 04
 	 * &lt;/pre&gt;
 	 * The following code could be used:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
-	 *     assertExact(h24(&quot;data&quot;,&lt;br/&gt;
-	 *       0x0101010101010101L, 0x0202020202020202L,&lt;br/&gt;
+	 *     assertExact(h24(&quot;data&quot;,&lt;br&gt;
+	 *       0x0101010101010101L, 0x0202020202020202L,&lt;br&gt;
 	 *       0x0303030303030303L, 0x0404040404040404L), byteBuffer);
 	 * &lt;/code&gt;
 	 *
@@ -629,7 +629,7 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying unsigned 64 bit values.
 	 * Values will be presented in hexadecimal form in reports and failures.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
 	 * &lt;code&gt;
 	 *     h64(&quot;h64&quot;, values)
@@ -647,13 +647,13 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying a collection of testers.
 	 * Value names will be presented in a structured form like {@code structName.elementName} whereas the values themselves will be presented in the form specified by its tester.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Example:
 	 * &lt;code&gt;
-	 *     assertExact(struct(&quot;message&quot;,&lt;br/&gt;
-	 *     	u8(&quot;length&quot;, 15),&lt;br/&gt;
-	 *     	h16(&quot;code&quot;, 0x1010),&lt;br/&gt;
-	 *     	h32(&quot;propertyKey&quot;, 0x12345678),&lt;br/&gt;
+	 *     assertExact(struct(&quot;message&quot;,&lt;br&gt;
+	 *     	u8(&quot;length&quot;, 15),&lt;br&gt;
+	 *     	h16(&quot;code&quot;, 0x1010),&lt;br&gt;
+	 *     	h32(&quot;propertyKey&quot;, 0x12345678),&lt;br&gt;
 	 *     	s64(&quot;propertyValue&quot;, -1)), byteBuffer);
 	 * &lt;/code&gt;
 	 *
@@ -669,7 +669,7 @@ import java.util.Arrays;
 	 * Creates a tester for generating or verifying a collection of testers.
 	 * Value names will be presented in a structured form like {@code structName.elementName} whereas the values themselves will be presented in the form specified by its tester.
 	 * Testing and generation endianness is determined by the byte order of the buffer.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
 	 * &lt;code&gt;
 	 *     struct(&quot;struct&quot;, elements)
@@ -686,12 +686,12 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying a collection of testers.
 	 * Value names will be presented in a list form like {@code structName[index]} whereas the values themselves will be presented in the form specified by its tester.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Example:
 	 * &lt;code&gt;
-	 *     assertExact(list(&quot;names&quot;,&lt;br/&gt;
-	 *     	struct(&quot;name&quot;, u8(&quot;length&quot;, 5), utf8(&quot;text&quot;, &quot;name1&quot;)),&lt;br/&gt;
-	 *     	struct(&quot;name&quot;, u8(&quot;length&quot;, 5), utf8(&quot;text&quot;, &quot;name2&quot;)),&lt;br/&gt;
+	 *     assertExact(list(&quot;names&quot;,&lt;br&gt;
+	 *     	struct(&quot;name&quot;, u8(&quot;length&quot;, 5), utf8(&quot;text&quot;, &quot;name1&quot;)),&lt;br&gt;
+	 *     	struct(&quot;name&quot;, u8(&quot;length&quot;, 5), utf8(&quot;text&quot;, &quot;name2&quot;)),&lt;br&gt;
 	 *     	struct(&quot;name&quot;, u8(&quot;length&quot;, 5), utf8(&quot;text&quot;, &quot;name3&quot;)))), byteBuffer);
 	 * &lt;/code&gt;
 	 *
@@ -706,9 +706,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying a collection of testers.
 	 * Value names will be presented in a list form like {@code structName[index]} whereas the values themselves will be presented in the form specified by its tester.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     list(&quot;list&quot;, elements)
 	 * &lt;/code&gt;
@@ -724,15 +724,15 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying utf-8 encoded strings.
 	 * Values will be presented in hexadecimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Example:
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     assertExact(utf8(&quot;name&quot;, &quot;value&quot;), byteBuffer);
 	 * &lt;/code&gt;
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     bytes(name, value.getBytes(UTF_8))
 	 * &lt;/code&gt;
@@ -748,9 +748,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying utf-8 encoded strings.
 	 * Values will be presented in hexadecimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     utf8(&quot;utf8&quot;, value)
 	 * &lt;/code&gt;
@@ -766,9 +766,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying a list of byte values.
 	 * Values will be presented in hexadecimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Example
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     bytes(&quot;something&quot;, &quot;bytes&quot;.getBytes(UTF_16BE))
 	 * &lt;/code&gt;
@@ -784,9 +784,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying a list of byte values.
 	 * Values will be presented in hexadecimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     bytes(&quot;bytes&quot;, bytes)
 	 * &lt;/code&gt;
@@ -801,9 +801,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for skipping a number of bytes in when testing.
 	 * When generating, this tester will generate {@code size} zero-bytes.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Example
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     skip(&quot;unused&quot;, size)
 	 * &lt;/code&gt;
@@ -819,9 +819,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for skipping a number of bytes in when testing.
 	 * When generating, this tester will generate {@code size} zero-bytes.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     skip(&quot;skip&quot;, bytes)
 	 * &lt;/code&gt;
@@ -836,9 +836,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying a sequence of {@code count} of zero-bytes.
 	 * Values will be presented in hexadecimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Example
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     zero(&quot;padding&quot;, 42)
 	 * &lt;/code&gt;
@@ -856,9 +856,9 @@ import java.util.Arrays;
 	/**
 	 * Creates a tester for generating or verifying a sequence of {@code count} of zero-bytes.
 	 * Values will be presented in hexadecimal form in reports and failures.
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * Equivalent to calling
-	 * &lt;p/&gt;
+	 * &lt;p&gt;
 	 * &lt;code&gt;
 	 *     zero(&quot;zero&quot;, count)
 	 * &lt;/code&gt;
