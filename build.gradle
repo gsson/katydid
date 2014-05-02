@@ -38,7 +38,7 @@ ext.repositoryUrl = System.getenv('REPO_URI')
 ext.repositoryUsername = System.getenv('REPO_USER')
 ext.repositoryPassword = System.getenv('REPO_PASSWORD')
 
-ext.githubUrl = System.getenv('GH_REPO')
+ext.githubUrl = System.getenv('GH_URI')
 ext.githubUsername = System.getenv('GH_USER')
 ext.githubPassword = System.getenv('GH_TOKEN')
 
