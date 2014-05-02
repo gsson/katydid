@@ -34,13 +34,28 @@ ext.bundleVersion = osgiVersion(plainVersion, isRelease, startTime)
 ext.bundleName = "${group}.${name}"
 ext.bundleSymbolicName = 'KATYDID Asserts That Your Data Is Deluxe'
 
-ext.repositoryUrl = System.getenv('REPO_URI')
-ext.repositoryUsername = System.getenv('REPO_USER')
-ext.repositoryPassword = System.getenv('REPO_PASSWORD')
 
-ext.githubUrl = System.getenv('GH_URI')
-ext.githubUsername = System.getenv('GH_USER')
-ext.githubPassword = System.getenv('GH_TOKEN')
+[
+        'repositoryUrl': 'REPO_URI',
+        'repositoryUsername': 'REPO_USER',
+        'repositoryPassword': 'REPO_PASSWORD'
+].each() {prop, env -> ext[prop]=System.getenv(env)}
+
+[
+        'githubUrl': 'GH_URI',
+        'githubUsername': 'GH_USER',
+        'githubPassword': 'GH_TOKEN'
+].each() {prop, env -> ext[prop]=System.getenv(env)}
+
+[
+        'signing.secretKeyRingFile': 'GPG_KEYFILE',
+        'signing.keyId': 'GPG_KEYID',
+        'signing.password': 'GPG_PASSWORD'
+].each() {prop, env ->
+        def v = System.getenv(env)?.trim()
+        if (v)
+            ext[prop] = v
+}
 
 ext.sharedManifest = manifest {
     attributes(
@@ -54,7 +69,6 @@ ext.sharedManifest = manifest {
 
 version = plainVersion + versionSuffix
 
-gradle.taskGraph.whenReady { tg -> getSignInfo(tg) }
 gradle.taskGraph.whenReady { tg -> checkEnvironment(tg) }
 
 repositories {
@@ -264,25 +278,24 @@ def osgiVersion(version, isRelease, date) {
     return normalizeVersion(version, suffix)
 }
 
-def getSignInfo(taskGraph) {
-    if (taskGraph.allTasks.any { it instanceof Sign && it.required }) {
-        Console console = System.console()
-        if (isTravis || !console)
-            throw new InvalidUserDataException("Can't sign in this environment")
+def getProperty(obj, propName, prompt) {
+    Console console = System.console()
+    if (isTravis || !console)
+        throw new InvalidUserDataException("Console unavailable")
 
-        if (!hasProperty("signing.keyId")) {
-            def id = console.readLine("PGP Key Id: ")
-            ext."signing.keyId" = id
-        }
-        if (!hasProperty("signing.secretKeyRingFile")) {
-            def file = console.readLine("PGP Secret Key Ring File (absolute path): ")
-            ext."signing.secretKeyRingFile" = file
-        }
-        if (!hasProperty("signing.password")) {
-            def password = console.readPassword("PGP Private Key Passphrase: ")
-            ext."signing.password" = password
-        }
+    if (!obj.hasProperty(propName) || !obj[propName]) {
+        def value;
+        if (!propName.toLowerCase().contains("pass"))
+            value = console.readLine(prompt)
+        else
+            value = console.readPassword(prompt)
+        if (value)
+            obj.ext[propName] = value
     }
+}
+
+def getProperties(obj, descr) {
+    descr.each() { name, prompt -> getProperty(obj, name, prompt) }
 }
 
 def checkEnvironment(taskGraph) {
@@ -292,10 +305,37 @@ def checkEnvironment(taskGraph) {
     if ((version.endsWith("-SNAPSHOT") && isRelease) || (!version.endsWith("-SNAPSHOT") && !isRelease))
         throw new InvalidUserDataException("Invalid version name");
 
-    if (taskGraph.hasTask(":uploadArchives") && !(repositoryUrl && repositoryUsername && repositoryPassword && githubUrl))
-        throw new InvalidUserDataException("Missing repository publishing information");
+    if (taskGraph.allTasks.any { it instanceof Sign && it.required }) {
+        getProperties(this, [
+                "signing.keyId": "PGP Key Id: ",
+                "signing.secretKeyRingFile": "PGP Secret Key Ring File (absolute path): ",
+                "signing.password": "PGP Private Key Passphrase: "
+        ])
+        if (!(this."signing.keyId" && this."signing.secretKeyRingFile" && this."signing.password"))
+            throw new InvalidUserDataException("Missing repository publishing information");
+    }
 
-    if (taskGraph.hasTask(":publishGhPages") && !(githubUrl && githubUsername && githubPassword))
-        throw new InvalidUserDataException("Missing GitHub publishing information");
+    if (taskGraph.hasTask(":uploadArchives")) {
+        getProperties(this, [
+                "repositoryUrl": "Maven repository URL: ",
+                "repositoryUsername": "Maven repository username: ",
+                "repositoryPassword": "Maven repository password: ",
+                "githubUrl": "GitHub repository URL: "
+        ]);
+
+        if (!(repositoryUrl && repositoryUsername && repositoryPassword && githubUrl))
+            throw new InvalidUserDataException("Missing repository publishing information");
+    }
+
+
+    if (taskGraph.hasTask(":publishGhPages")) {
+        getProperties(this, [
+                "githubUrl": "GitHub repository URL: ",
+                "githubUsername": "GitHub repository username: ",
+                "githubPassword": "GitHub repository password: "
+        ]);
+        if (!(githubUrl && githubUsername && githubPassword))
+            throw new InvalidUserDataException("Missing GitHub publishing information");
+    }
 
 }
