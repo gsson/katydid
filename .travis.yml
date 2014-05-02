@@ -1,9 +1,8 @@
 env:
   global:
     - TERM=dumb
-    - GH_USER=gsson
-    - secure: "ZDQTgoiKtNrUzqBTMGQFMji1fgBKJLnqQ1AzfHJbnF3xg2GtZ0gvJtDEVgD+nB7U6f0hdMDn4yc5Y5sPtEhreBFI5vdYqckUJssvjQM9jWbB4wmm1NjJHu7lcmTwGKnvkdrvCRDGLwErOq+7CLbAjjaghweG6F6ZmcSoaW/Slf0="
     - GH_URI=https://github.com/gsson/katydid
+    - secure: "b+n7e5iWYzP91Hn18gH/TjrhgdPwsi4NRryQrSCE2Utcf6LtVx4pOQjwnuFRGIHn2Qr2Bd0RXz1yJm5i3+HlUeOTixPSTLP3mjqXzoPQGtgyoyPnCRyyGVtS4tjVNkTY1iAWiXBwcvU+jnlZOcP2u4pQxLO1qrK6Z0y/jy2PUmM="
 
 language: java
 
