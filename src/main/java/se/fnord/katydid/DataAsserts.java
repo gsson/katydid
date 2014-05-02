@@ -15,29 +15,67 @@ public class DataAsserts {
 		}
 	}
 
-	public static void assertNext(DataTester dataTester, ByteBuffer bb) {
+	/**
+	 * Asserts that the next sequence of bytes matches the tester.
+	 * On successful return, the position of {@code bb} is positioned on {@code bb.position() + tester.length()}. The position is undefined in the case of an error.
+	 *
+	 * @throws java.lang.AssertionError if a value does not match or {@code bb} contains too few bytes.
+	 * @param tester the tester to use when verifying the buffer.
+	 * @param bb the ByteBuffer to test
+	 * @return {@code bb}
+	 */
+	public static ByteBuffer assertNext(DataTester tester, ByteBuffer bb) {
 		TestingContextImpl tc = new TestingContextImpl(bb);
-		assertNext(tc, dataTester, bb);
-		tc.assertSuccess(dataTester);
+		assertNext(tc, tester, bb);
+		tc.assertSuccess(tester);
+		return bb;
 	}
 
-	public static void assertExact(DataTester dataTester, ByteBuffer bb) {
+	/**
+	 * Asserts that the remaining bytes of {@code bb} exactly matches the tester.
+	 * {@code bb} is not modified.
+	 *
+	 * @throws java.lang.AssertionError if a value does not match or {@code bb} does not contain exactly {@code tester.length()} bytes.
+	 * @param tester the tester to use when verifying the buffer.
+	 * @param bb the ByteBuffer to test
+	 */
+	public static void assertExact(DataTester tester, ByteBuffer bb) {
 		ByteBuffer bb2 = bb.slice();
 		TestingContextImpl tc = new TestingContextImpl(bb2);
-		if (bb2.remaining() != dataTester.length())
-			tc.addFailure("%d bytes data expected, was %d bytes", dataTester.length(), bb.remaining());
-		assertNext(tc, dataTester, bb2);
-		tc.assertSuccess(dataTester);
+		if (bb2.remaining() != tester.length())
+			tc.addFailure("%d bytes data expected, was %d bytes", tester.length(), bb.remaining());
+		assertNext(tc, tester, bb2);
+		tc.assertSuccess(tester);
 	}
 
-	public static void assertExact(DataTester dataTester, byte[] bytes) {
-		assertExact(dataTester, ByteBuffer.wrap(bytes));
+	/**
+	 * Asserts that {@code bytes} exactly matches the tester.
+	 * {@code bytes} is treated as being big endian.
+	 * <p/>
+	 * Equivalent to calling
+	 * <p/>
+	 * <code>
+	 *     assertExact(tester, ByteBuffer.wrap(bytes))
+	 * </code>
+	 *
+	 * @throws java.lang.AssertionError if a value does not match or {@code bb} does not contain exactly {@code tester.length()} bytes.
+	 * @param tester the tester to use when verifying the buffer.
+	 * @param bytes the bytes to test
+	 */
+	public static void assertExact(DataTester tester, byte[] bytes) {
+		assertExact(tester, ByteBuffer.wrap(bytes));
 	}
 
-	public static ByteBuffer asBuffer(DataTester dataTester) {
-		int length = dataTester.length();
+	/**
+	 * Creates a ByteBuffer with contents that will match {@code tester} when used as input to {@code assertExact()}
+	 *
+	 * @param tester the tester to use when generating the buffer.
+	 * @return the ByteBuffer containing the generated data.
+	 */
+	public static ByteBuffer asBuffer(DataTester tester) {
+		int length = tester.length();
 		ByteBuffer bb = ByteBuffer.allocate(length);
-		dataTester.toBuffer(bb);
+		tester.toBuffer(bb);
 		bb.flip();
 		return bb;
 	}
