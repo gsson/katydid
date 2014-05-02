@@ -20,4 +20,4 @@ branches:
 
 cache:
   directories:
-  - .gradle
+  - $HOME/.gradle
