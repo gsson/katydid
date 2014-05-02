@@ -279,11 +279,12 @@ def osgiVersion(version, isRelease, date) {
 }
 
 def getProperty(obj, propName, prompt) {
-    Console console = System.console()
-    if (isTravis || !console)
-        throw new InvalidUserDataException("Console unavailable")
 
     if (!obj.hasProperty(propName) || !obj[propName]) {
+        Console console = System.console()
+        if (isTravis || !console)
+            throw new InvalidUserDataException("Console unavailable. Need to fetch " + propName)
+
         def value;
         if (!propName.toLowerCase().contains("pass"))
             value = console.readLine(prompt)
