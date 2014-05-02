@@ -292,7 +292,7 @@ def checkEnvironment(taskGraph) {
     if ((version.endsWith("-SNAPSHOT") && isRelease) || (!version.endsWith("-SNAPSHOT") && !isRelease))
         throw new InvalidUserDataException("Invalid version name");
 
-    if (taskGraph.hasTask(":uploadArchives") && !(repositoryUrl && repositoryUsername && repositoryPassword))
+    if (taskGraph.hasTask(":uploadArchives") && !(repositoryUrl && repositoryUsername && repositoryPassword && githubUrl))
         throw new InvalidUserDataException("Missing repository publishing information");
 
     if (taskGraph.hasTask(":publishGhPages") && !(githubUrl && githubUsername && githubPassword))
