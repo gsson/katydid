@@ -2,187 +2,892 @@
 
 import se.fnord.katydid.internal.*;
 
-import java.nio.charset.Charset;
+import static java.nio.charset.StandardCharsets.*;
 import java.util.Arrays;
 
-<span class="nc" id="L8">public class DataTesters {</span>
-<span class="fc" id="L9">	private static final Charset UTF8 = Charset.forName(&quot;utf-8&quot;);</span>
+/**
+ * Factory-methods to create DataTester instances.
+ */
+<span class="nc" id="L11">public class DataTesters {</span>
+
+	/**
+	 * Creates a tester for generating or verifying unsigned 8 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * To test for the sequence
+	 * &lt;pre&gt;
+	 *     01 02 03 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(u8(&quot;data&quot;, 1, 2, 3, 4), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 8 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u8(String name, Number... values) {
-<span class="fc" id="L11">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 1, values);</span>
+<span class="fc" id="L32">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 1, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 8 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     u8(&quot;u8&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #u8(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 8 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u8(Number... values) {
-<span class="fc" id="L15">		return u8(&quot;u8&quot;, values);</span>
+<span class="fc" id="L50">		return u8(&quot;u8&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 8 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * To test for the sequence
+	 * &lt;pre&gt;
+	 *     ff fe fd fc
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(s8(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to signed 8 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s8(String name, Number... values) {
-<span class="nc" id="L19">		return new IntTester(name, IntTester.IntFormat.SIGNED, 1, values);</span>
+<span class="nc" id="L72">		return new IntTester(name, IntTester.IntFormat.SIGNED, 1, values);</span>
 	}
 
+
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 8 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     s8(&quot;s8&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #s8(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to signed 8 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s8(Number... values) {
-<span class="nc" id="L23">		return s8(&quot;s8&quot;, values);</span>
+<span class="nc" id="L91">		return s8(&quot;s8&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 8 bit values.
+	 * Values will be presented in hexadecimal in reports and failures.
+	 * &lt;p/&gt;
+	 * To test for the sequence
+	 * &lt;pre&gt;
+	 *     01 02 03 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(h8(&quot;data&quot;, 0x01, 0x02, 0x03, 0x04), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 8 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h8(String name, Number... values) {
-<span class="fc" id="L27">		return new IntTester(name, IntTester.IntFormat.HEX, 1, values);</span>
+<span class="fc" id="L113">		return new IntTester(name, IntTester.IntFormat.HEX, 1, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 8 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     h8(&quot;h8&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #h8(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 8 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h8(Number... values) {
-<span class="nc" id="L31">		return h8(&quot;h8&quot;, values);</span>
+<span class="nc" id="L131">		return h8(&quot;h8&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 16 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     01 01 02 02 03 03 04 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(u16(&quot;data&quot;, 257, 514, 771, 1028), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 16 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u16(String name, Number... values) {
-<span class="nc" id="L35">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 2, values);</span>
+<span class="nc" id="L154">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 2, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 16 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     u16(&quot;u16&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #u16(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 16 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u16(Number... values) {
-<span class="nc" id="L39">		return u16(&quot;u16&quot;, values);</span>
+<span class="nc" id="L173">		return u16(&quot;u16&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 16 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     ff ff ff fe ff fd ff fc
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(s16(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to signed 16 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s16(String name, Number... values) {
-<span class="nc" id="L43">		return new IntTester(name, IntTester.IntFormat.SIGNED, 2, values);</span>
+<span class="nc" id="L196">		return new IntTester(name, IntTester.IntFormat.SIGNED, 2, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 16 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     s16(&quot;s16&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #s16(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to signed 16 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s16(Number... values) {
-<span class="nc" id="L47">		return s16(&quot;s16&quot;, values);</span>
+<span class="nc" id="L214">		return s16(&quot;s16&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 16 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     01 01 02 02 03 03 04 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(h16(&quot;data&quot;, 0x0101, 0x0202, 0x0303, 0x0404), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 16 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h16(String name, Number... values) {
-<span class="nc" id="L51">		return new IntTester(name, IntTester.IntFormat.HEX, 2, values);</span>
+<span class="nc" id="L237">		return new IntTester(name, IntTester.IntFormat.HEX, 2, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 16 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     h16(&quot;h16&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #h16(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 16 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h16(Number... values) {
-<span class="nc" id="L55">		return h16(&quot;h16&quot;, values);</span>
+<span class="nc" id="L256">		return h16(&quot;h16&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 24 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     01 01 01 02 02 02 03 03 03 04 04 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(u24(&quot;data&quot;, 65793, 131586, 197379, 263172), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 24 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u24(String name, Number... values) {
-<span class="nc" id="L59">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 3, values);</span>
+<span class="nc" id="L279">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 3, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 24 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     u24(&quot;u24&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #u24(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 24 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u24(Number... values) {
-<span class="nc" id="L63">		return u24(&quot;u24&quot;, values);</span>
+<span class="nc" id="L298">		return u24(&quot;u24&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 24 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     ff ff ff ff ff fe ff ff fd ff ff fc
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(s24(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to signed 24 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s24(String name, Number... values) {
-<span class="nc" id="L67">		return new IntTester(name, IntTester.IntFormat.SIGNED, 3, values);</span>
+<span class="nc" id="L321">		return new IntTester(name, IntTester.IntFormat.SIGNED, 3, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 24 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     s24(&quot;s24&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #s24(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to signed 24 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s24(Number... values) {
-<span class="nc" id="L71">		return s24(&quot;s24&quot;, values);</span>
+<span class="nc" id="L339">		return s24(&quot;s24&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 24 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     01 01 01 02 02 02 03 03 03 04 04 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(h24(&quot;data&quot;,&lt;br/&gt;
+	 *       0x010101, 0x020202,&lt;br/&gt;
+	 *       0x030303, 0x040404), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 24 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h24(String name, Number... values) {
-<span class="nc" id="L75">		return new IntTester(name, IntTester.IntFormat.HEX, 3, values);</span>
+<span class="nc" id="L364">		return new IntTester(name, IntTester.IntFormat.HEX, 3, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 24 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     h24(&quot;h24&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #h24(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 24 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h24(Number... values) {
-<span class="nc" id="L79">		return h24(&quot;h24&quot;, values);</span>
+<span class="nc" id="L383">		return h24(&quot;h24&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 32 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     01 01 01 01 02 02 02 02 03 03 03 03 04 04 04 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(u32(&quot;data&quot;,&lt;br/&gt;
+	 *       16843009, 33686018,&lt;br/&gt;
+	 *       50529027, 67372036), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 32 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u32(String name, Number... values) {
-<span class="nc" id="L83">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 4, values);</span>
+<span class="nc" id="L408">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 4, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 32 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     u32(&quot;u32&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #u32(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 32 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u32(Number... values) {
-<span class="nc" id="L87">		return u32(&quot;u32&quot;, values);</span>
+<span class="nc" id="L427">		return u32(&quot;u32&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 32 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     ff ff ff ff ff ff ff fe ff ff ff fd ff ff ff fc
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(s32(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to signed 32 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s32(String name, Number... values) {
-<span class="nc" id="L91">		return new IntTester(name, IntTester.IntFormat.SIGNED, 4, values);</span>
+<span class="nc" id="L450">		return new IntTester(name, IntTester.IntFormat.SIGNED, 4, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 32 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     s32(&quot;s32&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #s32(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to signed 32 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s32(Number... values) {
-<span class="nc" id="L95">		return s32(&quot;s32&quot;, values);</span>
+<span class="nc" id="L468">		return s32(&quot;s32&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 32 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     01 01 01 01 02 02 02 02 03 03 03 03 04 04 04 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(h24(&quot;data&quot;,&lt;br/&gt;
+	 *       0x01010101, 0x02020202,&lt;br/&gt;
+	 *       0x03030303, 0x04040404), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 32 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h32(String name, Number... values) {
-<span class="nc" id="L99">		return new IntTester(name, IntTester.IntFormat.HEX, 4, values);</span>
+<span class="nc" id="L493">		return new IntTester(name, IntTester.IntFormat.HEX, 4, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 32 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     h32(&quot;h32&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #h32(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 32 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h32(Number... values) {
-<span class="nc" id="L103">		return h32(&quot;h32&quot;, values);</span>
+<span class="nc" id="L512">		return h32(&quot;h32&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 64 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     01 01 01 01 01 01 01 01 02 02 02 02 02 02 02 02
+	 *     03 03 03 03 03 03 03 03 04 04 04 04 04 04 04 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(u64(&quot;data&quot;,&lt;br/&gt;
+	 *        72340172838076673L, 144680345676153346L,&lt;br/&gt;
+	 *       217020518514230019L, 289360691352306692L), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 64 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u64(String name, Number... values) {
-<span class="nc" id="L107">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 8, values);</span>
+<span class="nc" id="L538">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 8, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 64 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     u64(&quot;u64&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #u64(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 64 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester u64(Number... values) {
-<span class="nc" id="L111">		return u64(&quot;u64&quot;, values);</span>
+<span class="nc" id="L557">		return u64(&quot;u64&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 64 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff fe
+	 *     ff ff ff ff ff ff ff fd ff ff ff ff ff ff ff fc
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(s32(&quot;data&quot;, -1, -2, -3, -4), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to signed 64 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s64(String name, Number... values) {
-<span class="nc" id="L115">		return new IntTester(name, IntTester.IntFormat.SIGNED, 8, values);</span>
+<span class="nc" id="L581">		return new IntTester(name, IntTester.IntFormat.SIGNED, 8, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying signed (two's-complement) 64 bit values.
+	 * Values will be presented in decimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     s64(&quot;s64&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #s64(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to signed 64 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester s64(Number... values) {
-<span class="nc" id="L119">		return s64(&quot;s64&quot;, values);</span>
+<span class="nc" id="L599">		return s64(&quot;s64&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 64 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Given a buffer in big endian format, to test for the sequence:
+	 * &lt;pre&gt;
+	 *     01 01 01 01 01 01 01 01 02 02 02 02 02 02 02 02
+	 *     03 03 03 03 03 03 03 03 04 04 04 04 04 04 04 04
+	 * &lt;/pre&gt;
+	 * The following code could be used:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(h24(&quot;data&quot;,&lt;br/&gt;
+	 *       0x0101010101010101L, 0x0202020202020202L,&lt;br/&gt;
+	 *       0x0303030303030303L, 0x0404040404040404L), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 64 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h64(String name, Number... values) {
-<span class="nc" id="L123">		return new IntTester(name, IntTester.IntFormat.HEX, 8, values);</span>
+<span class="nc" id="L625">		return new IntTester(name, IntTester.IntFormat.HEX, 8, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying unsigned 64 bit values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;code&gt;
+	 *     h64(&quot;h64&quot;, values)
+	 * &lt;/code&gt;
+	 *
+	 * @see #h64(String, Number...)
+	 * @param values a list of values to generate or validate. Will be converted to unsigned 64 bit values before testing.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester h64(Number... values) {
-<span class="nc" id="L127">		return h64(&quot;h64&quot;, values);</span>
+<span class="nc" id="L643">		return h64(&quot;h64&quot;, values);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying a collection of testers.
+	 * Value names will be presented in a structured form like {@code structName.elementName} whereas the values themselves will be presented in the form specified by its tester.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Example:
+	 * &lt;code&gt;
+	 *     assertExact(struct(&quot;message&quot;,&lt;br/&gt;
+	 *     	u8(&quot;length&quot;, 15),&lt;br/&gt;
+	 *     	h16(&quot;code&quot;, 0x1010),&lt;br/&gt;
+	 *     	h32(&quot;propertyKey&quot;, 0x12345678),&lt;br/&gt;
+	 *     	s64(&quot;propertyValue&quot;, -1)), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param elements a list of testers to generate or validate. Each tester will be evaluated in the order they are specified.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester struct(String name, DataTester... elements) {
-<span class="fc" id="L131">		return new StructTester(name, elements);</span>
+<span class="fc" id="L665">		return new StructTester(name, elements);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying a collection of testers.
+	 * Value names will be presented in a structured form like {@code structName.elementName} whereas the values themselves will be presented in the form specified by its tester.
+	 * Testing and generation endianness is determined by the byte order of the buffer.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;code&gt;
+	 *     struct(&quot;struct&quot;, elements)
+	 * &lt;/code&gt;
+	 *
+	 * @see #struct(String, DataTester...)
+	 * @param elements a list of testers to generate or validate. Each tester will be evaluated in the order they are specified.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester struct(DataTester... elements) {
-<span class="nc" id="L135">		return struct(&quot;struct&quot;, elements);</span>
+<span class="nc" id="L683">		return struct(&quot;struct&quot;, elements);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying a collection of testers.
+	 * Value names will be presented in a list form like {@code structName[index]} whereas the values themselves will be presented in the form specified by its tester.
+	 * &lt;p/&gt;
+	 * Example:
+	 * &lt;code&gt;
+	 *     assertExact(list(&quot;names&quot;,&lt;br/&gt;
+	 *     	struct(&quot;name&quot;, u8(&quot;length&quot;, 5), utf8(&quot;text&quot;, &quot;name1&quot;)),&lt;br/&gt;
+	 *     	struct(&quot;name&quot;, u8(&quot;length&quot;, 5), utf8(&quot;text&quot;, &quot;name2&quot;)),&lt;br/&gt;
+	 *     	struct(&quot;name&quot;, u8(&quot;length&quot;, 5), utf8(&quot;text&quot;, &quot;name3&quot;)))), byteBuffer);
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param elements a list of testers to generate or validate. Each tester will be evaluated in the order they are specified.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester list(String name, DataTester... elements) {
-<span class="nc" id="L139">		return new ListTester(name, elements);</span>
+<span class="nc" id="L703">		return new ListTester(name, elements);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying a collection of testers.
+	 * Value names will be presented in a list form like {@code structName[index]} whereas the values themselves will be presented in the form specified by its tester.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     list(&quot;list&quot;, elements)
+	 * &lt;/code&gt;
+	 *
+	 * @see #list(String, DataTester...)
+	 * @param elements a list of testers to generate or validate. Each tester will be evaluated in the order they are specified.
+	 * @return the DataTester for generating or verifying the values
+	 */
 	public static DataTester list(DataTester... elements) {
-<span class="nc" id="L143">		return list(&quot;list&quot;, elements);</span>
+<span class="nc" id="L721">		return list(&quot;list&quot;, elements);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying utf-8 encoded strings.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Example:
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(utf8(&quot;name&quot;, &quot;value&quot;), byteBuffer);
+	 * &lt;/code&gt;
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     bytes(name, value.getBytes(UTF_8))
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param value a string whose utf-8 representation to generate or validate.
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester utf8(String name, String value) {
-<span class="nc" id="L147">		return new BytesTester(name, value.getBytes(UTF8));</span>
+<span class="nc" id="L745">		return bytes(name, value.getBytes(UTF_8));</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying utf-8 encoded strings.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     utf8(&quot;utf8&quot;, value)
+	 * &lt;/code&gt;
+	 *
+	 * @see #utf8(String, String)
+	 * @param value a string whose utf-8 representation to generate or validate.
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester utf8(String value) {
-<span class="nc" id="L151">		return utf8(&quot;utf8&quot;, value);</span>
+<span class="nc" id="L763">		return utf8(&quot;utf8&quot;, value);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying a list of byte values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Example
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     bytes(&quot;something&quot;, &quot;bytes&quot;.getBytes(UTF_16BE))
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param bytes an array of bytes to generate or validate
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester bytes(String name, byte... bytes) {
-<span class="nc" id="L155">		return new BytesTester(name, bytes);</span>
+<span class="nc" id="L781">		return new BytesTester(name, bytes);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying a list of byte values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     bytes(&quot;bytes&quot;, bytes)
+	 * &lt;/code&gt;
+	 * @see #bytes(String, byte...)
+	 * @param bytes an array of bytes to generate or validate
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester bytes(byte... bytes) {
-<span class="nc" id="L159">		return bytes(&quot;bytes&quot;, bytes);</span>
+<span class="nc" id="L798">		return bytes(&quot;bytes&quot;, bytes);</span>
 	}
 
+	/**
+	 * Creates a tester for skipping a number of bytes in when testing.
+	 * When generating, this tester will generate {@code size} zero-bytes.
+	 * &lt;p/&gt;
+	 * Example
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     skip(&quot;unused&quot;, size)
+	 * &lt;/code&gt;
+	 * @see #zero(String, int)
+	 * @param name the name of the tester.
+	 * @param size the number of bytes to skip
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester skip(String name, int size) {
-<span class="nc" id="L163">		return new SkippingTester(name, size);</span>
+<span class="nc" id="L816">		return new SkippingTester(name, size);</span>
 	}
 
+	/**
+	 * Creates a tester for skipping a number of bytes in when testing.
+	 * When generating, this tester will generate {@code size} zero-bytes.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     skip(&quot;skip&quot;, bytes)
+	 * &lt;/code&gt;
+	 * @see #skip(String, int)
+	 * @param size the number of bytes to skip
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester skip(int size) {
-<span class="nc" id="L167">		return skip(&quot;skip&quot;, size);</span>
+<span class="nc" id="L833">		return skip(&quot;skip&quot;, size);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying a sequence of {@code count} of zero-bytes.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Example
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     zero(&quot;padding&quot;, 42)
+	 * &lt;/code&gt;
+	 * @see #skip(String, int)
+	 * @param name the name of the tester.
+	 * @param count the number of bytes to skip
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester zero(String name, int count) {
-<span class="nc" id="L171">		byte[] v = new byte[count];</span>
-<span class="nc" id="L172">		Arrays.fill(v, (byte) 0);</span>
-<span class="nc" id="L173">		return bytes(name, v);</span>
+<span class="nc" id="L851">		byte[] v = new byte[count];</span>
+<span class="nc" id="L852">		Arrays.fill(v, (byte) 0);</span>
+<span class="nc" id="L853">		return bytes(name, v);</span>
 	}
 
+	/**
+	 * Creates a tester for generating or verifying a sequence of {@code count} of zero-bytes.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     zero(&quot;zero&quot;, count)
+	 * &lt;/code&gt;
+	 * @see #zero(String, int)
+	 * @param count the number of bytes to skip
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester zero(int count) {
-<span class="nc" id="L177">		return zero(&quot;zero&quot;, count);</span>
+<span class="nc" id="L870">		return zero(&quot;zero&quot;, count);</span>
 	}
 
+	/**
+	 * Modifies a tester to defer validation to a the pass after when it would ordinarily be executed.
+	 * Has no effect on generation.
+	 * @param tester the tester whose execution is to be deferred
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester defer(DataTester tester) {
-<span class="nc" id="L181">		return new DeferringTesterModifier(tester);</span>
+<span class="nc" id="L880">		return new DeferringTesterModifier(tester);</span>
 	}
 
+	/**
+	 * Modifies a tester to emit a fatal error on a non-fatal validation failure, thus stopping the validation of any subsequent testers or validation passes.
+	 * Has no effect on generation.
+	 * @param tester the tester whose execution result is to be modified
+	 * @return the DataTester for generating or verifying the value
+	 */
 	public static DataTester fatal(DataTester tester) {
-<span class="nc" id="L185">		return new FatalTesterModifier(tester);</span>
+<span class="nc" id="L890">		return new FatalTesterModifier(tester);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>

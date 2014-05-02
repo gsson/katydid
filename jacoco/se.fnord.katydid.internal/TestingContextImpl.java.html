@@ -20,7 +20,7 @@ public class TestingContextImpl implements TestingContext {
 	private final Deque&lt;SubContext&gt; testers;
 	private final List&lt;String&gt; messages;
 
-	private class SubContext {
+	private static class SubContext {
 		private int itemIndex;
 		private DataTester tester;
 

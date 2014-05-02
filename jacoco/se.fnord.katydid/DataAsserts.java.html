@@ -15,31 +15,69 @@ import java.nio.ByteBuffer;
 		}
 <span class="fc" id="L16">	}</span>
 
-	public static void assertNext(DataTester dataTester, ByteBuffer bb) {
-<span class="nc" id="L19">		TestingContextImpl tc = new TestingContextImpl(bb);</span>
-<span class="nc" id="L20">		assertNext(tc, dataTester, bb);</span>
-<span class="nc" id="L21">		tc.assertSuccess(dataTester);</span>
-<span class="nc" id="L22">	}</span>
+	/**
+	 * Asserts that the next sequence of bytes matches the tester.
+	 * On successful return, the position of {@code bb} is positioned on {@code bb.position() + tester.length()}. The position is undefined in the case of an error.
+	 *
+	 * @throws java.lang.AssertionError if a value does not match or {@code bb} contains too few bytes.
+	 * @param tester the tester to use when verifying the buffer.
+	 * @param bb the ByteBuffer to test
+	 * @return {@code bb}
+	 */
+	public static ByteBuffer assertNext(DataTester tester, ByteBuffer bb) {
+<span class="nc" id="L28">		TestingContextImpl tc = new TestingContextImpl(bb);</span>
+<span class="nc" id="L29">		assertNext(tc, tester, bb);</span>
+<span class="nc" id="L30">		tc.assertSuccess(tester);</span>
+<span class="nc" id="L31">		return bb;</span>
+	}
 
-	public static void assertExact(DataTester dataTester, ByteBuffer bb) {
-<span class="fc" id="L25">		ByteBuffer bb2 = bb.slice();</span>
-<span class="fc" id="L26">		TestingContextImpl tc = new TestingContextImpl(bb2);</span>
-<span class="fc bfc" id="L27" title="All 2 branches covered.">		if (bb2.remaining() != dataTester.length())</span>
-<span class="fc" id="L28">			tc.addFailure(&quot;%d bytes data expected, was %d bytes&quot;, dataTester.length(), bb.remaining());</span>
-<span class="fc" id="L29">		assertNext(tc, dataTester, bb2);</span>
-<span class="fc" id="L30">		tc.assertSuccess(dataTester);</span>
-<span class="fc" id="L31">	}</span>
+	/**
+	 * Asserts that the remaining bytes of {@code bb} exactly matches the tester.
+	 * {@code bb} is not modified.
+	 *
+	 * @throws java.lang.AssertionError if a value does not match or {@code bb} does not contain exactly {@code tester.length()} bytes.
+	 * @param tester the tester to use when verifying the buffer.
+	 * @param bb the ByteBuffer to test
+	 */
+	public static void assertExact(DataTester tester, ByteBuffer bb) {
+<span class="fc" id="L43">		ByteBuffer bb2 = bb.slice();</span>
+<span class="fc" id="L44">		TestingContextImpl tc = new TestingContextImpl(bb2);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		if (bb2.remaining() != tester.length())</span>
+<span class="fc" id="L46">			tc.addFailure(&quot;%d bytes data expected, was %d bytes&quot;, tester.length(), bb.remaining());</span>
+<span class="fc" id="L47">		assertNext(tc, tester, bb2);</span>
+<span class="fc" id="L48">		tc.assertSuccess(tester);</span>
+<span class="fc" id="L49">	}</span>
 
-	public static void assertExact(DataTester dataTester, byte[] bytes) {
-<span class="nc" id="L34">		assertExact(dataTester, ByteBuffer.wrap(bytes));</span>
-<span class="nc" id="L35">	}</span>
+	/**
+	 * Asserts that {@code bytes} exactly matches the tester.
+	 * {@code bytes} is treated as being big endian.
+	 * &lt;p/&gt;
+	 * Equivalent to calling
+	 * &lt;p/&gt;
+	 * &lt;code&gt;
+	 *     assertExact(tester, ByteBuffer.wrap(bytes))
+	 * &lt;/code&gt;
+	 *
+	 * @throws java.lang.AssertionError if a value does not match or {@code bb} does not contain exactly {@code tester.length()} bytes.
+	 * @param tester the tester to use when verifying the buffer.
+	 * @param bytes the bytes to test
+	 */
+	public static void assertExact(DataTester tester, byte[] bytes) {
+<span class="nc" id="L66">		assertExact(tester, ByteBuffer.wrap(bytes));</span>
+<span class="nc" id="L67">	}</span>
 
-	public static ByteBuffer asBuffer(DataTester dataTester) {
-<span class="fc" id="L38">		int length = dataTester.length();</span>
-<span class="fc" id="L39">		ByteBuffer bb = ByteBuffer.allocate(length);</span>
-<span class="fc" id="L40">		dataTester.toBuffer(bb);</span>
-<span class="fc" id="L41">		bb.flip();</span>
-<span class="fc" id="L42">		return bb;</span>
+	/**
+	 * Creates a ByteBuffer with contents that will match {@code tester} when used as input to {@code assertExact()}
+	 *
+	 * @param tester the tester to use when generating the buffer.
+	 * @return the ByteBuffer containing the generated data.
+	 */
+	public static ByteBuffer asBuffer(DataTester tester) {
+<span class="fc" id="L76">		int length = tester.length();</span>
+<span class="fc" id="L77">		ByteBuffer bb = ByteBuffer.allocate(length);</span>
+<span class="fc" id="L78">		tester.toBuffer(bb);</span>
+<span class="fc" id="L79">		bb.flip();</span>
+<span class="fc" id="L80">		return bb;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>
