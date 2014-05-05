@@ -1,17 +1,30 @@
 KATYDID
 =======
 
-(KATYDID Asserts That Your Data Is Deluxe)
+(Katydid Asserts That Your Data Is Deluxe)
 
 [![Build Status](https://travis-ci.org/gsson/katydid.svg?branch=master)](https://travis-ci.org/gsson/katydid)
 
-KATYDID is a tool for testing serialization and deserialization of messages. [wanders](https://github.com/wanders) came up with the most excellent name (thanks!)
+Katydid is a tool for testing serialization and deserialization of messages. [wanders](https://github.com/wanders) came up with the most excellent name (thanks!)
 
 It's main features are readable message definitions and decent error messages. It's designed for easy composability and reuse.
 
 * Javadocs are [here](http://gsson.github.io/katydid/javadoc/)
-* Test coverage is [here](http://gsson.github.io/katydid/jacoco/)
+* Release binaries can be downloaded from [Maven Central](http://central.maven.org/maven2/se/fnord/katydid/)
+* Snapshots can be downloaded from [Sonatype](https://oss.sonatype.org/content/repositories/snapshots/se/fnord/katydid/)
 
+For automatic dependency management, here's the incantation for your `pom.xml`:
+
+    <dependency>
+      <groupId>se.fnord</groupId>
+      <artifactId>katydid</artifactId>
+      <version>0.5.0</version>
+      <scope>test</scope>
+    </dependency>
+
+And one for your `build.gradle` if that's more convenient:
+
+    testCompile 'se.fnord:katydid:0.5.0'
 
 License
 -------
