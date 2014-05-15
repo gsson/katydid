@@ -21,10 +21,6 @@ public class IntTester extends ValueTester {
 		this.formatter = formatterFor(elementWidth, format);
 	}
 
-	private long read(ByteBuffer bb) {
-		return Util.read(bb, elementWidth);
-	}
-
 	private void write(ByteBuffer bb, long value) {
 		Util.write(bb, elementWidth, value);
 	}

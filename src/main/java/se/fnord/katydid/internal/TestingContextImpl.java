@@ -55,10 +55,6 @@ public class TestingContextImpl implements TestingContext {
 		return true;
 	}
 
-	private static long swap(int elementWidth, long value) {
-		return Long.reverseBytes(value) >>> (8 * (8 - elementWidth));
-	}
-
 	@Override
 	public byte read() {
 		return buffer.get();
