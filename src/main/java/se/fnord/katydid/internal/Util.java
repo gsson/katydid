@@ -15,6 +15,13 @@ public class Util {
 		return Long.reverseBytes(value) >>> (8 * (8 - elementWidth));
 	}
 
+	public static long mask(int width) {
+		if (width == 8) {
+			return -1L;
+		}
+		return (1L << (width * 8)) - 1;
+	}
+
 	public static long read(ByteBuffer bb, int elementWidth) {
 		final long value = readBE(bb, elementWidth);
 		if (bb.order() == ByteOrder.BIG_ENDIAN) {

@@ -6,6 +6,7 @@ import se.fnord.katydid.TestingContext;
 import java.nio.ByteBuffer;
 
 import static se.fnord.katydid.ComparisonStatus.CONTINUE;
+import static se.fnord.katydid.internal.Util.mask;
 
 public class IntTester extends ValueTester {
 	public enum IntFormat {HEX, SIGNED, UNSIGNED};
@@ -63,14 +64,6 @@ public class IntTester extends ValueTester {
 
 	static interface IntFormatter {
 		String format(long value);
-	}
-
-	static long mask(int width) {
-		if (width == 8) {
-			return -1L;
-		}
-		return (1L << (width * 8)) - 1;
-
 	}
 
 	static long signBit(int width) {
