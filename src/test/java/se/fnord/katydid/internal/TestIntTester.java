@@ -96,6 +96,13 @@ public class TestIntTester {
 	}
 
 	@Test
+	public void testInt64Succeeds() {
+		IntTester h32 = new IntTester("h32", IntTester.IntFormat.HEX, 4, Integer.MIN_VALUE);
+		assertEquals(4, h32.length());
+		assertSuccess(0, h32, bytes(0x80, 0x00, 0x00, 0x00));
+	}
+
+	@Test
 	public void testInt8SucceedsOnOtherPasses() {
 		IntTester s8 = new IntTester("s8", IntTester.IntFormat.SIGNED, 1, 1, 2, 3, 4);
 		assertEquals(4, s8.length());

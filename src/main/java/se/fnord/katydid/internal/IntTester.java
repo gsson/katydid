@@ -36,15 +36,23 @@ public class IntTester extends ValueTester {
 		return values.length;
 	}
 
+	private long valueAt(int itemIndex) {
+		return values[itemIndex].longValue() & mask(elementWidth);
+	}
+
+	private long nextValueFrom(TestingContext context) {
+		return context.read(elementWidth) & mask(elementWidth);
+	}
+
 	@Override
 	protected ComparisonStatus compareItem0(TestingContext context, int itemIndex) {
-		checkEquals(context, itemIndex, values[itemIndex].longValue(), context.read(elementWidth));
+		checkEquals(context, itemIndex, valueAt(itemIndex), nextValueFrom(context));
 		return CONTINUE;
 	}
 
 	@Override
 	public String formatValue(Object v) {
-		return formatter.format(((Number) v).longValue());
+		return formatter.format(((Number) v).longValue() & mask(elementWidth));
 	}
 
 	@Override
