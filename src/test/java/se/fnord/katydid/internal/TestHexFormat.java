@@ -20,21 +20,23 @@ public class TestHexFormat {
 		return sb.toString();
 	}
 
-	private static String formatLine(ByteBuffer bb) {
+	private static String formatLine(ByteBuffer bb, int offsetWidth) {
 		StringBuilder sb = new StringBuilder();
-		HexFormat.formatLine(sb, bb);
+		HexFormat.formatLine(sb, bb, offsetWidth);
 		return sb.toString();
 	}
 
 	@Test
 	public void testFormatLine() {
-		assertEquals("00: 01 02 03 04                                      | ....             ", formatLine(bytes(1, 2, 3, 4)));
-		assertEquals("00: 30 31 32 33 34 35 36 37  38 39 41 42 43 44 45 46 | 01234567 89ABCDEF", formatLine(utf8("0123456789ABCDEF")));
+		assertEquals("00: 01 02 03 04                                      | ....             ", formatLine(bytes(1, 2, 3, 4), 2));
+		assertEquals("000: 01 02 03 04                                      | ....             ", formatLine(bytes(1, 2, 3, 4), 3));
+
+		assertEquals("00: 30 31 32 33 34 35 36 37  38 39 41 42 43 44 45 46 | 01234567 89ABCDEF", formatLine(utf8("0123456789ABCDEF"), 2));
 
 		ByteBuffer bb = utf8("0123456789ABCDEF");
 		bb.position(2);
 		bb.limit(16 - 2);
-		assertEquals("00:       32 33 34 35 36 37  38 39 41 42 43 44       |   234567 89ABCD  ", formatLine(bb));
+		assertEquals("00:       32 33 34 35 36 37  38 39 41 42 43 44       |   234567 89ABCD  ", formatLine(bb, 2));
 	}
 
 	@Test

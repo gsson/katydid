@@ -27,10 +27,6 @@ public class HexFormat {
 		return sb.toString();
 	}
 
-	private static int maxOffset(ByteBuffer bb) {
-		return bb.limit() & ~0xf;
-	}
-
 	private static int lineOffset(ByteBuffer bb) {
 		return bb.position() & ~0xf;
 	}
@@ -97,9 +93,8 @@ public class HexFormat {
 		}
 	}
 
-	static void formatLine(StringBuilder sb, ByteBuffer bb) {
-		int width = Math.max(2, hexLength(maxOffset(bb)));
-		HexFormat.formatOffset(sb, width, lineOffset(bb));
+	static void formatLine(StringBuilder sb, ByteBuffer bb, int offsetWidth) {
+		HexFormat.formatOffset(sb, offsetWidth, lineOffset(bb));
 		sb.append(": ");
 		int p = bb.position();
 		formatHexLine(sb, bb);
@@ -117,17 +112,18 @@ public class HexFormat {
 
 	public static String format(ByteBuffer bb) {
 		StringBuilder sb = new StringBuilder(bb.remaining() * 4);
-		format(sb, bb);
+		format(sb, bb, bb.limit());
 		return sb.toString();
 	}
 
-	public static void format(StringBuilder sb, ByteBuffer bb) {
+	public static void format(StringBuilder sb, ByteBuffer bb, int maxOffset) {
 		ByteBuffer bb2 = bb.asReadOnlyBuffer();
 		int l = bb2.limit();
+		int offsetWidth = Math.max(2, hexLength((maxOffset - 1) & ~0xff));
 
 		do {
 			bb2.limit(Math.min(bb2.position() + 16, l));
-			formatLine(sb, bb2);
+			formatLine(sb, bb2, offsetWidth);
 			sb.append(System.lineSeparator());
 		} while (bb2.limit() < l);
 	}

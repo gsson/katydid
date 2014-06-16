@@ -137,17 +137,19 @@ public class TestingContextImpl implements TestingContext {
 		if (messages.isEmpty())
 			return;
 
+		final int maxOffset = Math.max(buffer.limit(), root.length());
 		final StringBuilder sb = new StringBuilder();
+
 		sb.append("Test failed:").append(System.lineSeparator());
 		for (String message : messages)
 			sb.append("* ").append(message).append(System.lineSeparator());
 
 		sb.append("Expected bytes:").append(System.lineSeparator());
-		HexFormat.format(sb, DataAsserts.asBuffer(root));
+		HexFormat.format(sb, DataAsserts.asBuffer(root), maxOffset);
 
 		buffer.position(startPosition).limit(startLimit);
 		sb.append("Actual bytes:").append(System.lineSeparator());
-		HexFormat.format(sb, buffer);
+		HexFormat.format(sb, buffer, maxOffset);
 		throw new AssertionError(sb.toString());
 	}
 
