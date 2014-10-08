@@ -3,6 +3,8 @@ package se.fnord.katydid;
 import se.fnord.katydid.internal.*;
 
 import static java.nio.charset.StandardCharsets.*;
+import static se.fnord.katydid.internal.Util.fromHex;
+
 import java.util.Arrays;
 
 /**
@@ -796,6 +798,41 @@ public class DataTesters {
 	 */
 	public static DataTester bytes(byte... bytes) {
 		return bytes("bytes", bytes);
+	}
+
+	/**
+	 * Creates a tester for generating or verifying a list of byte values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * <p>
+	 * Example
+	 * <p>
+	 * <code>
+	 *     bytes("something", "010203aabb")
+	 * </code>
+	 *
+	 * @param name the name of the tester.
+	 * @param hexBytes a hex string representing the bytes to generate or validate
+	 * @return the DataTester for generating or verifying the value
+	 */
+	public static DataTester bytes(String name, String hexBytes) {
+		return new BytesTester(name, fromHex(hexBytes));
+	}
+
+	/**
+	 * Creates a tester for generating or verifying a list of byte values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * <p>
+	 * Equivalent to calling
+	 * <p>
+	 * <code>
+	 *     bytes("bytes", hexBytes)
+	 * </code>
+	 * @see #bytes(String, String)
+	 * @param String hexBytes a hex string representing the bytes to generate or validate
+	 * @return the DataTester for generating or verifying the value
+	 */
+	public static DataTester bytes(String hexBytes) {
+		return bytes("bytes", hexBytes);
 	}
 
 	/**

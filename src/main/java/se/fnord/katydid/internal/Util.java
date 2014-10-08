@@ -77,4 +77,25 @@ public class Util {
 		bb.flip();
 		return bb;
 	}
+
+	public static byte[] fromHex(String hexBytes) {
+		byte[] result = new byte[(hexBytes.length() + 1) / 2];
+		int n = 0;
+		for (char c : hexBytes.toCharArray()) {
+			int digit = Character.digit(c, 16);
+			if (digit == -1)
+				throw new IllegalArgumentException("Not a valid hex digit: " + c);
+			int index = n >>> 1;
+			if ((n & 1) == 0) {
+				result[index] = (byte) digit;
+			}
+			else {
+				result[index] = (byte) ((result[index] << 4) | digit);
+			}
+
+			n++;
+		}
+
+		return result;
+	}
 }
