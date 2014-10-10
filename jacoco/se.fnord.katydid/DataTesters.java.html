@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DataTesters.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid</a> &gt; <span class="el_source">DataTesters.java</span></div><h1>DataTesters.java</h1><pre class="source lang-java linenums">package se.fnord.katydid;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DataTesters.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.source.html" class="el_package">se.fnord.katydid</a> &gt; <span class="el_source">DataTesters.java</span></div><h1>DataTesters.java</h1><pre class="source lang-java linenums">package se.fnord.katydid;
 
 import se.fnord.katydid.internal.*;
 
 import static java.nio.charset.StandardCharsets.*;
+import static se.fnord.katydid.internal.Util.fromHex;
+
 import java.util.Arrays;
 
 /**
  * Factory-methods to create DataTester instances.
  */
-<span class="nc" id="L11">public class DataTesters {</span>
+<span class="nc" id="L13">public class DataTesters {</span>
 
 	/**
 	 * Creates a tester for generating or verifying unsigned 8 bit values.
@@ -29,7 +31,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u8(String name, Number... values) {
-<span class="fc" id="L32">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 1, values);</span>
+<span class="fc" id="L34">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 1, values);</span>
 	}
 
 	/**
@@ -47,7 +49,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u8(Number... values) {
-<span class="fc" id="L50">		return u8(&quot;u8&quot;, values);</span>
+<span class="fc" id="L52">		return u8(&quot;u8&quot;, values);</span>
 	}
 
 	/**
@@ -69,7 +71,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s8(String name, Number... values) {
-<span class="nc" id="L72">		return new IntTester(name, IntTester.IntFormat.SIGNED, 1, values);</span>
+<span class="nc" id="L74">		return new IntTester(name, IntTester.IntFormat.SIGNED, 1, values);</span>
 	}
 
 
@@ -88,7 +90,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s8(Number... values) {
-<span class="nc" id="L91">		return s8(&quot;s8&quot;, values);</span>
+<span class="nc" id="L93">		return s8(&quot;s8&quot;, values);</span>
 	}
 
 	/**
@@ -110,7 +112,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h8(String name, Number... values) {
-<span class="fc" id="L113">		return new IntTester(name, IntTester.IntFormat.HEX, 1, values);</span>
+<span class="fc" id="L115">		return new IntTester(name, IntTester.IntFormat.HEX, 1, values);</span>
 	}
 
 	/**
@@ -128,7 +130,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h8(Number... values) {
-<span class="nc" id="L131">		return h8(&quot;h8&quot;, values);</span>
+<span class="nc" id="L133">		return h8(&quot;h8&quot;, values);</span>
 	}
 
 	/**
@@ -151,7 +153,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u16(String name, Number... values) {
-<span class="nc" id="L154">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 2, values);</span>
+<span class="nc" id="L156">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 2, values);</span>
 	}
 
 	/**
@@ -170,7 +172,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u16(Number... values) {
-<span class="nc" id="L173">		return u16(&quot;u16&quot;, values);</span>
+<span class="nc" id="L175">		return u16(&quot;u16&quot;, values);</span>
 	}
 
 	/**
@@ -193,7 +195,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s16(String name, Number... values) {
-<span class="nc" id="L196">		return new IntTester(name, IntTester.IntFormat.SIGNED, 2, values);</span>
+<span class="nc" id="L198">		return new IntTester(name, IntTester.IntFormat.SIGNED, 2, values);</span>
 	}
 
 	/**
@@ -211,7 +213,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s16(Number... values) {
-<span class="nc" id="L214">		return s16(&quot;s16&quot;, values);</span>
+<span class="nc" id="L216">		return s16(&quot;s16&quot;, values);</span>
 	}
 
 	/**
@@ -234,7 +236,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h16(String name, Number... values) {
-<span class="nc" id="L237">		return new IntTester(name, IntTester.IntFormat.HEX, 2, values);</span>
+<span class="nc" id="L239">		return new IntTester(name, IntTester.IntFormat.HEX, 2, values);</span>
 	}
 
 	/**
@@ -253,7 +255,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h16(Number... values) {
-<span class="nc" id="L256">		return h16(&quot;h16&quot;, values);</span>
+<span class="nc" id="L258">		return h16(&quot;h16&quot;, values);</span>
 	}
 
 	/**
@@ -276,7 +278,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u24(String name, Number... values) {
-<span class="nc" id="L279">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 3, values);</span>
+<span class="nc" id="L281">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 3, values);</span>
 	}
 
 	/**
@@ -295,7 +297,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u24(Number... values) {
-<span class="nc" id="L298">		return u24(&quot;u24&quot;, values);</span>
+<span class="nc" id="L300">		return u24(&quot;u24&quot;, values);</span>
 	}
 
 	/**
@@ -318,7 +320,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s24(String name, Number... values) {
-<span class="nc" id="L321">		return new IntTester(name, IntTester.IntFormat.SIGNED, 3, values);</span>
+<span class="nc" id="L323">		return new IntTester(name, IntTester.IntFormat.SIGNED, 3, values);</span>
 	}
 
 	/**
@@ -336,7 +338,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s24(Number... values) {
-<span class="nc" id="L339">		return s24(&quot;s24&quot;, values);</span>
+<span class="nc" id="L341">		return s24(&quot;s24&quot;, values);</span>
 	}
 
 	/**
@@ -361,7 +363,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h24(String name, Number... values) {
-<span class="nc" id="L364">		return new IntTester(name, IntTester.IntFormat.HEX, 3, values);</span>
+<span class="nc" id="L366">		return new IntTester(name, IntTester.IntFormat.HEX, 3, values);</span>
 	}
 
 	/**
@@ -380,7 +382,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h24(Number... values) {
-<span class="nc" id="L383">		return h24(&quot;h24&quot;, values);</span>
+<span class="nc" id="L385">		return h24(&quot;h24&quot;, values);</span>
 	}
 
 	/**
@@ -405,7 +407,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u32(String name, Number... values) {
-<span class="nc" id="L408">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 4, values);</span>
+<span class="nc" id="L410">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 4, values);</span>
 	}
 
 	/**
@@ -424,7 +426,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u32(Number... values) {
-<span class="nc" id="L427">		return u32(&quot;u32&quot;, values);</span>
+<span class="nc" id="L429">		return u32(&quot;u32&quot;, values);</span>
 	}
 
 	/**
@@ -447,7 +449,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s32(String name, Number... values) {
-<span class="nc" id="L450">		return new IntTester(name, IntTester.IntFormat.SIGNED, 4, values);</span>
+<span class="nc" id="L452">		return new IntTester(name, IntTester.IntFormat.SIGNED, 4, values);</span>
 	}
 
 	/**
@@ -465,7 +467,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s32(Number... values) {
-<span class="nc" id="L468">		return s32(&quot;s32&quot;, values);</span>
+<span class="nc" id="L470">		return s32(&quot;s32&quot;, values);</span>
 	}
 
 	/**
@@ -490,7 +492,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h32(String name, Number... values) {
-<span class="fc" id="L493">		return new IntTester(name, IntTester.IntFormat.HEX, 4, values);</span>
+<span class="fc" id="L495">		return new IntTester(name, IntTester.IntFormat.HEX, 4, values);</span>
 	}
 
 	/**
@@ -509,7 +511,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h32(Number... values) {
-<span class="nc" id="L512">		return h32(&quot;h32&quot;, values);</span>
+<span class="fc" id="L514">		return h32(&quot;h32&quot;, values);</span>
 	}
 
 	/**
@@ -535,7 +537,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u64(String name, Number... values) {
-<span class="nc" id="L538">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 8, values);</span>
+<span class="nc" id="L540">		return new IntTester(name, IntTester.IntFormat.UNSIGNED, 8, values);</span>
 	}
 
 	/**
@@ -554,7 +556,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester u64(Number... values) {
-<span class="nc" id="L557">		return u64(&quot;u64&quot;, values);</span>
+<span class="nc" id="L559">		return u64(&quot;u64&quot;, values);</span>
 	}
 
 	/**
@@ -578,7 +580,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s64(String name, Number... values) {
-<span class="nc" id="L581">		return new IntTester(name, IntTester.IntFormat.SIGNED, 8, values);</span>
+<span class="nc" id="L583">		return new IntTester(name, IntTester.IntFormat.SIGNED, 8, values);</span>
 	}
 
 	/**
@@ -596,7 +598,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester s64(Number... values) {
-<span class="nc" id="L599">		return s64(&quot;s64&quot;, values);</span>
+<span class="nc" id="L601">		return s64(&quot;s64&quot;, values);</span>
 	}
 
 	/**
@@ -622,7 +624,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h64(String name, Number... values) {
-<span class="nc" id="L625">		return new IntTester(name, IntTester.IntFormat.HEX, 8, values);</span>
+<span class="nc" id="L627">		return new IntTester(name, IntTester.IntFormat.HEX, 8, values);</span>
 	}
 
 	/**
@@ -640,7 +642,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester h64(Number... values) {
-<span class="nc" id="L643">		return h64(&quot;h64&quot;, values);</span>
+<span class="nc" id="L645">		return h64(&quot;h64&quot;, values);</span>
 	}
 
 	/**
@@ -662,7 +664,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester struct(String name, DataTester... elements) {
-<span class="fc" id="L665">		return new StructTester(name, elements);</span>
+<span class="fc" id="L667">		return new StructTester(name, elements);</span>
 	}
 
 	/**
@@ -680,7 +682,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester struct(DataTester... elements) {
-<span class="fc" id="L683">		return struct(&quot;struct&quot;, elements);</span>
+<span class="fc" id="L685">		return struct(&quot;struct&quot;, elements);</span>
 	}
 
 	/**
@@ -700,7 +702,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester list(String name, DataTester... elements) {
-<span class="nc" id="L703">		return new ListTester(name, elements);</span>
+<span class="nc" id="L705">		return new ListTester(name, elements);</span>
 	}
 
 	/**
@@ -718,7 +720,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the values
 	 */
 	public static DataTester list(DataTester... elements) {
-<span class="nc" id="L721">		return list(&quot;list&quot;, elements);</span>
+<span class="nc" id="L723">		return list(&quot;list&quot;, elements);</span>
 	}
 
 	/**
@@ -742,7 +744,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester utf8(String name, String value) {
-<span class="nc" id="L745">		return bytes(name, value.getBytes(UTF_8));</span>
+<span class="nc" id="L747">		return bytes(name, value.getBytes(UTF_8));</span>
 	}
 
 	/**
@@ -760,7 +762,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester utf8(String value) {
-<span class="nc" id="L763">		return utf8(&quot;utf8&quot;, value);</span>
+<span class="nc" id="L765">		return utf8(&quot;utf8&quot;, value);</span>
 	}
 
 	/**
@@ -778,7 +780,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester bytes(String name, byte... bytes) {
-<span class="nc" id="L781">		return new BytesTester(name, bytes);</span>
+<span class="nc" id="L783">		return new BytesTester(name, bytes);</span>
 	}
 
 	/**
@@ -795,7 +797,42 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester bytes(byte... bytes) {
-<span class="nc" id="L798">		return bytes(&quot;bytes&quot;, bytes);</span>
+<span class="nc" id="L800">		return bytes(&quot;bytes&quot;, bytes);</span>
+	}
+
+	/**
+	 * Creates a tester for generating or verifying a list of byte values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p&gt;
+	 * Example
+	 * &lt;p&gt;
+	 * &lt;code&gt;
+	 *     bytes(&quot;something&quot;, &quot;010203aabb&quot;)
+	 * &lt;/code&gt;
+	 *
+	 * @param name the name of the tester.
+	 * @param hexBytes a hex string representing the bytes to generate or validate
+	 * @return the DataTester for generating or verifying the value
+	 */
+	public static DataTester hex(String name, String hexBytes) {
+<span class="fc" id="L818">		return new BytesTester(name, fromHex(hexBytes));</span>
+	}
+
+	/**
+	 * Creates a tester for generating or verifying a list of byte values.
+	 * Values will be presented in hexadecimal form in reports and failures.
+	 * &lt;p&gt;
+	 * Equivalent to calling
+	 * &lt;p&gt;
+	 * &lt;code&gt;
+	 *     bytes(&quot;bytes&quot;, hexBytes)
+	 * &lt;/code&gt;
+	 * @see #hex(String, String)
+	 * @param hexBytes a hex string representing the bytes to generate or validate
+	 * @return the DataTester for generating or verifying the value
+	 */
+	public static DataTester hex(String hexBytes) {
+<span class="nc" id="L835">		return hex(&quot;bytes&quot;, hexBytes);</span>
 	}
 
 	/**
@@ -813,7 +850,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester skip(String name, int size) {
-<span class="nc" id="L816">		return new SkippingTester(name, size);</span>
+<span class="nc" id="L853">		return new SkippingTester(name, size);</span>
 	}
 
 	/**
@@ -830,7 +867,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester skip(int size) {
-<span class="nc" id="L833">		return skip(&quot;skip&quot;, size);</span>
+<span class="nc" id="L870">		return skip(&quot;skip&quot;, size);</span>
 	}
 
 	/**
@@ -848,9 +885,9 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester zero(String name, int count) {
-<span class="nc" id="L851">		byte[] v = new byte[count];</span>
-<span class="nc" id="L852">		Arrays.fill(v, (byte) 0);</span>
-<span class="nc" id="L853">		return bytes(name, v);</span>
+<span class="nc" id="L888">		byte[] v = new byte[count];</span>
+<span class="nc" id="L889">		Arrays.fill(v, (byte) 0);</span>
+<span class="nc" id="L890">		return bytes(name, v);</span>
 	}
 
 	/**
@@ -867,7 +904,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester zero(int count) {
-<span class="nc" id="L870">		return zero(&quot;zero&quot;, count);</span>
+<span class="nc" id="L907">		return zero(&quot;zero&quot;, count);</span>
 	}
 
 	/**
@@ -877,7 +914,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester defer(DataTester tester) {
-<span class="nc" id="L880">		return new DeferringTesterModifier(tester);</span>
+<span class="nc" id="L917">		return new DeferringTesterModifier(tester);</span>
 	}
 
 	/**
@@ -887,7 +924,7 @@ import java.util.Arrays;
 	 * @return the DataTester for generating or verifying the value
 	 */
 	public static DataTester fatal(DataTester tester) {
-<span class="nc" id="L890">		return new FatalTesterModifier(tester);</span>
+<span class="nc" id="L927">		return new FatalTesterModifier(tester);</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

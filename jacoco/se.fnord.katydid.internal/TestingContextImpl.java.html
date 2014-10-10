@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TestingContextImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">TestingContextImpl.java</span></div><h1>TestingContextImpl.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TestingContextImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">katydid</a> &gt; <a href="index.source.html" class="el_package">se.fnord.katydid.internal</a> &gt; <span class="el_source">TestingContextImpl.java</span></div><h1>TestingContextImpl.java</h1><pre class="source lang-java linenums">package se.fnord.katydid.internal;
 
 import se.fnord.katydid.ComparisonStatus;
 import se.fnord.katydid.DataAsserts;
@@ -57,7 +57,7 @@ public class TestingContextImpl implements TestingContext {
 
 	@Override
 	public byte read() {
-<span class="nc" id="L60">		return buffer.get();</span>
+<span class="fc" id="L60">		return buffer.get();</span>
 	}
 
 	@Override
@@ -114,10 +114,10 @@ public class TestingContextImpl implements TestingContext {
 <span class="fc" id="L114">		int n = HexFormat.hexLength(buffer.limit());</span>
 <span class="fc" id="L115">		int startOffset = buffer.position() - tester.lengthOfItem(itemIndex);</span>
 <span class="fc" id="L116">		int endOffset = buffer.position() - 1;</span>
-<span class="pc bpc" id="L117" title="1 of 2 branches missed.">		if (startOffset == endOffset)</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">		if (startOffset == endOffset)</span>
 <span class="fc" id="L118">			formatter.format(&quot;%s at %s: &quot;, tester.formatItem(name(), itemIndex), formatOffset(n, startOffset));</span>
 		else
-<span class="nc" id="L120">			formatter.format(&quot;%s at %s-%s: &quot;, tester.formatItem(name(), itemIndex), formatOffset(n, startOffset), formatOffset(n, endOffset));</span>
+<span class="fc" id="L120">			formatter.format(&quot;%s at %s-%s: &quot;, tester.formatItem(name(), itemIndex), formatOffset(n, startOffset), formatOffset(n, endOffset));</span>
 <span class="fc" id="L121">		formatter.format(message, formatArgs);</span>
 <span class="fc" id="L122">		return formatter.toString();</span>
 	}
@@ -137,45 +137,47 @@ public class TestingContextImpl implements TestingContext {
 <span class="fc bfc" id="L137" title="All 2 branches covered.">		if (messages.isEmpty())</span>
 <span class="fc" id="L138">			return;</span>
 
-<span class="fc" id="L140">		final StringBuilder sb = new StringBuilder();</span>
-<span class="fc" id="L141">		sb.append(&quot;Test failed:&quot;).append(System.lineSeparator());</span>
-<span class="fc bfc" id="L142" title="All 2 branches covered.">		for (String message : messages)</span>
-<span class="fc" id="L143">			sb.append(&quot;* &quot;).append(message).append(System.lineSeparator());</span>
+<span class="fc" id="L140">		final int maxOffset = Math.max(buffer.limit(), root.length());</span>
+<span class="fc" id="L141">		final StringBuilder sb = new StringBuilder();</span>
 
-<span class="fc" id="L145">		sb.append(&quot;Expected bytes:&quot;).append(System.lineSeparator());</span>
-<span class="fc" id="L146">		HexFormat.format(sb, DataAsserts.asBuffer(root));</span>
+<span class="fc" id="L143">		sb.append(&quot;Test failed:&quot;).append(System.lineSeparator());</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">		for (String message : messages)</span>
+<span class="fc" id="L145">			sb.append(&quot;* &quot;).append(message).append(System.lineSeparator());</span>
 
-<span class="fc" id="L148">		buffer.position(startPosition).limit(startLimit);</span>
-<span class="fc" id="L149">		sb.append(&quot;Actual bytes:&quot;).append(System.lineSeparator());</span>
-<span class="fc" id="L150">		HexFormat.format(sb, buffer);</span>
-<span class="fc" id="L151">		throw new AssertionError(sb.toString());</span>
+<span class="fc" id="L147">		sb.append(&quot;Expected bytes:&quot;).append(System.lineSeparator());</span>
+<span class="fc" id="L148">		HexFormat.format(sb, DataAsserts.asBuffer(root), maxOffset);</span>
+
+<span class="fc" id="L150">		buffer.position(startPosition).limit(startLimit);</span>
+<span class="fc" id="L151">		sb.append(&quot;Actual bytes:&quot;).append(System.lineSeparator());</span>
+<span class="fc" id="L152">		HexFormat.format(sb, buffer, maxOffset);</span>
+<span class="fc" id="L153">		throw new AssertionError(sb.toString());</span>
 	}
 
 	private void down(DataTester tester) {
-<span class="fc" id="L155">		testers.addLast(new SubContext(tester));</span>
-<span class="fc" id="L156">	}</span>
+<span class="fc" id="L157">		testers.addLast(new SubContext(tester));</span>
+<span class="fc" id="L158">	}</span>
 
 	private void up() {
-<span class="fc" id="L159">		testers.removeLast();</span>
-<span class="fc" id="L160">	}</span>
+<span class="fc" id="L161">		testers.removeLast();</span>
+<span class="fc" id="L162">	}</span>
 
 	private SubContext currentContext() {
-<span class="fc" id="L163">		return testers.peekLast();</span>
+<span class="fc" id="L165">		return testers.peekLast();</span>
 	}
 
 	private String name() {
-<span class="fc" id="L167">		StringBuilder sb = new StringBuilder();</span>
-<span class="fc" id="L168">		Iterator&lt;SubContext&gt; t = testers.iterator();</span>
-<span class="pc bpc" id="L169" title="1 of 2 branches missed.">		if (t.hasNext()) {</span>
-<span class="fc" id="L170">			SubContext parent = t.next();</span>
-<span class="fc" id="L171">			sb.append(parent.tester().name());</span>
-<span class="fc bfc" id="L172" title="All 2 branches covered.">			while (t.hasNext()) {</span>
-<span class="fc" id="L173">				SubContext child = t.next();</span>
-<span class="fc" id="L174">				sb.append(parent.tester.formatChild(parent.currentIndex(), child.tester()));</span>
-<span class="fc" id="L175">				parent = child;</span>
-<span class="fc" id="L176">			}</span>
+<span class="fc" id="L169">		StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L170">		Iterator&lt;SubContext&gt; t = testers.iterator();</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">		if (t.hasNext()) {</span>
+<span class="fc" id="L172">			SubContext parent = t.next();</span>
+<span class="fc" id="L173">			sb.append(parent.tester().name());</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">			while (t.hasNext()) {</span>
+<span class="fc" id="L175">				SubContext child = t.next();</span>
+<span class="fc" id="L176">				sb.append(parent.tester.formatChild(parent.currentIndex(), child.tester()));</span>
+<span class="fc" id="L177">				parent = child;</span>
+<span class="fc" id="L178">			}</span>
 		}
-<span class="fc" id="L178">		return sb.toString();</span>
+<span class="fc" id="L180">		return sb.toString();</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.2.201302030002</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
