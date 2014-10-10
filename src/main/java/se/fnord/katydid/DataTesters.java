@@ -814,7 +814,7 @@ public class DataTesters {
 	 * @param hexBytes a hex string representing the bytes to generate or validate
 	 * @return the DataTester for generating or verifying the value
 	 */
-	public static DataTester bytes(String name, String hexBytes) {
+	public static DataTester hex(String name, String hexBytes) {
 		return new BytesTester(name, fromHex(hexBytes));
 	}
 
@@ -827,12 +827,12 @@ public class DataTesters {
 	 * <code>
 	 *     bytes("bytes", hexBytes)
 	 * </code>
-	 * @see #bytes(String, String)
-	 * @param String hexBytes a hex string representing the bytes to generate or validate
+	 * @see #hex(String, String)
+	 * @param hexBytes a hex string representing the bytes to generate or validate
 	 * @return the DataTester for generating or verifying the value
 	 */
-	public static DataTester bytes(String hexBytes) {
-		return bytes("bytes", hexBytes);
+	public static DataTester hex(String hexBytes) {
+		return hex("bytes", hexBytes);
 	}
 
 	/**

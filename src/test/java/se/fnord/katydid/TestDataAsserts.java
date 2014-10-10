@@ -18,8 +18,8 @@ public class TestDataAsserts {
 
 	@Test
 	public void testHexBytes() {
-		DataAsserts.assertExact(DataTesters.bytes("ap", "010203040a0B"), bytes(1, 2, 3, 4, 10, 11));
-		DataAsserts.assertExact(DataTesters.bytes("ap", "1"), bytes(1));
+		DataAsserts.assertExact(DataTesters.hex("ap", "010203040a0B"), bytes(1, 2, 3, 4, 10, 11));
+		DataAsserts.assertExact(DataTesters.hex("ap", "1"), bytes(1));
 	}
 
 	@Test
