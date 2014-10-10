@@ -18,13 +18,13 @@ For automatic dependency management, here's the incantation for your `pom.xml`:
     <dependency>
       <groupId>se.fnord</groupId>
       <artifactId>katydid</artifactId>
-      <version>0.5.2</version>
+      <version>0.6.0</version>
       <scope>test</scope>
     </dependency>
 
 And one for your `build.gradle` if that's more convenient:
 
-    testCompile 'se.fnord:katydid:0.5.2'
+    testCompile 'se.fnord:katydid:0.6.0'
 
 License
 -------
